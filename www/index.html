@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Royal BetKing</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="./config/app-config.js"></script>
+  <style>
+    :root {
+      --primary-red: #ff2c2c;
+      --dark-bg: #080808;
+      --card-bg: rgba(21, 21, 24, 0.92);
+      --text-white: #ffffff;
+      --gold: #ffd86b;
+      --deep-gold: #b88620;
+      --platinum: #f7f1df;
+      --success-green: #2ff06f;
+      --danger-red: #ff5a5a;
+      --glass-border: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-white);
+      min-height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+        radial-gradient(circle at 18% 18%, rgba(255, 44, 44, 0.22), transparent 28%),
+        radial-gradient(circle at 82% 16%, rgba(255, 216, 107, 0.17), transparent 26%),
+        linear-gradient(135deg, #120101 0%, #050505 58%, #111113 100%);
+      background-size: 34px 34px, 34px 34px, auto, auto, auto;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      width: 100%;
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      padding-bottom: 40px;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeIn 0.45s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #splash-screen {
+      background:
+        radial-gradient(circle at center, rgba(255, 216, 107, 0.18), transparent 34%),
+        linear-gradient(135deg, #250101, #b61515 54%, #080808);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 100;
+    }
+
+    #splash-screen.active {
+      display: flex;
+    }
+
+    .aviator-mark {
+      width: min(260px, 72vw);
+      margin: 0 auto;
+      padding: 15px;
+      border: 2px solid rgba(255, 216, 107, 0.78);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
+    }
+
+    .aviator-logo-lg {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: none;
+      animation: flyFloat 3s infinite ease-in-out;
+    }
+
+    @keyframes flyFloat {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    .app-title {
+      font-size: clamp(34px, 8vw, 48px);
+      font-weight: 900;
+      letter-spacing: 0;
+      margin-top: 20px;
+      text-transform: uppercase;
+      color: var(--platinum);
+      text-shadow: 0 0 22px rgba(255, 216, 107, 0.24);
+    }
+
+    .app-subtitle {
+      font-size: clamp(16px, 4vw, 21px);
+      color: var(--gold);
+      margin-bottom: 34px;
+    }
+
+    .loader {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .loader span {
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1.4s infinite both;
+    }
+
+    .loader span:nth-child(1) { animation-delay: -0.32s; }
+    .loader span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    .container,
+    .dashboard-container {
+      padding: 20px;
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 18px 0 6px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 216, 107, 0.36);
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(255, 216, 107, 0.08);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-top: 20px;
+      color: var(--platinum);
+      border-bottom: 2px solid var(--gold);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .muted {
+      margin-top: 10px;
+      color: #b7b7b7;
+      line-height: 1.45;
+    }
+
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .platform-card {
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+        var(--card-bg);
+      border: 1px solid rgba(255, 216, 107, 0.16);
+      border-radius: 8px;
+      padding: 24px 14px;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      backdrop-filter: blur(10px);
+      color: white;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+    }
+
+    .platform-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 30px rgba(255, 216, 107, 0.12), 0 10px 20px rgba(255, 44, 44, 0.13);
+      border-color: rgba(255, 216, 107, 0.48);
+    }
+
+    .platform-logo-image {
+      width: 86px;
+      height: 64px;
+      margin: 0 auto 10px;
+      border-radius: 8px;
+      display: block;
+      object-fit: contain;
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .platform-card:focus-visible,
+    .sound-toggle:focus-visible,
+    .primary-btn:focus-visible,
+    .secondary-btn:focus-visible,
+    .generate-btn:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: #b8b8b8;
+      font-size: 16px;
+      margin: 8px 0 20px;
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .popup-back-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 216, 107, 0.22);
+      color: var(--gold);
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 14px;
+      font-weight: 800;
+    }
+
+    .plan-header i {
+      font-size: 50px;
+      color: var(--gold);
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 14px rgba(255, 216, 107, 0.35));
+    }
+
+    .notice-box {
+      background:
+        linear-gradient(145deg, rgba(255, 216, 107, 0.13), rgba(255, 255, 255, 0.04));
+      border: 1px solid rgba(255, 216, 107, 0.36);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 26px 0;
+      text-align: left;
+      line-height: 1.5;
+      color: #f4f4f4;
+    }
+
+    .price-card {
+      background:
+        linear-gradient(145deg, rgba(255, 216, 107, 0.18), rgba(255, 255, 255, 0.04)),
+        rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 216, 107, 0.36);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 18px 0;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .price-amount {
+      display: block;
+      color: var(--platinum);
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1;
+      margin-top: 6px;
+    }
+
+    .qr-placeholder {
+      width: 160px;
+      height: 160px;
+      margin: 18px auto 12px;
+      border-radius: 8px;
+      border: 2px dashed rgba(255, 216, 107, 0.55);
+      background:
+        linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,0.08) 25%, transparent 25%),
+        rgba(0, 0, 0, 0.52);
+      background-size: 18px 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      padding: 14px;
+    }
+
+    .hold-status {
+      margin-top: 12px;
+      padding: 11px;
+      border-radius: 8px;
+      background: rgba(255, 90, 90, 0.12);
+      border: 1px solid rgba(255, 90, 90, 0.28);
+      color: #ffd0d0;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .features-list {
+      list-style: none;
+      text-align: left;
+      margin: 20px 0;
+      line-height: 1.45;
+    }
+
+    .features-list li {
+      margin-bottom: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .features-list i {
+      color: var(--success-green);
+      margin-top: 3px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #ffe08a 0%, #d79b24 38%, #9c1515 100%);
+      border: none;
+      color: #120707;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(255, 216, 107, 0.18), 0 5px 15px rgba(255, 44, 44, 0.22);
+      transition: transform 0.2s;
+    }
+
+    .primary-btn:active { transform: scale(0.98); }
+
+    .popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      padding: 20px;
+    }
+
+    .popup.active { display: flex; }
+
+    .popup-content {
+      background: #181818;
+      padding: 28px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      border: 1px solid #444;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .demo-code {
+      background: #000;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 16px 0;
+      word-break: break-all;
+      border: 1px dashed #555;
+      font-family: Consolas, Monaco, monospace;
+      color: var(--gold);
+    }
+
+    .password-popup input {
+      width: 100%;
+      padding: 15px;
+      margin: 18px 0;
+      background: #000;
+      border: 1px solid #444;
+      color: white;
+      font-size: 18px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .auth-status {
+      min-height: 20px;
+      margin-top: 12px;
+      color: #b7b7b7;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .secondary-btn {
+      background: none;
+      border: 1px solid #555;
+      color: #bbb;
+      padding: 12px;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .contact-row {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .contact-chip {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 216, 107, 0.22);
+      border-radius: 8px;
+      color: var(--gold);
+      padding: 12px;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .mini-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      background: #229ed9;
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      margin-top: 10px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 12px;
+      background:
+        linear-gradient(135deg, rgba(255, 216, 107, 0.11), rgba(255, 255, 255, 0.03)),
+        var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 216, 107, 0.18);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .status-indicator {
+      color: var(--success-green);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: var(--success-green);
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0.4; } }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      font-weight: 600;
+      min-width: 0;
+    }
+
+    .user-info span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .clock-box {
+      color: var(--platinum);
+      font-weight: 900;
+      background: rgba(0, 0, 0, 0.32);
+      border: 1px solid rgba(255, 216, 107, 0.16);
+      border-radius: 8px;
+      padding: 8px 10px;
+      white-space: nowrap;
+    }
+
+    .demo-ribbon {
+      color: #d9d9d9;
+      background: rgba(255, 216, 107, 0.08);
+      border: 1px solid rgba(255, 216, 107, 0.2);
+      border-radius: 8px;
+      padding: 11px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .powered-by {
+      margin-top: 12px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .platform-meta {
+      display: block;
+      margin-top: 8px;
+      color: #a9a9a9;
+      font-size: 10px;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .platform-warning {
+      margin: 16px auto 0;
+      padding: 10px 12px;
+      max-width: 540px;
+      border-left: 3px solid var(--gold);
+      color: #c9c9c9;
+      background: rgba(255, 216, 107, 0.07);
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: left;
+    }
+
+    .upload-box {
+      border: 1px dashed rgba(255, 216, 107, 0.45);
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+      padding: 18px;
+      margin-top: 16px;
+    }
+
+    .upload-box input {
+      width: 100%;
+      color: #ddd;
+      margin-top: 14px;
+    }
+
+    .scan-status {
+      margin-top: 14px;
+      color: var(--gold);
+      font-weight: 800;
+      min-height: 22px;
+    }
+
+    .analysis-panel {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 216, 107, 0.18);
+      color: #dcdcdc;
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .upload-preview {
+      display: none;
+      width: 100%;
+      max-height: 180px;
+      object-fit: contain;
+      margin-top: 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 216, 107, 0.18);
+      background: #080808;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 9px;
+    }
+
+    .analysis-metric {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 8px;
+    }
+
+    .analysis-metric span {
+      display: block;
+      color: #a9a9a9;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .analysis-metric strong {
+      display: block;
+      color: var(--platinum);
+      font-size: 15px;
+      margin-top: 2px;
+    }
+
+    .signal-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+      perspective: 1000px;
+    }
+
+    .graph-container {
+      width: min(84vw, 330px);
+      aspect-ratio: 1;
+      background:
+        radial-gradient(circle at center, rgba(255, 216, 107, 0.1), transparent 46%),
+        rgba(0, 0, 0, 0.66);
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255, 216, 107, 0.2);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 16px 34px rgba(0, 0, 0, 0.26);
+    }
+
+    .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.25;
+    }
+
+    .code-orbit {
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(255, 216, 107, 0.4);
+      border-radius: 50%;
+      z-index: 3;
+      transform: rotate(0deg);
+    }
+
+    .code-orbit::before,
+    .code-orbit::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+    }
+
+    .code-orbit::after {
+      inset: 40px;
+      border-color: rgba(255, 44, 44, 0.34);
+    }
+
+    .code-orbit span {
+      position: absolute;
+      color: rgba(255, 216, 107, 0.82);
+      font-family: Consolas, monospace;
+      font-size: 10px;
+      letter-spacing: 0;
+    }
+
+    .code-orbit .code-a { top: -7px; left: 50%; transform: translateX(-50%); }
+    .code-orbit .code-b { right: 3px; top: 25%; }
+    .code-orbit .code-c { right: 18%; bottom: 4px; }
+    .code-orbit .code-d { left: 3px; bottom: 25%; }
+
+    .curve-path {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-bottom: 100px solid rgba(255, 44, 44, 0.15);
+      border-right: 200px solid transparent;
+      transition: all 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .trail-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary-red));
+      box-shadow: 0 0 10px var(--primary-red);
+      transform-origin: left center;
+      transition: all 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .fly-plane {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      bottom: 10px;
+      left: 10px;
+      transition: all 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      filter: drop-shadow(0 0 8px rgba(255, 44, 44, 0.82));
+      z-index: 5;
+    }
+
+    .animating .curve-path {
+      width: 76%;
+      height: 58%;
+    }
+
+    .animating .trail-line {
+      width: 85%;
+      transform: rotate(-35deg) translateY(-66px);
+    }
+
+    .animating .fly-plane {
+      bottom: 69%;
+      left: 66%;
+      transform: rotate(-35deg);
+    }
+
+    .animating .code-orbit {
+      animation: orbitSpin 1.6s linear infinite;
+    }
+
+    @keyframes orbitSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .result-display {
+      position: absolute;
+      z-index: 4;
+      top: 50%;
+      left: 50%;
+      width: 70%;
+      min-height: 0;
+      margin: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+      text-align: center;
+      font-size: clamp(30px, 9vw, 42px);
+      font-weight: 900;
+      text-shadow: 0 0 15px rgba(47, 240, 111, 0.42);
+      opacity: 0;
+      transition: all 0.45s;
+    }
+
+    .result-visible {
+      opacity: 1 !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+    }
+
+    .orbit-status {
+      position: absolute;
+      z-index: 4;
+      bottom: 28%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      color: #b7b7b7;
+      font-family: Consolas, monospace;
+      font-size: 10px;
+      letter-spacing: 0;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .orbit-progress {
+      position: absolute;
+      z-index: 4;
+      top: 63%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #8e8e8e;
+      font-family: Consolas, monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+      text-align: left;
+    }
+
+    .panel-card {
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(255, 216, 107, 0.17);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-head { display: flex; align-items: center; gap: 12px; }
+    .profile-avatar-wrap { position: relative; flex: 0 0 auto; }
+    .profile-avatar {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      color: #111;
+      background: linear-gradient(135deg, var(--gold), #fff0a9);
+      font-size: 17px;
+      font-weight: 900;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+    .avatar-upload {
+      position: absolute;
+      right: -4px;
+      bottom: -4px;
+      width: 23px;
+      height: 23px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #121212;
+      border-radius: 50%;
+      color: #111;
+      background: var(--gold);
+      cursor: pointer;
+      font-size: 10px;
+    }
+    .avatar-upload input { display: none; }
+    .eyebrow, .card-kicker {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .profile-card h3 { margin: 3px 0; color: var(--platinum); font-size: 16px; }
+    .profile-card small, .wallet-card small, .activity-item small, .analyst-output small { color: #999; font-size: 11px; }
+    .profile-meta, .ref-stats { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; color: #999; font-size: 11px; }
+    .profile-meta strong { color: #ddd; font-size: 11px; }
+    .wallet-card strong { display: block; margin: 12px 0 4px; color: var(--success-green); font-size: 22px; }
+    .wallet-card div { color: #a9a9a9; font-size: 11px; line-height: 1.4; }
+    .ref-code-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 11px; }
+    .ref-code-row strong { color: var(--platinum); font-family: Consolas, monospace; font-size: 17px; letter-spacing: 1px; }
+    .icon-copy-btn { width: 30px; height: 30px; border: 1px solid rgba(255, 216, 107, 0.25); border-radius: 6px; color: var(--gold); background: rgba(255, 255, 255, 0.06); cursor: pointer; }
+    .progress-track { height: 6px; margin: 9px 0 12px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.12); }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--primary-red), var(--gold)); transition: width 0.35s ease; }
+    .compact-btn { width: 100%; padding: 9px 10px; font-size: 11px; }
+    .warning-box { margin-top: 10px; color: #bdbdbd; font-size: 10px; line-height: 1.4; }
+    .activity-card, .analyst-card { grid-column: 1 / -1; }
+    .activity-feed { display: grid; gap: 6px; max-height: 124px; margin-top: 10px; overflow: auto; }
+    .activity-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 8px; border-left: 2px solid rgba(47, 240, 111, 0.7); color: #d2d2d2; background: rgba(255, 255, 255, 0.035); font-size: 11px; }
+    .analyst-form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; margin-top: 10px; }
+    .analyst-form input { min-width: 0; padding: 9px; border: 1px solid rgba(255, 216, 107, 0.22); border-radius: 6px; color: #fff; background: rgba(0, 0, 0, 0.28); }
+    .analyst-output { min-height: 16px; margin-top: 8px; color: #bdbdbd; font-size: 11px; }
+
+    .generate-btn {
+      width: 100%;
+      padding: 18px;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #e33434, #8d1010);
+      border: none;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.58;
+      cursor: not-allowed;
+    }
+
+    .sound-toggle {
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(255, 216, 107, 0.25);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--gold);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .history-section h3 {
+      color: var(--gold);
+      margin: 20px 0 10px;
+      text-align: left;
+      font-size: 16px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .stat-box {
+      flex: 1;
+      background:
+        linear-gradient(145deg, rgba(255, 216, 107, 0.08), rgba(255, 255, 255, 0.02)),
+        var(--card-bg);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid rgba(255, 216, 107, 0.14);
+      min-width: 0;
+    }
+
+    .stat-val {
+      font-size: 18px;
+      font-weight: bold;
+      display: block;
+      margin-top: 5px;
+    }
+
+    .history-list {
+      max-height: 250px;
+      overflow-y: auto;
+      background: #101010;
+      border-radius: 8px;
+      padding: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .history-chart {
+      height: 126px;
+      width: 100%;
+      display: block;
+      margin: 0 0 14px;
+      background: rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 216, 107, 0.14);
+      border-radius: 8px;
+    }
+
+    .history-item {
+      display: grid;
+      grid-template-columns: 48px 1fr 1fr 56px;
+      gap: 8px;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #222;
+      font-size: 14px;
+    }
+
+    .history-item:last-child { border-bottom: none; }
+    .h-success { color: var(--success-green); }
+    .h-fail { color: var(--danger-red); }
+
+    @media (max-width: 440px) {
+      .platform-grid { gap: 10px; }
+      .platform-card { padding: 20px 8px; }
+      .platform-logo-image { width: 72px; height: 56px; }
+      .history-item {
+        grid-template-columns: 42px 52px 1fr 50px;
+        font-size: 12px;
+      }
+      .top-bar { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="splash-screen" class="screen active">
+    <div class="splash-content">
+      <div class="aviator-mark">
+        <img class="aviator-logo-lg" src="../assets/platform-logos/aviator.png" alt="Aviator logo">
+      </div>
+      <h1 class="app-title">Royal BetKing</h1>
+      <h2 class="app-subtitle">Premium Simulator Console</h2>
+      <div class="loader"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <div id="platform-screen" class="screen">
+    <div class="container">
+      <div class="brand-pill"><i class="fa-solid fa-gem"></i> Powered by THE MONEY POWER</div>
+      <h2 class="section-title">Select Flight Node</h2>
+      <p class="muted">Choose a premium platform profile for your simulator session.</p>
+      <div class="platform-grid">
+        <button class="platform-card" onclick="selectPlatform('1XBET')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-05-X0.jpg" alt="1XBET logo">
+          <span>1XBET</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+        <button class="platform-card" onclick="selectPlatform('4RABET')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-04-X0.jpg" alt="4RABET logo">
+          <span>4RABET</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+        <button class="platform-card" onclick="selectPlatform('MOSTBET')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-02-X0.jpg" alt="MOSTBET logo">
+          <span>MOSTBET</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+        <button class="platform-card" onclick="selectPlatform('BLUECHIP')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-09-X0.png" alt="BLUECHIP logo">
+          <span>BLUECHIP</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+        <button class="platform-card" onclick="selectPlatform('MELBET')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-03-X0.jpg" alt="MELBET logo">
+          <span>MELBET</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+        <button class="platform-card" onclick="selectPlatform('LINEBET')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-06-X0.jpg" alt="LINEBET logo">
+          <span>LINEBET</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+        <button class="platform-card" onclick="selectPlatform('MEGAPARI')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-07-X0.jpg" alt="MEGAPARI logo">
+          <span>MEGAPARI</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+        <button class="platform-card" onclick="selectPlatform('1WIN')">
+          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-08-X0.jpg" alt="1WIN logo">
+          <span>1WIN</span>
+          <small class="platform-meta">Reference profile | DEMO code</small>
+        </button>
+      </div>
+      <div class="platform-warning"><i class="fa-solid fa-circle-info"></i> Existing accounts should verify promotion eligibility separately. This educational build contains no live registration links or real-money transactions.</div>
+      <div class="powered-by">THE MONEY POWER</div>
+    </div>
+  </div>
+
+  <div id="access-screen" class="screen">
+    <div class="container">
+      <button class="back-btn" onclick="goBack('platform-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <div class="plan-header">
+        <i class="fa-solid fa-crown"></i>
+        <h2>Premium Access</h2>
+      </div>
+      <h3 id="selected-platform-name" style="color: var(--gold); margin: 10px 0;">Theme</h3>
+      <div class="notice-box">
+        Royal BetKing is an entertainment simulator. It generates local sample rounds only and does not predict casino or betting outcomes.
+      </div>
+      <ul class="features-list">
+        <li><i class="fa-solid fa-check-circle"></i><span>Premium animated flight graph</span></li>
+        <li><i class="fa-solid fa-check-circle"></i><span>Screenshot history extraction and statistics</span></li>
+        <li><i class="fa-solid fa-check-circle"></i><span>Local project-session unlock</span></li>
+      </ul>
+      <div class="price-card">
+        <span style="color: #aaa; font-size: 12px; font-weight: 800;">EDUCATIONAL ACCESS DEMO</span>
+        <span class="price-amount">$500</span>
+        <span style="color: var(--gold); font-size: 13px;">Mock payment flow for college project</span>
+      </div>
+      <button class="primary-btn" onclick="openContactPopup()">VIEW PAYMENT DEMO</button>
+      <button class="secondary-btn" onclick="openPasswordPopup()">I HAVE ACCESS KEY</button>
+    </div>
+  </div>
+
+  <div id="contact-popup" class="popup">
+    <div class="popup-content">
+      <button class="popup-back-btn" onclick="closePopup('contact-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <h3>$500 Payment Demo</h3>
+      <p class="muted">Educational preview only. This screen does not collect or process real payments.</p>
+      <div class="qr-placeholder">QR / Scanner PNG Space</div>
+      <div class="contact-chip">TRC20 Wallet Space<br><span style="color:#aaa; font-size:11px;">Add only a demo/test address in project mode</span></div>
+      <div class="hold-status">
+        Status: HOLD - user sends screenshot to admin, admin verifies manually, then shares the access key.
+      </div>
+      <div class="contact-row">
+        <div class="contact-chip">Project Contact: @Royal_BetKing</div>
+      </div>
+      <div class="mini-link" role="note">
+        <i class="fa-brands fa-telegram"></i> Telegram contact placeholder for demo review
+      </div>
+      <button class="primary-btn" style="margin-top: 12px;" onclick="document.getElementById('contact-popup').classList.remove('active'); openPasswordPopup();">ENTER ACCESS KEY</button>
+      <button class="secondary-btn" onclick="closePopup('contact-popup')">Back</button>
+    </div>
+  </div>
+
+  <div id="password-popup" class="popup">
+    <div class="popup-content password-popup">
+      <button class="popup-back-btn" onclick="closePopup('password-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <h3>Pro Console Authentication</h3>
+      <p class="muted">Enter the private access key received from admin.</p>
+      <input type="password" id="admin-pass-input" placeholder="Enter access key" maxlength="20">
+      <div class="auth-status" id="auth-status">This key will be registered to this device after activation.</div>
+      <button class="primary-btn" onclick="verifyPassword()">UNLOCK CONSOLE</button>
+      <button class="secondary-btn" onclick="closePopup('password-popup')">Back</button>
+    </div>
+  </div>
+
+  <div id="upload-popup" class="popup">
+    <div class="popup-content">
+      <button class="popup-back-btn" onclick="closePopup('upload-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <h3>Upload History Screenshot</h3>
+      <p class="muted">Upload a history screenshot to run local image analysis before launching rounds.</p>
+      <div class="upload-box">
+        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 38px; color: var(--gold);"></i>
+        <input type="file" id="history-upload" accept="image/*">
+        <img class="upload-preview" id="upload-preview" alt="Selected screenshot preview">
+        <div class="scan-status" id="scan-status">Waiting for screenshot...</div>
+        <div class="analysis-panel" id="analysis-panel"></div>
+      </div>
+      <button class="primary-btn" id="scan-button" style="margin-top: 14px;" onclick="completeScan()">ANALYZE SCREENSHOT</button>
+      <button class="secondary-btn" onclick="closePopup('upload-popup')">Back</button>
+    </div>
+  </div>
+
+  <div id="dashboard-screen" class="screen">
+    <div class="dashboard-container">
+      <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <div class="top-bar">
+        <div class="status-indicator"><span class="dot"></span> PRO SIMULATION</div>
+        <div class="clock-box" id="real-time-clock">--:--:--</div>
+        <button class="sound-toggle" id="sound-toggle" type="button" onclick="toggleSound()" aria-label="Mute sound" title="Mute sound"><i class="fa-solid fa-volume-high"></i></button>
+        <div class="user-info"><i class="fa-solid fa-user-astronaut"></i> <span id="dash-platform-name">USER</span></div>
+      </div>
+
+      <div class="demo-ribbon">Royal BetKing runs local sample rounds only. Results are for simulation and are not betting advice.</div>
+      <div class="powered-by">Powered by THE MONEY POWER</div>
+
+      <div class="signal-area">
+        <div class="graph-container" id="graph-box">
+          <div class="grid-lines"></div>
+          <div class="curve-path"></div>
+          <div class="trail-line"></div>
+          <div class="code-orbit" aria-hidden="true">
+            <span class="code-a">0110</span>
+            <span class="code-b">A7F2</span>
+            <span class="code-c">1001</span>
+            <span class="code-d">C19E</span>
+          </div>
+          <img class="fly-plane" src="../assets/platform-logos/aviator.png" alt="Aviator flight marker">
+          <div class="result-display" id="signal-text">READY</div>
+          <div class="orbit-progress" id="orbit-progress">0%</div>
+          <div class="orbit-status" id="orbit-status">SESSION READY</div>
+        </div>
+
+        <div class="confidence-meter" id="confidence-display" style="color: #b7b7b7; font-size: 14px; margin-top: 5px;">Session variability: --%</div>
+      </div>
+
+      <button class="generate-btn" onclick="startSimulation()">
+        <i class="fa-solid fa-radar"></i> RUN SAMPLE ROUND
+      </button>
+      <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
+        <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
+      </button>
+
+      <div class="dashboard-grid">
+        <section class="panel-card profile-card">
+          <div class="profile-head">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="profile-avatar">RA</div>
+              <label class="avatar-upload" title="Change demo profile logo">
+                <i class="fa-solid fa-camera"></i>
+                <input id="profile-logo-upload" type="file" accept="image/*">
+              </label>
+            </div>
+            <div>
+              <div class="eyebrow">DEMO PROFILE</div>
+              <h3 id="profile-name">Royal Analyst</h3>
+              <small id="profile-id">ID: RBK-LOCAL</small>
+            </div>
+          </div>
+          <div class="profile-meta"><span>Platform</span><strong id="profile-platform">--</strong><span>Created</span><strong id="profile-created">--</strong></div>
+        </section>
+        <section class="panel-card wallet-card">
+          <div class="card-kicker"><i class="fa-solid fa-wallet"></i> DEMO WALLET</div>
+          <strong id="demo-wallet-balance">$0.00 DEMO</strong>
+          <div id="wallet-state">Simulation only - no real monetary value.</div>
+          <button class="secondary-btn compact-btn" id="demo-withdraw-btn" disabled>DEMO WITHDRAWAL LOCKED</button>
+        </section>
+        <section class="panel-card referral-card">
+          <div class="card-kicker"><i class="fa-solid fa-user-plus"></i> DEMO REFERRAL PROGRAM</div>
+          <div class="ref-code-row"><strong id="referral-code">RBETKING</strong><button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy demo referral code"><i class="fa-solid fa-copy"></i></button></div>
+          <div class="ref-stats"><span id="referral-count">0 / 10</span><span id="referral-amount">$0 / $100 DEMO</span></div>
+          <div class="progress-track"><span id="referral-progress"></span></div>
+          <button class="primary-btn compact-btn" type="button" onclick="simulateReferral()">SIMULATE QUALIFYING REFERRAL</button>
+          <div class="warning-box">Simulation only. A demo referral qualifies after simulated activation. No real monetary value.</div>
+        </section>
+        <section class="panel-card activity-card">
+          <div class="card-kicker"><i class="fa-solid fa-signal"></i> LIVE DEMO ACTIVITY</div>
+          <div id="activity-feed" class="activity-feed"></div>
+        </section>
+        <section class="panel-card analyst-card" id="admin-panel" style="display: none;">
+          <div class="card-kicker"><i class="fa-solid fa-shield-halved"></i> ADMIN-ONLY DEMO PANEL</div>
+          <div class="analyst-form">
+            <input id="analyst-range" maxlength="30" placeholder="Observed values / statistics">
+            <input id="analyst-note" maxlength="80" placeholder="Demo annotation for this device">
+            <button class="secondary-btn compact-btn" type="button" onclick="publishAnalystSuggestion()">PUBLISH DEMO NOTE</button>
+          </div>
+          <div class="analyst-output" id="analyst-output">Admin-only controls. Notes are demo annotations, not forecasts.</div>
+        </section>
+        <section class="panel-card analyst-card" id="user-note-panel">
+          <div class="card-kicker"><i class="fa-solid fa-bullhorn"></i> PROJECT ANNOUNCEMENT</div>
+          <div class="analyst-output" id="user-note-output">No admin demo annotation has been published.</div>
+        </section>
+      </div>
+
+      <div class="history-section">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Pro Session History</h3>
+        <div class="stats-row">
+          <div class="stat-box"><span style="color: #aaa; font-size: 12px;">High</span><span class="stat-val h-success" id="passed-count">0</span></div>
+          <div class="stat-box"><span style="color: #aaa; font-size: 12px;">Low</span><span class="stat-val h-fail" id="failed-count">0</span></div>
+          <div class="stat-box"><span style="color: #aaa; font-size: 12px;">High Rate</span><span class="stat-val" style="color: var(--gold)" id="accuracy-percent">0%</span></div>
+        </div>
+        <canvas class="history-chart" id="history-chart" aria-label="Session history chart"></canvas>
+        <div class="history-list" id="history-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_URL = window.RBK_CONFIG?.apiBaseUrl || (window.location.protocol === "file:" ? "http://127.0.0.1:8000" : "");
+    const RBK_CONFIG = window.RBK_CONFIG || {
+      referral: { code: "RBETKING", reward: 10, maxQualified: 10, threshold: 100 },
+      contact: { telegramUsername: "Royal_BetKing" }
+    };
+    let selectedPlatform = localStorage.getItem("royal-platform") || "";
+    let historyData = [];
+    let highCount = 0;
+    let lowCount = 0;
+    let recentResults = [];
+    let audioContext;
+    let soundEnabled = localStorage.getItem("royal-sound-enabled") !== "false";
+    let signalAudioTimer;
+    const demoChannel = typeof BroadcastChannel === "undefined" ? null : new BroadcastChannel("royal-betking-demo");
+    let demoSocket;
+    let demoReferralState = readStoredJson("royal-demo-referral", { qualified: 0, rewards: 0 });
+    let demoActivity = readStoredJson("royal-demo-activity", []);
+
+    function readStoredJson(key, fallback) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || "null");
+        return value === null ? fallback : value;
+      } catch (error) {
+        localStorage.removeItem(key);
+        return fallback;
+      }
+    }
+
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 12000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    function playStepSound(type) {
+      if (!soundEnabled) return;
+
+      try {
+        audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const tones = {
+          select: 520,
+          contact: 680,
+          unlock: 820,
+          scan: 460,
+          launch: 740,
+          result: 980,
+          mystery: 185
+        };
+
+        oscillator.frequency.value = tones[type] || 600;
+        oscillator.type = type === "scan" || type === "mystery" ? "sawtooth" : "sine";
+        gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.18, audioContext.currentTime + 0.02);
+        if (type === "mystery") {
+          oscillator.frequency.exponentialRampToValueAtTime(68, audioContext.currentTime + 0.78);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.82);
+        } else {
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.18);
+        }
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + (type === "mystery" ? 0.85 : 0.2));
+      } catch (error) {
+        // Audio is optional and may be blocked until user interaction.
+      }
+    }
+
+    function selectPlatform(name) {
+      playStepSound("select");
+      selectedPlatform = name;
+      localStorage.setItem("royal-platform", name);
+      document.getElementById("selected-platform-name").innerText = name.toUpperCase() + " PRO NODE";
+      setTimeout(() => showScreen("access-screen"), 160);
+    }
+
+    function goBack(target) {
+      document.querySelectorAll(".popup").forEach((popup) => popup.classList.remove("active"));
+      showScreen(target);
+    }
+
+    function closePopup(id) {
+      document.getElementById(id).classList.remove("active");
+    }
+
+    function getDeviceId() {
+      let deviceId = localStorage.getItem("royal-device-id");
+      if (!deviceId) {
+        if (window.crypto && window.crypto.randomUUID) {
+          deviceId = window.crypto.randomUUID();
+        } else {
+          const values = new Uint32Array(4);
+          if (window.crypto && window.crypto.getRandomValues) {
+            window.crypto.getRandomValues(values);
+          } else {
+            values.forEach((_, index) => {
+              values[index] = Math.floor(Math.random() * 0xffffffff);
+            });
+          }
+          deviceId = Array.from(values)
+            .map((value) => value.toString(16).padStart(8, "0"))
+            .join("-");
+        }
+        localStorage.setItem("royal-device-id", deviceId);
+      }
+      return deviceId;
+    }
+
+    function openDashboard() {
+      document.getElementById("dash-platform-name").innerText = selectedPlatform || "DEMO";
+      initializeDemoWidgets();
+      const sessionMode = localStorage.getItem("royal-session-role") === "admin"
+        ? "ADMIN SESSION"
+        : "PRO SIMULATION";
+      document.querySelector(".status-indicator").innerHTML = '<span class="dot"></span> ' + sessionMode;
+      document.getElementById("admin-panel").style.display = localStorage.getItem("royal-session-role") === "admin" ? "block" : "none";
+      showScreen("dashboard-screen");
+      connectDemoSocket();
+      if (historyData.length === 0) loadInitialHistory();
+    }
+
+    function openHistoryUpload() {
+      playStepSound("scan");
+      document.getElementById("upload-popup").classList.add("active");
+    }
+
+    function initializeDemoWidgets() {
+      const profileId = localStorage.getItem("royal-profile-id") || ("RBK-" + Math.random().toString(16).slice(2, 8).toUpperCase());
+      const created = localStorage.getItem("royal-profile-created") || new Date().toLocaleDateString();
+      localStorage.setItem("royal-profile-id", profileId);
+      localStorage.setItem("royal-profile-created", created);
+      document.getElementById("profile-id").innerText = "ID: " + profileId;
+      document.getElementById("profile-created").innerText = created;
+      document.getElementById("profile-platform").innerText = selectedPlatform || "DEMO";
+      document.getElementById("referral-code").innerText = RBK_CONFIG.referral.code;
+      renderProfileAvatar();
+      updateDemoWidgets();
+      renderActivity();
+      const savedNote = localStorage.getItem("royal-demo-analyst-note");
+      if (savedNote) {
+        document.getElementById("analyst-output").innerText = savedNote;
+        document.getElementById("user-note-output").innerText = savedNote;
+      }
+    }
+
+    function renderProfileAvatar() {
+      const avatar = document.getElementById("profile-avatar");
+      const savedAvatar = localStorage.getItem("royal-profile-avatar");
+      if (savedAvatar) {
+        avatar.style.backgroundImage = "url('" + savedAvatar + "')";
+        avatar.innerText = "";
+      }
+    }
+
+    function updateDemoWidgets() {
+      const referral = RBK_CONFIG.referral;
+      const count = Math.min(Number(demoReferralState.qualified || 0), referral.maxQualified);
+      const amount = Math.min(Number(demoReferralState.rewards || 0), referral.threshold);
+      document.getElementById("referral-count").innerText = count + " / " + referral.maxQualified;
+      document.getElementById("referral-amount").innerText = "$" + amount + " / $" + referral.threshold + " DEMO";
+      document.getElementById("demo-wallet-balance").innerText = "$" + amount.toFixed(2) + " DEMO";
+      document.getElementById("referral-progress").style.width = Math.min(100, (amount / referral.threshold) * 100) + "%";
+      document.getElementById("wallet-state").innerText = amount >= referral.threshold
+        ? "Threshold reached in simulation. No withdrawal is available."
+        : "Simulation only - no real monetary value.";
+    }
+
+    function addActivity(message, tone = "LIVE DEMO") {
+      demoActivity.unshift({ message, tone, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
+      demoActivity = demoActivity.slice(0, 6);
+      localStorage.setItem("royal-demo-activity", JSON.stringify(demoActivity));
+      renderActivity();
+    }
+
+    function renderActivity() {
+      const feed = document.getElementById("activity-feed");
+      if (!feed) return;
+      feed.innerHTML = "";
+      const entries = demoActivity.length ? demoActivity : [{ message: "Console standing by for a sample round", tone: "SYSTEM", time: "now" }];
+      entries.forEach((entry) => {
+        const row = document.createElement("div");
+        row.className = "activity-item";
+        const message = document.createElement("span");
+        message.innerText = entry.message;
+        const meta = document.createElement("small");
+        meta.innerText = entry.tone + " | " + entry.time;
+        row.append(message, meta);
+        feed.appendChild(row);
+      });
+    }
+
+    function simulateReferral() {
+      const max = RBK_CONFIG.referral.maxQualified;
+      if (demoReferralState.qualified >= max) {
+        addActivity("Demo referral limit reached", "REFERRAL");
+        return;
+      }
+      demoReferralState.qualified += 1;
+      demoReferralState.rewards = demoReferralState.qualified * RBK_CONFIG.referral.reward;
+      localStorage.setItem("royal-demo-referral", JSON.stringify(demoReferralState));
+      updateDemoWidgets();
+      addActivity("Qualified demo referral +$" + RBK_CONFIG.referral.reward, "REFERRAL");
+      playStepSound("result");
+    }
+
+    function copyReferralCode() {
+      const code = RBK_CONFIG.referral.code;
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code);
+      addActivity("Referral code copied: " + code, "PROFILE");
+    }
+
+    function publishAnalystSuggestion() {
+      const range = document.getElementById("analyst-range").value.trim() || "No range provided";
+      const note = document.getElementById("analyst-note").value.trim();
+      const message = "Manual demo note: " + range + (note ? " | " + note : "");
+      localStorage.setItem("royal-demo-analyst-note", message);
+      document.getElementById("analyst-output").innerText = message + " (not a forecast)";
+      document.getElementById("user-note-output").innerText = message + " (demo annotation, not a forecast)";
+      if (demoChannel) demoChannel.postMessage(message);
+      if (demoSocket && demoSocket.readyState === WebSocket.OPEN) {
+        demoSocket.send(JSON.stringify({ type: "admin_demo_announcement", message }));
+      }
+      addActivity("Admin demo annotation published", "ADMIN");
+      playStepSound("select");
+    }
+
+    function connectDemoSocket() {
+      if (!window.WebSocket) return;
+      const token = localStorage.getItem("royal-session-token");
+      if (!token || demoSocket) return;
+      const scheme = window.location.protocol === "https:" ? "wss" : "ws";
+      const host = window.location.protocol === "file:" ? "127.0.0.1:8000" : window.location.host;
+      const url = scheme + "://" + host + "/ws/demo?token=" + encodeURIComponent(token) + "&device_id=" + encodeURIComponent(getDeviceId());
+      try {
+        demoSocket = new WebSocket(url);
+        demoSocket.onmessage = (event) => {
+          try {
+            const payload = JSON.parse(event.data);
+            if (payload.type !== "demo_announcement" || !payload.message) return;
+            localStorage.setItem("royal-demo-analyst-note", payload.message);
+            document.getElementById("user-note-output").innerText = payload.message + " (demo annotation, not a forecast)";
+            addActivity("Cross-device demo announcement received", "SYNC");
+          } catch (error) {
+            // Ignore malformed demo messages.
+          }
+        };
+        demoSocket.onclose = () => {
+          demoSocket = null;
+          clearTimeout(window.royalSocketReconnectTimer);
+          window.royalSocketReconnectTimer = setTimeout(connectDemoSocket, 3500);
+        };
+      } catch (error) {
+        demoSocket = null;
+      }
+    }
+
+    function updateSoundButton() {
+      const button = document.getElementById("sound-toggle");
+      if (!button) return;
+
+      button.innerHTML = soundEnabled
+        ? '<i class="fa-solid fa-volume-high"></i>'
+        : '<i class="fa-solid fa-volume-xmark"></i>';
+      button.setAttribute("aria-label", soundEnabled ? "Mute sound" : "Enable sound");
+      button.setAttribute("title", soundEnabled ? "Mute sound" : "Enable sound");
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      localStorage.setItem("royal-sound-enabled", String(soundEnabled));
+      updateSoundButton();
+      if (soundEnabled) playStepSound("select");
+    }
+
+    function openPasswordPopup() {
+      playStepSound("contact");
+      document.getElementById("password-popup").classList.add("active");
+      document.getElementById("admin-pass-input").focus();
+    }
+
+    function openContactPopup() {
+      playStepSound("contact");
+      document.getElementById("contact-popup").classList.add("active");
+    }
+
+    async function verifyPassword() {
+      const pass = document.getElementById("admin-pass-input").value.replace(/\s/g, "");
+      const status = document.getElementById("auth-status");
+      const button = document.querySelector("#password-popup .primary-btn");
+      if (!pass) {
+        status.innerText = "Enter the access key shared by the project admin.";
+        return;
+      }
+
+      button.disabled = true;
+      button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> VERIFYING...';
+      status.innerText = "Registering this key to this device...";
+
+      try {
+        const response = await fetchWithTimeout(API_BASE_URL + "/api/auth/activate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            access_key: pass,
+            device_id: getDeviceId()
+          })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.detail || "Access could not be verified.");
+        }
+
+        localStorage.setItem("royal-session-token", data.session_token);
+        localStorage.setItem("royal-session-role", data.is_admin ? "admin" : "member");
+        status.innerText = data.message;
+        document.getElementById("admin-pass-input").value = "";
+        document.getElementById("password-popup").classList.remove("active");
+        playStepSound("unlock");
+        openDashboard();
+      } catch (error) {
+        status.innerText = error.message || "Authentication server is unavailable.";
+      } finally {
+        button.disabled = false;
+        button.innerHTML = 'UNLOCK CONSOLE';
+      }
+    }
+
+    async function restoreSession() {
+      const token = localStorage.getItem("royal-session-token");
+      if (!token) return false;
+
+      try {
+        const response = await fetchWithTimeout(
+          API_BASE_URL + "/api/auth/session?device_id=" + encodeURIComponent(getDeviceId()),
+          { headers: { Authorization: "Bearer " + token } }
+        );
+        const data = await response.json();
+        if (response.ok && data.valid) {
+          openDashboard();
+          return true;
+        }
+      } catch (error) {
+        // The user can still unlock once the local authentication server is running.
+      }
+
+      localStorage.removeItem("royal-session-token");
+      localStorage.removeItem("royal-session-role");
+      return false;
+    }
+
+    function previewUpload() {
+      const upload = document.getElementById("history-upload");
+      const preview = document.getElementById("upload-preview");
+      const status = document.getElementById("scan-status");
+      const file = upload.files && upload.files[0];
+
+      if (!file) {
+        preview.removeAttribute("src");
+        preview.style.display = "none";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        preview.src = reader.result;
+        preview.style.display = "block";
+        status.innerText = "Screenshot ready for analysis.";
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function getImageDetails(file) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        const objectUrl = URL.createObjectURL(file);
+        image.onload = () => {
+          URL.revokeObjectURL(objectUrl);
+          resolve({
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+            sizeKb: Math.max(1, Math.round(file.size / 1024))
+          });
+        };
+        image.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          reject(new Error("The selected file could not be read as an image."));
+        };
+        image.src = objectUrl;
+      });
+    }
+
+    function renderAnalysis(data, imageDetails) {
+      const panel = document.getElementById("analysis-panel");
+      const stats = data.statistics || {};
+      const total = Number(stats.total || data.multipliers.length || 0);
+      const average = Number(stats.average || 0).toFixed(2);
+      const highRate = Number(stats.high_rate || 0).toFixed(1);
+      const volatility = Number(stats.volatility || 0).toFixed(2);
+
+      panel.innerHTML =
+        '<strong style="color: var(--gold);">History extraction complete</strong>' +
+        '<div class="analysis-grid">' +
+          '<div class="analysis-metric"><span>Values found</span><strong>' + total + '</strong></div>' +
+          '<div class="analysis-metric"><span>Average</span><strong>' + average + 'x</strong></div>' +
+          '<div class="analysis-metric"><span>High rate</span><strong>' + highRate + '%</strong></div>' +
+          '<div class="analysis-metric"><span>Volatility</span><strong>' + volatility + '</strong></div>' +
+        '</div>' +
+        '<div style="margin-top: 8px; color: #a9a9a9;">Image: ' + imageDetails.width + ' x ' + imageDetails.height + ' px, ' + imageDetails.sizeKb + ' KB</div>' +
+        '<div style="margin-top: 6px;">Extracted values are observations only, not a forecast.</div>';
+      panel.style.display = "block";
+    }
+
+    async function completeScan() {
+      const upload = document.getElementById("history-upload");
+      const status = document.getElementById("scan-status");
+      const button = document.getElementById("scan-button");
+      const file = upload.files && upload.files[0];
+      playStepSound("scan");
+
+      if (!file) {
+        status.innerText = "Please choose a screenshot first.";
+        return;
+      }
+
+      button.disabled = true;
+      button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ANALYZING...';
+      status.innerText = "Reading screenshot with Gemini Vision...";
+
+      try {
+        const token = localStorage.getItem("royal-session-token");
+        if (!token) {
+          throw new Error("Sign in with your registered access key before analysis.");
+        }
+        const imageDetails = await getImageDetails(file);
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await fetchWithTimeout(API_BASE_URL + "/api/analyze-history", {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: "Bearer " + token,
+            "X-Device-ID": getDeviceId()
+          }
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "The analysis service could not process this screenshot.");
+        }
+        if (!Array.isArray(data.multipliers) || data.multipliers.length === 0) {
+          throw new Error("No readable multiplier values were found in the screenshot.");
+        }
+
+        renderAnalysis(data, imageDetails);
+        seedAnalysisHistory(data.multipliers, data.detection_confidence);
+        status.innerText = "History values extracted and added to this session.";
+        playStepSound("result");
+      } catch (error) {
+        const panel = document.getElementById("analysis-panel");
+        panel.innerHTML =
+          '<strong style="color: var(--danger-red);">Analysis unavailable</strong>' +
+          '<div style="margin-top: 6px;">' + error.message + '</div>' +
+          '<div style="margin-top: 6px; color: #a9a9a9;">Start the FastAPI server and add GEMINI_API_KEY to backend/.env.</div>';
+        panel.style.display = "block";
+        status.innerText = "No history values were added.";
+      } finally {
+        button.disabled = false;
+        button.innerHTML = '<i class="fa-solid fa-magnifying-glass-chart"></i> ANALYZE SCREENSHOT';
+      }
+    }
+
+    function seedAnalysisHistory(values, detectionConfidence) {
+      historyData = [];
+      highCount = 0;
+      lowCount = 0;
+      recentResults = [];
+      document.getElementById("history-list").innerHTML = "";
+
+      values.slice(-10).forEach((value) => addToHistory(Number(value), Number(detectionConfidence || 0), "observed"));
+    }
+
+    function calculateNextRound() {
+      let multiplier;
+      let variance;
+      const rand = Math.random();
+      if (rand < 0.48) multiplier = Math.random() * 0.95 + 1.05;
+      else if (rand < 0.85) multiplier = Math.random() * 3 + 2;
+      else multiplier = Math.random() * 8 + 5;
+      variance = Math.floor(Math.random() * 24 + 36);
+
+      return { multiplier: Number(multiplier.toFixed(2)), variance };
+    }
+
+    function startSimulation() {
+      const signalText = document.getElementById("signal-text");
+      const graphBox = document.getElementById("graph-box");
+      const btn = document.querySelector(".generate-btn");
+      const orbitStatus = document.getElementById("orbit-status");
+      const progress = document.getElementById("orbit-progress");
+
+      signalText.classList.remove("result-visible");
+      signalText.innerText = "SYNC";
+      signalText.style.color = "#ffd86b";
+      progress.innerText = "0%";
+      orbitStatus.innerText = "LOCAL SAMPLE ENGINE ACTIVE";
+      graphBox.classList.add("animating");
+      playStepSound("mystery");
+      clearInterval(signalAudioTimer);
+      signalAudioTimer = setInterval(() => playStepSound("mystery"), 900);
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> RUNNING SAMPLE...';
+
+      let currentProgress = 0;
+      const progressTimer = setInterval(() => {
+        currentProgress = Math.min(96, currentProgress + 8);
+        progress.innerText = currentProgress + "%";
+      }, 180);
+
+      setTimeout(() => {
+        clearInterval(signalAudioTimer);
+        clearInterval(progressTimer);
+        graphBox.classList.remove("animating");
+        const result = calculateNextRound();
+
+        signalText.innerText = `SAMPLE ${result.multiplier.toFixed(2)}x`;
+        signalText.style.color = result.multiplier >= 2 ? "#2ff06f" : "#ffe36a";
+        progress.innerText = "100%";
+        document.getElementById("confidence-display").innerText = `Observed sample variability: ${result.variance}% | Not a forecast`;
+        orbitStatus.innerText = "LOCAL SAMPLE COMPLETE";
+        setTimeout(() => signalText.classList.add("result-visible"), 40);
+        playStepSound("result");
+
+        addToHistory(result.multiplier, result.variance);
+        addActivity("Sample round complete: observed " + result.multiplier.toFixed(2) + "x", "SIMULATOR");
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-radar"></i> RUN SAMPLE ROUND';
+      }, 2400);
+    }
+
+    function addToHistory(multiplier, variance, source = "sample") {
+      const list = document.getElementById("history-list");
+      recentResults.push(multiplier);
+      if (recentResults.length > 10) recentResults.shift();
+
+      const isHigh = multiplier >= 2;
+      if (isHigh) highCount += 1;
+      else lowCount += 1;
+
+      const sourceLabel = source === "observed" ? "IMAGE " + variance + "%" : variance + "%";
+      const item = document.createElement("div");
+      item.className = "history-item";
+      item.innerHTML = `
+        <span>#${historyData.length + 1}</span>
+        <span>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+        <span class="${isHigh ? "h-success" : "h-fail"}">${multiplier.toFixed(2)}x (${sourceLabel})</span>
+        <span>${isHigh ? "HIGH" : "LOW"}</span>
+      `;
+      list.prepend(item);
+      historyData.push({ multiplier, variance, source });
+      updateStats();
+    }
+
+    function updateStats() {
+      document.getElementById("passed-count").innerText = highCount;
+      document.getElementById("failed-count").innerText = lowCount;
+      const total = highCount + lowCount;
+      const rate = total === 0 ? 0 : ((highCount / total) * 100).toFixed(1);
+      document.getElementById("accuracy-percent").innerText = rate + "%";
+      drawHistoryChart();
+    }
+
+    function drawHistoryChart() {
+      const canvas = document.getElementById("history-chart");
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const pixelRatio = window.devicePixelRatio || 1;
+      const width = Math.max(1, Math.floor(rect.width * pixelRatio));
+      const height = Math.max(1, Math.floor(rect.height * pixelRatio));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      const context = canvas.getContext("2d");
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      context.clearRect(0, 0, rect.width, rect.height);
+
+      const padding = 16;
+      context.strokeStyle = "rgba(255, 255, 255, 0.09)";
+      context.lineWidth = 1;
+      for (let line = 1; line < 4; line += 1) {
+        const y = padding + ((rect.height - padding * 2) * line) / 4;
+        context.beginPath();
+        context.moveTo(padding, y);
+        context.lineTo(rect.width - padding, y);
+        context.stroke();
+      }
+
+      const values = historyData.slice(-10).map((item) => item.multiplier);
+      if (values.length === 0) {
+        context.fillStyle = "#a9a9a9";
+        context.font = "12px Segoe UI";
+        context.textAlign = "center";
+        context.fillText("History chart will appear here", rect.width / 2, rect.height / 2);
+        return;
+      }
+
+      const maxValue = Math.max(2, ...values);
+      const drawWidth = rect.width - padding * 2;
+      const drawHeight = rect.height - padding * 2;
+      context.beginPath();
+      values.forEach((value, index) => {
+        const x = padding + (values.length === 1 ? drawWidth / 2 : (drawWidth * index) / (values.length - 1));
+        const y = rect.height - padding - (Math.min(value, maxValue) / maxValue) * drawHeight;
+        if (index === 0) context.moveTo(x, y);
+        else context.lineTo(x, y);
+      });
+      context.strokeStyle = "#ffd86b";
+      context.lineWidth = 2;
+      context.stroke();
+
+      values.forEach((value, index) => {
+        const x = padding + (values.length === 1 ? drawWidth / 2 : (drawWidth * index) / (values.length - 1));
+        const y = rect.height - padding - (Math.min(value, maxValue) / maxValue) * drawHeight;
+        context.fillStyle = value >= 2 ? "#2ff06f" : "#ff5a5a";
+        context.beginPath();
+        context.arc(x, y, 3, 0, Math.PI * 2);
+        context.fill();
+      });
+    }
+
+    function loadInitialHistory() {
+      for (let i = 0; i < 4; i += 1) {
+        const result = calculateNextRound();
+        addToHistory(result.multiplier, result.variance);
+      }
+    }
+
+    document.getElementById("admin-pass-input").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") verifyPassword();
+    });
+
+    document.getElementById("history-upload").addEventListener("change", previewUpload);
+    document.getElementById("profile-logo-upload").addEventListener("change", (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        localStorage.setItem("royal-profile-avatar", reader.result);
+        renderProfileAvatar();
+        addActivity("Demo profile logo updated", "PROFILE");
+      };
+      reader.readAsDataURL(file);
+    });
+    if (demoChannel) {
+      demoChannel.addEventListener("message", (event) => {
+        const message = String(event.data || "");
+        if (!message) return;
+        localStorage.setItem("royal-demo-analyst-note", message);
+        document.getElementById("user-note-output").innerText = message + " (demo annotation, not a forecast)";
+        addActivity("New admin demo annotation received", "SYNC");
+      });
+    }
+    window.addEventListener("resize", drawHistoryChart);
+
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("real-time-clock").innerText = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+    }
+
+    window.onload = () => {
+      updateClock();
+      updateSoundButton();
+      initializeDemoWidgets();
+      drawHistoryChart();
+      setInterval(updateClock, 1000);
+      setTimeout(() => showScreen("platform-screen"), 1700);
+    };
+  </script>
+</body>
+</html>
