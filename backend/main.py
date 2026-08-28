@@ -114,17 +114,23 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
     )
 
     client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite"),
-        contents=[
-            types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
-            prompt,
-        ],
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            response_schema=ScreenshotExtraction,
-        ),
-    )
+    try:
+        response = client.models.generate_content(
+            model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite"),
+            contents=[
+                types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
+                prompt,
+            ],
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=ScreenshotExtraction,
+            ),
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Gemini API Error: Verify your API Key. Internal error: {str(e)}"
+        )
 
     if isinstance(response.parsed, ScreenshotExtraction):
         extracted = response.parsed

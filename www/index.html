@@ -2124,7 +2124,7 @@
         panel.innerHTML =
           '<strong style="color: var(--danger-red);">Analysis unavailable</strong>' +
           '<div style="margin-top: 6px;">' + error.message + '</div>' +
-          '<div style="margin-top: 6px; color: #a9a9a9;">Start the FastAPI server and add GEMINI_API_KEY to backend/.env.</div>';
+          ""
         panel.style.display = "block";
         status.innerText = "No history values were added.";
       } finally {
