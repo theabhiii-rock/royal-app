@@ -1215,7 +1215,17 @@
     const API_BASE_URL = window.RBK_CONFIG?.apiBaseUrl || (window.location.protocol === "file:" ? "http://127.0.0.1:8000" : "");
     const RBK_CONFIG = window.RBK_CONFIG || {
       referral: { code: "RBETKING", reward: 10, maxQualified: 10, threshold: 100 },
-      contact: { telegramUsername: "Royal_BetKing" }
+      contact: { telegramUsername: "Royal_BetKing" },
+      platforms: {
+        "1WIN": { promoCode: "RBETKING", url: "https://one-vv4734.life/?open=register&p=4ej1", status: "Active" },
+        "MEGAPARI": { promoCode: "ROCK", url: "https://rock.megapari-770990.in", status: "Active" },
+        "MOSTBET": { promoCode: "TMPBET", url: "https://pg5i0mmb.com/wNUU", status: "Active" },
+        "BLUECHIP": { promoCode: "ROCK", url: "https://bluechip.ink/2hYvk6g", status: "Active" },
+        "LINEBET": { promoCode: "ROCK3", url: "https://rock3.lineorgs.com/", status: "Active" },
+        "1XBET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" },
+        "4RABET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" },
+        "MELBET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" }
+      }
     };
     let selectedPlatform = localStorage.getItem("royal-platform") || "";
     let historyData = [];
@@ -1339,7 +1349,7 @@
     
     function renderPlatforms() {
       const grid = document.getElementById("platform-grid-container");
-      if (!grid) return;
+      if (!grid || !RBK_CONFIG.platforms) return;
       grid.innerHTML = "";
       
       const logos = {
@@ -1380,7 +1390,6 @@
       localStorage.setItem("royal-platform", name);
       document.getElementById("dash-platform-name").innerText = name.toUpperCase() + " PRO NODE";
       
-      // If there's an actual link, open it in a new tab so they can register
       if (url && url !== "#") {
          window.open(url, '_blank');
       }
@@ -1394,17 +1403,7 @@
         : "PRO SIMULATION";
       document.querySelector(".status-indicator").innerHTML = '<span class="dot"></span> ' + sessionMode;
       document.getElementById("admin-panel").style.display = localStorage.getItem("royal-session-role") === "admin" ? "block" : "none";
-      showScreen("dashboard-screen");
-      connectDemoSocket();
-      if (historyData.length === 0) loadInitialHistory();
-    }
-
-    function openHistoryUpload() {
-      playStepSound("scan");
-      document.getElementById("upload-popup").classList.add("active");
-    }
-
-    function initializeDemoWidgets() {
+      
       const profileId = localStorage.getItem("royal-profile-id") || ("RBK-" + Math.random().toString(16).slice(2, 8).toUpperCase());
       const created = localStorage.getItem("royal-profile-created") || new Date().toLocaleDateString();
       localStorage.setItem("royal-profile-id", profileId);
@@ -1421,6 +1420,15 @@
         document.getElementById("analyst-output").innerText = savedNote;
         document.getElementById("user-note-output").innerText = savedNote;
       }
+      
+      showScreen("dashboard-screen");
+      connectDemoSocket();
+      if (historyData.length === 0) loadInitialHistory();
+    }
+
+    function openHistoryUpload() {
+      playStepSound("scan");
+      document.getElementById("upload-popup").classList.add("active");
     }
 
     function renderProfileAvatar() {

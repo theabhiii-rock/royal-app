@@ -47,7 +47,7 @@ class ScreenshotExtraction(BaseModel):
     )
     prediction_range: str = Field(
         default="",
-        description="A suggested hypothetical prediction range for the next round (e.g. 3.2X - 5.5X - 11.0X). Format as numbers followed by X, separated by dashes.",
+        description="A single suggested hypothetical prediction for the next round (e.g. 3.5X or 2.1X). Format as a single number followed by X. Do NOT output a range.",
     )
 
 
