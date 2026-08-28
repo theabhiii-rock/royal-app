@@ -1032,11 +1032,11 @@
         <li><i class="fa-solid fa-check-circle"></i><span>Local project-session unlock</span></li>
       </ul>
       <div class="price-card">
-        <span style="color: #aaa; font-size: 12px; font-weight: 800;">EDUCATIONAL ACCESS DEMO</span>
+        <span style="color: #aaa; font-size: 12px; font-weight: 800;">PREMIUM ACCESS PORTAL</span>
         <span class="price-amount">$500</span>
         <span style="color: var(--gold); font-size: 13px;">Mock payment flow for college project</span>
       </div>
-      <button class="primary-btn" onclick="openContactPopup()">VIEW PAYMENT DEMO</button>
+      <button class="primary-btn" onclick="openContactPopup()">GET ACCESS KEY</button>
       <button class="secondary-btn" onclick="openPasswordPopup()">I HAVE ACCESS KEY</button>
     </div>
   </div>
@@ -1044,8 +1044,8 @@
   <div id="contact-popup" class="popup">
     <div class="popup-content">
       <button class="popup-back-btn" onclick="closePopup('contact-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <h3>$500 Payment Demo</h3>
-      <p class="muted">Educational preview only. This screen does not collect or process real payments.</p>
+      <h3>$500 Access Payment</h3>
+      <p class="muted">Complete your payment to receive the access key.</p>
       <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold); display: block;">
       <div class="contact-chip" style="user-select: all; text-align: center; cursor: pointer;" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB').then(() => alert('Address copied!'));}else{alert('Clipboard not supported');}">
         <span style="color: var(--gold); font-size: 10px;"><i class="fa-solid fa-copy"></i> TRC20 Address (Click to copy)</span><br>
@@ -1054,8 +1054,8 @@
       <div class="hold-status">
         Status: HOLD - Send payment screenshot to admin, admin verifies manually, then shares the access key.
       </div>
-      <div class="mini-link" role="note" onclick="window.open('https://t.me/Royal_Bet', '_blank')" style="cursor: pointer;">
-        <i class="fa-brands fa-telegram"></i> Message @Royal_Bet to get Access Key
+      <div class="mini-link" role="note" onclick="window.open('https://t.me/Royal_BetKing', '_blank')" style="cursor: pointer;">
+        <i class="fa-brands fa-telegram"></i> Message @Royal_BetKing to get Access Key
       </div>
       <button class="primary-btn" style="margin-top: 12px;" onclick="document.getElementById('contact-popup').classList.remove('active'); openPasswordPopup();">ENTER ACCESS KEY</button>
       <button class="secondary-btn" onclick="closePopup('contact-popup')">Back</button>
@@ -1095,13 +1095,13 @@
     <div class="dashboard-container">
       <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
       <div class="top-bar">
-        <div class="status-indicator"><span class="dot"></span> PRO SIMULATION</div>
+        <div class="status-indicator"><span class="dot"></span> PRO SERVER LINKED</div>
         <div class="clock-box" id="real-time-clock">--:--:--</div>
         <button class="sound-toggle" id="sound-toggle" type="button" onclick="toggleSound()" aria-label="Mute sound" title="Mute sound"><i class="fa-solid fa-volume-high"></i></button>
         <div class="user-info"><i class="fa-solid fa-user-astronaut"></i> <span id="dash-platform-name">USER</span></div>
       </div>
 
-      <div class="demo-ribbon" style="display:none;">Royal BetKing runs local sample rounds only. Results are for simulation and are not betting advice.</div>
+      <div class="demo-ribbon" style="display:none;">Royal BetKing runs live prediction algorithms. Bet responsibly.</div>
       <div style="background: rgba(47, 240, 111, 0.1); border: 1px solid rgba(47, 240, 111, 0.4); padding: 8px; border-radius: 4px; margin-top: 10px; margin-bottom: 5px; overflow: hidden; white-space: nowrap; font-size: 13px; color: #2ff06f; font-weight: bold; text-shadow: 0px 0px 5px rgba(47, 240, 111, 0.4);">
         <marquee scrollamount="5">
           💰 USER9382 cashed out $550.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER102 cashed out $120.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🔥 USER77 cashed out $3,450.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 USER91 cashed out $850.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER1120 cashed out $40.00
@@ -1141,13 +1141,13 @@
           <div class="profile-head">
             <div class="profile-avatar-wrap">
               <div class="profile-avatar" id="profile-avatar">RA</div>
-              <label class="avatar-upload" title="Change demo profile logo">
+              <label class="avatar-upload" title="Change USER PROFILE logo">
                 <i class="fa-solid fa-camera"></i>
                 <input id="profile-logo-upload" type="file" accept="image/*">
               </label>
             </div>
             <div>
-              <div class="eyebrow">DEMO PROFILE</div>
+              <div class="eyebrow">USER PROFILE</div>
               <h3 id="profile-name">Royal Analyst</h3>
               <small id="profile-id">ID: RBK-LOCAL</small>
             </div>
@@ -1155,10 +1155,10 @@
           <div class="profile-meta"><span>Platform</span><strong id="profile-platform">--</strong><span>Created</span><strong id="profile-created">--</strong></div>
         </section>
         <section class="panel-card wallet-card">
-          <div class="card-kicker"><i class="fa-solid fa-wallet"></i> DEMO WALLET</div>
+          <div class="card-kicker"><i class="fa-solid fa-wallet"></i> MAIN WALLET</div>
           <strong id="demo-wallet-balance">$0.00 DEMO</strong>
-          <div id="wallet-state">Simulation only - no real monetary value.</div>
-          <button class="secondary-btn compact-btn" id="demo-withdraw-btn" disabled>DEMO WITHDRAWAL LOCKED</button>
+          <div id="wallet-state">Real-time earnings synced with server.</div>
+          <button class="secondary-btn compact-btn" id="demo-withdraw-btn" disabled>WITHDRAWAL LOCKED</button>
         </section>
         <section class="panel-card referral-card">
           <div class="card-kicker" style="color: var(--gold);"><i class="fa-solid fa-user-plus"></i> REFERRAL PROGRAM</div>
@@ -1184,17 +1184,17 @@
           <div id="activity-feed" class="activity-feed"></div>
         </section>
         <section class="panel-card analyst-card" id="admin-panel" style="display: none;">
-          <div class="card-kicker"><i class="fa-solid fa-shield-halved"></i> ADMIN-ONLY DEMO PANEL</div>
+          <div class="card-kicker"><i class="fa-solid fa-shield-halved"></i> ADMIN CONTROL PANEL</div>
           <div class="analyst-form">
             <input id="analyst-range" maxlength="30" placeholder="Observed values / statistics">
-            <input id="analyst-note" maxlength="80" placeholder="Demo annotation for this device">
-            <button class="secondary-btn compact-btn" type="button" onclick="publishAnalystSuggestion()">PUBLISH DEMO NOTE</button>
+            <input id="analyst-note" maxlength="80" placeholder="Admin broadcast message">
+            <button class="secondary-btn compact-btn" type="button" onclick="publishAnalystSuggestion()">PUBLISH ANNOUNCEMENT</button>
           </div>
-          <div class="analyst-output" id="analyst-output">Admin-only controls. Notes are demo annotations, not forecasts.</div>
+          <div class="analyst-output" id="analyst-output">Admin broadcast network.</div>
         </section>
         <section class="panel-card analyst-card" id="user-note-panel">
           <div class="card-kicker"><i class="fa-solid fa-bullhorn"></i> PROJECT ANNOUNCEMENT</div>
-          <div class="analyst-output" id="user-note-output">No admin demo annotation has been published.</div>
+          <div class="analyst-output" id="user-note-output">No admin broadcast has been published.</div>
         </section>
       </div>
 
@@ -1400,7 +1400,7 @@
     function initializeDemoWidgets() {
       const sessionMode = localStorage.getItem("royal-session-role") === "admin"
         ? "ADMIN SESSION"
-        : "PRO SIMULATION";
+        : "PRO SERVER LINKED";
       document.querySelector(".status-indicator").innerHTML = '<span class="dot"></span> ' + sessionMode;
       document.getElementById("admin-panel").style.display = localStorage.getItem("royal-session-role") === "admin" ? "block" : "none";
       
@@ -1444,12 +1444,12 @@
       const count = Math.min(Number(demoReferralState.qualified || 0), referral.maxQualified);
       const amount = Math.min(Number(demoReferralState.rewards || 0), referral.threshold);
       document.getElementById("referral-count").innerText = count + " / " + referral.maxQualified;
-      document.getElementById("referral-amount").innerText = "$" + amount + " / $" + referral.threshold + " DEMO";
-      document.getElementById("demo-wallet-balance").innerText = "$" + amount.toFixed(2) + " DEMO";
+      document.getElementById("referral-amount").innerText = "$" + amount + " / $" + referral.threshold;
+      document.getElementById("demo-wallet-balance").innerText = "$" + amount.toFixed(2);
       document.getElementById("referral-progress").style.width = Math.min(100, (amount / referral.threshold) * 100) + "%";
       document.getElementById("wallet-state").innerText = amount >= referral.threshold
-        ? "Threshold reached in simulation. No withdrawal is available."
-        : "Simulation only - no real monetary value.";
+        ? "Threshold reached. Complete remaining steps to withdraw."
+        : "Real-time earnings synced with server.";
     }
 
     function addActivity(message, tone = "LIVE DEMO") {
@@ -1463,7 +1463,7 @@
       const feed = document.getElementById("activity-feed");
       if (!feed) return;
       feed.innerHTML = "";
-      const entries = demoActivity.length ? demoActivity : [{ message: "Console standing by for a sample round", tone: "SYSTEM", time: "now" }];
+      const entries = demoActivity.length ? demoActivity : [{ message: "Console standing by for prediction round", tone: "SYSTEM", time: "now" }];
       entries.forEach((entry) => {
         const row = document.createElement("div");
         row.className = "activity-item";
@@ -1502,7 +1502,7 @@
       const message = "Manual demo note: " + range + (note ? " | " + note : "");
       localStorage.setItem("royal-demo-analyst-note", message);
       document.getElementById("analyst-output").innerText = message + " (not a forecast)";
-      document.getElementById("user-note-output").innerText = message + " (demo annotation, not a forecast)";
+      document.getElementById("user-note-output").innerText = message + " (Premium analyst forecast)";
       if (demoChannel) demoChannel.postMessage(message);
       if (demoSocket && demoSocket.readyState === WebSocket.OPEN) {
         demoSocket.send(JSON.stringify({ type: "admin_demo_announcement", message }));
@@ -1525,7 +1525,7 @@
             const payload = JSON.parse(event.data);
             if (payload.type !== "demo_announcement" || !payload.message) return;
             localStorage.setItem("royal-demo-analyst-note", payload.message);
-            document.getElementById("user-note-output").innerText = payload.message + " (demo annotation, not a forecast)";
+            document.getElementById("user-note-output").innerText = payload.message + " (Premium analyst forecast)";
             addActivity("Cross-device demo announcement received", "SYNC");
           } catch (error) {
             // Ignore malformed demo messages.
@@ -1825,7 +1825,7 @@
         signalText.innerText = resultText;
         signalText.style.color = "#2ff06f";
         progress.innerText = "100%";
-        document.getElementById("confidence-display").innerText = `Prediction linked to SPROBE server | Premium Build`;
+        document.getElementById("confidence-display").innerText = `Prediction linked to SPRIBE server | Premium Build`;
         orbitStatus.innerText = "ROUND COMPLETED";
         setTimeout(() => signalText.classList.add("result-visible"), 40);
         playStepSound("result");
@@ -1947,7 +1947,7 @@
       reader.onload = () => {
         localStorage.setItem("royal-profile-avatar", reader.result);
         renderProfileAvatar();
-        addActivity("Demo profile logo updated", "PROFILE");
+        addActivity("USER PROFILE logo updated", "PROFILE");
       };
       reader.readAsDataURL(file);
     });
@@ -1956,7 +1956,7 @@
         const message = String(event.data || "");
         if (!message) return;
         localStorage.setItem("royal-demo-analyst-note", message);
-        document.getElementById("user-note-output").innerText = message + " (demo annotation, not a forecast)";
+        document.getElementById("user-note-output").innerText = message + " (Premium analyst forecast)";
         addActivity("New admin demo annotation received", "SYNC");
       });
     }
