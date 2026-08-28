@@ -29,18 +29,18 @@
     }
 
     body {
-      background-color: var(--dark-bg);
+      background-color: #000;
       color: var(--text-white);
       min-height: 100vh;
       width: 100vw;
       overflow: hidden;
       background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
-        radial-gradient(circle at 18% 18%, rgba(255, 44, 44, 0.22), transparent 28%),
-        radial-gradient(circle at 82% 16%, rgba(255, 216, 107, 0.17), transparent 26%),
-        linear-gradient(135deg, #120101 0%, #050505 58%, #111113 100%);
-      background-size: 34px 34px, 34px 34px, auto, auto, auto;
+        linear-gradient(rgba(255,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,0,0,0.04) 1px, transparent 1px),
+        radial-gradient(circle at 50% 30%, rgba(229,5,58,0.18), transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(100,0,0,0.3), transparent 70%),
+        linear-gradient(135deg, #050000 0%, #000000 50%, #050000 100%);
+      background-size: 40px 40px, 40px 40px, auto, auto, auto;
     }
 
     .screen {
@@ -1037,7 +1037,7 @@
         <img class="aviator-logo-lg" src="./assets/platform-logos/aviator.png" alt="Aviator logo">
       </div>
       <h1 class="app-title">Royal BetKing</h1>
-      <h2 class="app-subtitle">Premium Simulator Console</h2>
+      <h2 class="app-subtitle">Premium Simulator Real</h2>
       <div class="loader"><span></span><span></span><span></span></div>
     </div>
   </div>
@@ -1073,7 +1073,7 @@
       </ul>
       <div class="price-card">
         <span style="color: #aaa; font-size: 12px; font-weight: 800;">PREMIUM ACCESS PORTAL</span>
-        <span class="price-amount">$500</span>
+        <span class="price-amount">$20</span>
         <span style="color: var(--gold); font-size: 13px;">Pay The Amount To Get The Access Of Predictior</span>
       </div>
       <button class="primary-btn" onclick="openContactPopup()">GET ACCESS KEY</button>
@@ -1162,6 +1162,13 @@
 
         <div class="graph-container" id="graph-box">
           <!-- Hidden old elements to prevent JS errors -->
+          <div class="hash-overlay" id="hash-overlay"></div>
+          <div class="code-orbit" aria-hidden="true">
+            <span class="code-a">0110</span>
+            <span class="code-b">A7F2</span>
+            <span class="code-c">1001</span>
+            <span class="code-d">C19E</span>
+          </div>
           <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
           <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
           <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
@@ -1232,7 +1239,7 @@
         <img class="aviator-logo-lg" src="./assets/platform-logos/aviator.png" alt="Aviator logo">
       </div>
       <h1 class="app-title">Royal BetKing</h1>
-      <h2 class="app-subtitle">Premium Simulator Console</h2>
+      <h2 class="app-subtitle">Premium Simulator Real</h2>
       <div class="loader"><span></span><span></span><span></span></div>
     </div>
   </div>
@@ -1268,7 +1275,7 @@
       </ul>
       <div class="price-card">
         <span style="color: #aaa; font-size: 12px; font-weight: 800;">PREMIUM ACCESS PORTAL</span>
-        <span class="price-amount">$500</span>
+        <span class="price-amount">$20</span>
         <span style="color: var(--gold); font-size: 13px;">Pay The Amount To Get The Access Of Predictior</span>
       </div>
       <button class="primary-btn" onclick="openContactPopup()">GET ACCESS KEY</button>
@@ -1357,6 +1364,13 @@
 
         <div class="graph-container" id="graph-box">
           <!-- Hidden old elements to prevent JS errors -->
+          <div class="hash-overlay" id="hash-overlay"></div>
+          <div class="code-orbit" aria-hidden="true">
+            <span class="code-a">0110</span>
+            <span class="code-b">A7F2</span>
+            <span class="code-c">1001</span>
+            <span class="code-d">C19E</span>
+          </div>
           <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
           <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
           <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
@@ -1565,7 +1579,7 @@
       playStepSound("select");
       selectedPlatform = name;
       localStorage.setItem("royal-platform", name);
-      document.getElementById("selected-platform-name").innerText = name.toUpperCase() + " PRO NODE";
+      document.getElementById("selected-platform-name").innerText = name.toUpperCase() + "";
       setTimeout(() => showScreen("access-screen"), 160);
     }
 
@@ -1603,7 +1617,7 @@
 
     function updateDashboardHeader() {
       const name = selectedPlatform || "DEMO";
-      document.getElementById("dash-platform-name").innerText = name.toUpperCase() + " PRO NODE";
+      document.getElementById("dash-platform-name").innerText = name.toUpperCase() + "";
       const ownerText = document.getElementById("owner-text");
       if(ownerText) ownerText.innerText = name.toUpperCase();
       const logoEl = document.getElementById("dash-platform-logo");
@@ -1726,7 +1740,7 @@
       const feed = document.getElementById("activity-feed");
       if (!feed) return;
       feed.innerHTML = "";
-      const entries = demoActivity.length ? demoActivity : [{ message: "Console standing by for prediction round", tone: "SYSTEM", time: "now" }];
+      const entries = demoActivity.length ? demoActivity : [{ message: "Real standing by for prediction round", tone: "SYSTEM", time: "now" }];
       entries.forEach((entry) => {
         const row = document.createElement("div");
         row.className = "activity-item";
@@ -2288,6 +2302,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
