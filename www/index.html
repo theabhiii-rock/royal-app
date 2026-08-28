@@ -1047,8 +1047,8 @@
       <h3>$500 Payment Demo</h3>
       <p class="muted">Educational preview only. This screen does not collect or process real payments.</p>
       <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold); display: block;">
-      <div class="contact-chip" style="user-select: all; text-align: center;">
-        <span style="color: var(--gold); font-size: 10px;">TRC20 Address (Click to copy)</span><br>
+      <div class="contact-chip" style="user-select: all; text-align: center; cursor: pointer;" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB').then(() => alert('Address copied!'));}else{alert('Clipboard not supported');}">
+        <span style="color: var(--gold); font-size: 10px;"><i class="fa-solid fa-copy"></i> TRC20 Address (Click to copy)</span><br>
         <strong style="word-break: break-all; font-size: 14px;">TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB</strong>
       </div>
       <div class="hold-status">
@@ -1175,7 +1175,7 @@
           <div style="font-size: 10px; color: #a1a1aa;">Network: Tron (TRC20)</div>
           <div class="ref-code-row" style="margin-top: 8px;">
             <strong style="font-size: 10px; letter-spacing: 0;">TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB</strong>
-            <button class="icon-copy-btn" type="button" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB');}" title="Copy Address"><i class="fa-solid fa-copy"></i></button>
+            <button class="icon-copy-btn" type="button" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB').then(()=>alert('Address copied!'));}" title="Copy Address"><i class="fa-solid fa-copy"></i></button>
           </div>
         </section>
 
