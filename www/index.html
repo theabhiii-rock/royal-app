@@ -1180,7 +1180,7 @@
       <button class="generate-btn get-signals-btn" onclick="startSimulation()">
         GET SIGNALS
       </button>
-      <div style="color: #ff2c2c; font-size: 10px; margin-top: 10px; text-align: center;">www.autopilotsignals.harrypaullbarnes.com</div>
+      
       <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
         <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
       </button>
@@ -1222,14 +1222,14 @@
               <button class="icon-copy-btn" type="button" onclick="copyReferralLink()" title="Copy referral link"><i class="fa-solid fa-link"></i></button>
             </div>
           </div>
-          <div class="ref-stats"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
+          <div class="ref-stats" onclick="simulateReceivedReferral()" style="cursor: pointer;" title="Dev Mode: Click to simulate receiving a referral"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
           <div class="progress-track"><span id="referral-progress"></span></div>
           <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (5 Referrals).</div>
-          <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-            <div style="font-size: 11px; color: #a1a1aa; margin-bottom: 5px;">Enter Referral Code</div>
+          <div id="inviter-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <div style="font-size: 11px; color: #a1a1aa; margin-bottom: 5px;">Who invited you? (Enter their code)</div>
             <div style="display: flex; gap: 5px;">
-              <input type="text" id="redeem-code-input" placeholder="Code" style="flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
-              <button class="primary-btn" type="button" onclick="redeemReferralCode()" style="padding: 5px 10px; font-size: 11px; width: auto; margin: 0;">REDEEM</button>
+              <input type="text" id="redeem-code-input" placeholder="Inviter's Code" style="flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
+              <button class="primary-btn" type="button" onclick="submitInviterCode()" style="padding: 5px 10px; font-size: 11px; width: auto; margin: 0;">SUBMIT</button>
             </div>
           </div>
         </section>
@@ -1388,7 +1388,7 @@
       <button class="generate-btn get-signals-btn" onclick="startSimulation()">
         GET SIGNALS
       </button>
-      <div style="color: #ff2c2c; font-size: 10px; margin-top: 10px; text-align: center;">www.autopilotsignals.harrypaullbarnes.com</div>
+      
       <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
         <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
       </button>
@@ -1430,14 +1430,14 @@
               <button class="icon-copy-btn" type="button" onclick="copyReferralLink()" title="Copy referral link"><i class="fa-solid fa-link"></i></button>
             </div>
           </div>
-          <div class="ref-stats"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
+          <div class="ref-stats" onclick="simulateReceivedReferral()" style="cursor: pointer;" title="Dev Mode: Click to simulate receiving a referral"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
           <div class="progress-track"><span id="referral-progress"></span></div>
           <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (5 Referrals).</div>
-          <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-            <div style="font-size: 11px; color: #a1a1aa; margin-bottom: 5px;">Enter Referral Code</div>
+          <div id="inviter-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <div style="font-size: 11px; color: #a1a1aa; margin-bottom: 5px;">Who invited you? (Enter their code)</div>
             <div style="display: flex; gap: 5px;">
-              <input type="text" id="redeem-code-input" placeholder="Code" style="flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
-              <button class="primary-btn" type="button" onclick="redeemReferralCode()" style="padding: 5px 10px; font-size: 11px; width: auto; margin: 0;">REDEEM</button>
+              <input type="text" id="redeem-code-input" placeholder="Inviter's Code" style="flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
+              <button class="primary-btn" type="button" onclick="submitInviterCode()" style="padding: 5px 10px; font-size: 11px; width: auto; margin: 0;">SUBMIT</button>
             </div>
           </div>
         </section>
@@ -1804,29 +1804,32 @@
 
     function copyReferralLink() {
       const code = RBK_CONFIG.referral.code;
-      const link = "https://app.royalbetking.com/?ref=" + code;
+      const link = window.location.origin + window.location.pathname + "?ref=" + code;
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(() => alert('Referral link copied: ' + link));
       addActivity("Referral link copied", "PROFILE");
     }
 
-    function redeemReferralCode() {
+    function submitInviterCode() {
       const input = document.getElementById("redeem-code-input");
       const code = input.value.trim().toUpperCase();
-      if (!code) return alert("Please enter a referral code.");
+      if (!code) return alert("Please enter the inviter's referral code.");
+      if (code === RBK_CONFIG.referral.code) return alert("You cannot use your own referral code!");
       
-      if (code !== "RBETKING") {
-        return alert("Invalid referral code. For demo simulation, please use RBETKING to verify the reward addition.");
-      }
-      
-      if (demoReferralState.qualified >= RBK_CONFIG.referral.maxQualified) return alert("You have reached the maximum number of referrals.");
-      
+      localStorage.setItem("royal-demo-inviter", code);
+      alert("Success! Your account is now linked to inviter: " + code + ". They will receive $20 once you activate your key.");
+      document.getElementById("inviter-section").innerHTML = "<div style='color: #2ff06f; font-size: 11px;'><i class='fa-solid fa-check'></i> Linked to Inviter: " + code + "</div>";
+      addActivity("Linked to inviter: " + code, "PROFILE");
+    }
+
+    // Hidden simulation function so the owner can still test the $100 unlock
+    function simulateReceivedReferral() {
+      if (demoReferralState.qualified >= RBK_CONFIG.referral.maxQualified) return;
       demoReferralState.qualified += 1;
       demoReferralState.rewards = demoReferralState.qualified * RBK_CONFIG.referral.reward;
       localStorage.setItem("royal-demo-referral", JSON.stringify(demoReferralState));
       updateDemoWidgets();
       addActivity("Referral success: User paid $20 activation. +$" + RBK_CONFIG.referral.reward, "REFERRAL");
-      alert("Referral success! The user registered and paid the $20 activation fee. Added $" + RBK_CONFIG.referral.reward + " to your wallet.");
-      input.value = "";
+      alert("New Referral! A user successfully registered with your link and paid the $20 fee! Added $20 to your wallet.");
     }
 
     function openDrawer() {
@@ -2137,9 +2140,8 @@
       progress.innerText = "0%";
       orbitStatus.innerText = "CONNECTING TO SERVER...";
       graphBox.classList.add("animating");
-      playStepSound("mystery");
+      playStepSound("flying");
       clearInterval(signalAudioTimer);
-      signalAudioTimer = setInterval(() => playStepSound("mystery"), 900);
       btn.disabled = true;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> LAUNCHING...';
 
@@ -2332,6 +2334,11 @@
     }
 
     window.onload = () => {
+      const savedInviter = localStorage.getItem("royal-demo-inviter");
+      if(savedInviter) {
+        const invSec = document.getElementById("inviter-section");
+        if(invSec) invSec.innerHTML = "<div style='color: #2ff06f; font-size: 11px;'><i class='fa-solid fa-check'></i> Linked to Inviter: " + savedInviter + "</div>";
+      }
       startHashAnimation();
       renderPlatforms();
       updateClock();
