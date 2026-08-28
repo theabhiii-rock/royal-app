@@ -247,6 +247,22 @@
       font-weight: 800;
     }
 
+    .app-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+    .side-drawer {
+      position: fixed; top: 0; left: -320px; width: 300px; height: 100%;
+      background: #0f0f0f; border-right: 1px solid rgba(255, 216, 107, 0.2);
+      z-index: 1001; transition: left 0.3s; overflow-y: auto; padding: 20px; box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+    }
+    .side-drawer.active { left: 0; }
+
     .plan-header i {
       font-size: 50px;
       color: var(--gold);
@@ -1044,7 +1060,7 @@
   <div id="contact-popup" class="popup">
     <div class="popup-content">
       <button class="popup-back-btn" onclick="closePopup('contact-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <h3>$100 Access Payment</h3>
+      <h3>$20 Access Payment</h3>
       <p class="muted">Complete your payment to receive the access key.</p>
       <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold); display: block;">
       <div class="contact-chip" style="user-select: all; text-align: center; cursor: pointer;" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB').then(() => alert('Address copied!'));}else{alert('Clipboard not supported');}">
@@ -1095,6 +1111,7 @@
     <div class="dashboard-container">
       <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
       <div class="top-bar">
+        <button class="menu-toggle" onclick="openDrawer()" style="background:transparent;border:none;color:#fff;font-size:18px;margin-right:10px;cursor:pointer;"><i class="fa-solid fa-bars"></i></button>
         <div class="status-indicator"><span class="dot"></span> PRO SERVER LINKED</div>
         <div class="clock-box" id="real-time-clock">--:--:--</div>
         <button class="sound-toggle" id="sound-toggle" type="button" onclick="toggleSound()" aria-label="Mute sound" title="Mute sound"><i class="fa-solid fa-volume-high"></i></button>
@@ -1137,7 +1154,10 @@
         <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
       </button>
 
-      <div class="dashboard-grid">
+      <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+      <div class="side-drawer" id="side-drawer">
+        <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
         <section class="panel-card profile-card">
           <div class="profile-head">
             <div class="profile-avatar-wrap">
@@ -1163,11 +1183,18 @@
         </section>
         <section class="panel-card referral-card">
           <div class="card-kicker" style="color: var(--gold);"><i class="fa-solid fa-user-plus"></i> REFERRAL PROGRAM</div>
-          <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 10px;">Get $10 for every user who successfully invites and purchases the activation key.</p>
+          <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 10px;">Get $20 for every user who successfully invites and purchases the activation key.</p>
           <div class="ref-code-row"><strong id="referral-code">RBETKING</strong><button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button></div>
-          <div class="ref-stats"><span id="referral-count">0 / 10</span><span id="referral-amount">$0 / $100</span></div>
+          <div class="ref-stats"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
           <div class="progress-track"><span id="referral-progress"></span></div>
-          <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (10 Referrals).</div>
+          <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (5 Referrals).</div>
+          <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <div style="font-size: 11px; color: #a1a1aa; margin-bottom: 5px;">Enter Referral Code</div>
+            <div style="display: flex; gap: 5px;">
+              <input type="text" id="redeem-code-input" placeholder="Code" style="flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
+              <button class="primary-btn" type="button" onclick="redeemReferralCode()" style="padding: 5px 10px; font-size: 11px; width: auto; margin: 0;">REDEEM</button>
+            </div>
+          </div>
         </section>
 
         <section class="panel-card deposit-card" style="text-align: center;">
@@ -1215,7 +1242,7 @@
   <script>
     const API_BASE_URL = window.RBK_CONFIG?.apiBaseUrl || (window.location.protocol === "file:" ? "http://127.0.0.1:8000" : "");
     const RBK_CONFIG = window.RBK_CONFIG || {
-      referral: { code: "RBETKING", reward: 10, maxQualified: 10, threshold: 100 },
+      referral: { code: "RBETKING", reward: 20, maxQualified: 5, threshold: 100 },
       contact: { telegramUsername: "Royal_BetKing" },
       platforms: {
         "1WIN": { promoCode: "RBETKING", url: "https://one-vv4734.life/?open=register&p=4ej1", status: "Active" },
@@ -1504,8 +1531,32 @@
 
     function copyReferralCode() {
       const code = RBK_CONFIG.referral.code;
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code);
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(() => alert('Code copied!'));
       addActivity("Referral code copied: " + code, "PROFILE");
+    }
+
+    function redeemReferralCode() {
+      const input = document.getElementById("redeem-code-input");
+      if (!input.value.trim()) return alert("Please enter a referral code.");
+      if (demoReferralState.qualified >= RBK_CONFIG.referral.maxQualified) return alert("You have reached the maximum number of referrals.");
+      
+      demoReferralState.qualified += 1;
+      demoReferralState.rewards = demoReferralState.qualified * RBK_CONFIG.referral.reward;
+      localStorage.setItem("royal-demo-referral", JSON.stringify(demoReferralState));
+      updateDemoWidgets();
+      addActivity("Code redeemed: +$" + RBK_CONFIG.referral.reward, "REFERRAL");
+      alert("Referral code successfully redeemed! Added $" + RBK_CONFIG.referral.reward + " to your wallet.");
+      input.value = "";
+    }
+
+    function openDrawer() {
+      document.getElementById('side-drawer').classList.add('active');
+      document.getElementById('drawer-overlay').classList.add('active');
+    }
+
+    function closeDrawer() {
+      document.getElementById('side-drawer').classList.remove('active');
+      document.getElementById('drawer-overlay').classList.remove('active');
     }
 
     function publishAnalystSuggestion() {
