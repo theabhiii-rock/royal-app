@@ -994,7 +994,7 @@
   <div id="splash-screen" class="screen active">
     <div class="splash-content">
       <div class="aviator-mark">
-        <img class="aviator-logo-lg" src="../assets/platform-logos/aviator.png" alt="Aviator logo">
+        <img class="aviator-logo-lg" src="./assets/platform-logos/aviator.png" alt="Aviator logo">
       </div>
       <h1 class="app-title">Royal BetKing</h1>
       <h2 class="app-subtitle">Premium Simulator Console</h2>
@@ -1120,7 +1120,7 @@
             <span class="code-c">1001</span>
             <span class="code-d">C19E</span>
           </div>
-          <img class="fly-plane" src="../assets/platform-logos/aviator.png" alt="Aviator flight marker">
+          <img class="fly-plane" src="./assets/platform-logos/aviator.png" alt="Aviator flight marker">
           <div class="result-display" id="signal-text">READY</div>
           <div class="orbit-progress" id="orbit-progress">0%</div>
           <div class="orbit-status" id="orbit-status">SESSION READY</div>
@@ -1171,7 +1171,7 @@
 
         <section class="panel-card deposit-card" style="text-align: center;">
           <div class="card-kicker"><i class="fa-brands fa-btc"></i> DEPOSIT ACTIVATION FEE</div>
-          <img src="../assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold);">
+          <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold);">
           <div style="font-size: 10px; color: #a1a1aa;">Network: Tron (TRC20)</div>
           <div class="ref-code-row" style="margin-top: 8px;">
             <strong style="font-size: 10px; letter-spacing: 0;">TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB</strong>
@@ -1371,7 +1371,7 @@
         card.onclick = () => selectPlatform(name, data.url);
         
         card.innerHTML = `
-          <img class="platform-logo-image" src="../assets/platform-logos/${logo}" alt="${name} logo">
+          <img class="platform-logo-image" src="./assets/platform-logos/${logo}" alt="${name} logo">
           <span>${name}</span>
           <small class="platform-meta">Promocode: <strong>${data.promoCode}</strong></small>
         `;
@@ -1432,7 +1432,7 @@
 
     function renderProfileAvatar() {
       const avatar = document.getElementById("profile-avatar");
-      const savedAvatar = localStorage.getItem("royal-profile-avatar") || "../assets/app-logo.jpg";
+      const savedAvatar = localStorage.getItem("royal-profile-avatar") || "./assets/app-logo.jpg";
       if (savedAvatar) {
         avatar.style.backgroundImage = "url('" + savedAvatar + "')";
         avatar.innerText = "";
