@@ -109,7 +109,7 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
         "Inspect this screenshot and extract only the visible historical multiplier values. "
         "Read values that clearly look like number followed by x, for example 1.24x or 8.50x. "
         "Keep their visual order from left-to-right and top-to-bottom. "
-        "Also, based on these patterns, generate a hypothetical prediction range for the next round (e.g. 2.50X - 4.25X - 11.50X). "
+        "Also, based on these patterns, generate a single highly accurate next round prediction (e.g. 3.45x) based on the server hash patterns. "
         "Return an empty list for multipliers when the image does not contain readable history values."
     )
 

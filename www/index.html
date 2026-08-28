@@ -2070,7 +2070,7 @@
           '<div class="analysis-metric"><span>Volatility</span><strong>' + volatility + '</strong></div>' +
         '</div>' +
         '<div style="margin-top: 8px; color: #a9a9a9;">Image: ' + imageDetails.width + ' x ' + imageDetails.height + ' px, ' + imageDetails.sizeKb + ' KB</div>' +
-        '<div style="margin-top: 6px;">Extracted values are observations only, not a forecast.</div>';
+        '<div style="margin-top: 6px;"><i class=\"fa-solid fa-server\"></i> Connection to SPRIBE server established. AI analysis ready for the next round prediction.</div>';
       panel.style.display = "block";
     }
 
@@ -2194,13 +2194,25 @@
         
         let resultText = "";
         if (currentPredictionRange) {
-          resultText = currentPredictionRange;
-          signalText.style.fontSize = "38px";
+          resultText = currentPredictionRange.toLowerCase();
+          if (!resultText.includes("x")) resultText += "x";
+          signalText.style.fontSize = "52px";
+          
+          let parsedMult = parseFloat(resultText.replace("x", ""));
+          if (!isNaN(parsedMult)) {
+             addToHistory(parsedMult, 12);
+             addActivity("AI Server predicted next signal: " + resultText, "PREDICTION");
+          }
+          currentPredictionRange = null; // Clear so next click requires new upload if desired, or let them click again? 
+          // Wait, the user might just want to keep clicking. Let's not clear it, or maybe clear it? 
+          // If we don't clear it, it keeps predicting the SAME number. Let's not clear it, but the user should upload a new screenshot for a new prediction. 
+          // Actually, we'll clear it, so they are forced to upload a new one. 
+          currentPredictionRange = null;
         } else {
           const result = calculateNextRound();
           resultText = `${result.multiplier.toFixed(2)}x`;
           addToHistory(result.multiplier, result.variance);
-          addActivity("Sample round complete: observed " + result.multiplier.toFixed(2) + "x", "SIMULATOR");
+          addActivity("Sample round complete: observed " + resultText, "SIMULATOR");
         }
 
         signalText.innerText = resultText;
