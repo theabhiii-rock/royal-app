@@ -1046,16 +1046,16 @@
       <button class="popup-back-btn" onclick="closePopup('contact-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
       <h3>$500 Payment Demo</h3>
       <p class="muted">Educational preview only. This screen does not collect or process real payments.</p>
-      <div class="qr-placeholder">QR / Scanner PNG Space</div>
-      <div class="contact-chip">TRC20 Wallet Space<br><span style="color:#aaa; font-size:11px;">Add only a demo/test address in project mode</span></div>
+      <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold); display: block;">
+      <div class="contact-chip" style="user-select: all; text-align: center;">
+        <span style="color: var(--gold); font-size: 10px;">TRC20 Address (Click to copy)</span><br>
+        <strong style="word-break: break-all; font-size: 14px;">TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB</strong>
+      </div>
       <div class="hold-status">
-        Status: HOLD - user sends screenshot to admin, admin verifies manually, then shares the access key.
+        Status: HOLD - Send payment screenshot to admin, admin verifies manually, then shares the access key.
       </div>
-      <div class="contact-row">
-        <div class="contact-chip">Project Contact: @Royal_BetKing</div>
-      </div>
-      <div class="mini-link" role="note">
-        <i class="fa-brands fa-telegram"></i> Telegram contact placeholder for demo review
+      <div class="mini-link" role="note" onclick="window.open('https://t.me/Royal_Bet', '_blank')" style="cursor: pointer;">
+        <i class="fa-brands fa-telegram"></i> Message @Royal_Bet to get Access Key
       </div>
       <button class="primary-btn" style="margin-top: 12px;" onclick="document.getElementById('contact-popup').classList.remove('active'); openPasswordPopup();">ENTER ACCESS KEY</button>
       <button class="secondary-btn" onclick="closePopup('contact-popup')">Back</button>
