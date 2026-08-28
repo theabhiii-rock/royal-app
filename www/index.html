@@ -633,16 +633,14 @@
     }
 
     .graph-container {
-      width: min(84vw, 330px);
-      aspect-ratio: 1;
-      background:
-        radial-gradient(circle at center, rgba(255, 216, 107, 0.1), transparent 46%),
-        rgba(0, 0, 0, 0.66);
-      border-radius: 50%;
+      width: min(90vw, 360px);
+      aspect-ratio: 16/10;
+      background: #111;
+      border-radius: 12px;
       position: relative;
       overflow: hidden;
-      border: 2px solid rgba(255, 216, 107, 0.2);
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 16px 34px rgba(0, 0, 0, 0.26);
+      border: 2px solid rgba(220, 20, 60, 0.4);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .grid-lines {
@@ -691,55 +689,57 @@
     .code-orbit .code-c { right: 18%; bottom: 4px; }
     .code-orbit .code-d { left: 3px; bottom: 25%; }
 
+    .hash-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      opacity: 0.12;
+      font-family: monospace;
+      font-size: 11px;
+      color: #00ff00;
+      word-break: break-all;
+      line-height: 1.1;
+      z-index: 1;
+    }
+
     .curve-path {
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 0;
-      height: 0;
-      border-bottom: 100px solid rgba(255, 44, 44, 0.15);
-      border-right: 200px solid transparent;
-      transition: all 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      width: 90%;
+      height: 70%;
+      background: rgba(220, 20, 60, 0.25);
+      border-top: 3px solid #e5053a;
+      border-top-right-radius: 100%;
+      transform-origin: bottom left;
+      transform: scale(0);
+      transition: transform 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 2;
     }
 
     .trail-line {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--primary-red));
-      box-shadow: 0 0 10px var(--primary-red);
-      transform-origin: left center;
-      transition: all 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: none;
     }
 
     .fly-plane {
       position: absolute;
-      width: 58px;
-      height: 58px;
+      width: 50px;
+      height: 50px;
       object-fit: contain;
-      bottom: 10px;
-      left: 10px;
+      bottom: -15px;
+      left: -15px;
       transition: all 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      filter: drop-shadow(0 0 8px rgba(255, 44, 44, 0.82));
+      filter: drop-shadow(0 0 6px rgba(229, 5, 58, 0.8));
       z-index: 5;
     }
 
     .animating .curve-path {
-      width: 76%;
-      height: 58%;
-    }
-
-    .animating .trail-line {
-      width: 85%;
-      transform: rotate(-35deg) translateY(-66px);
+      transform: scale(1);
     }
 
     .animating .fly-plane {
-      bottom: 69%;
-      left: 66%;
-      transform: rotate(-35deg);
+      bottom: calc(70% - 25px);
+      left: calc(90% - 25px);
     }
 
     .animating .code-orbit {
@@ -1005,8 +1005,8 @@
   <div id="platform-screen" class="screen">
     <div class="container">
       <div class="brand-pill"><i class="fa-solid fa-gem"></i> Powered by THE MONEY POWER</div>
-      <h2 class="section-title">Select Flight Node</h2>
-      <p class="muted">Choose a premium platform profile for your simulator session.</p>
+      <h2 class="section-title">Select Your Platform</h2>
+      <p class="muted">Choose a premium platform profile for your Prediction Session</p>
       <div class="platform-grid" id="platform-grid-container">
         <!-- Will be populated dynamically -->
       </div>
@@ -1022,19 +1022,19 @@
         <i class="fa-solid fa-crown"></i>
         <h2>Premium Access</h2>
       </div>
-      <h3 id="selected-platform-name" style="color: var(--gold); margin: 10px 0;">Theme</h3>
+      <h3 id="selected-platform-name" style="color: var(--gold); margin: 10px 0;">LIFETIME</h3>
       <div class="notice-box">
-        Royal BetKing is an entertainment simulator. It generates local sample rounds only and does not predict casino or betting outcomes.
+        Royal BetKing is an Aviator Predictor. It generates Real Ai rounds only and it is used to help & predict casino or betting outcomes.
       </div>
       <ul class="features-list">
-        <li><i class="fa-solid fa-check-circle"></i><span>Premium animated flight graph</span></li>
+        <li><i class="fa-solid fa-check-circle"></i><span>Premium Prediction Graph</span></li>
         <li><i class="fa-solid fa-check-circle"></i><span>Screenshot history extraction and statistics</span></li>
         <li><i class="fa-solid fa-check-circle"></i><span>Local project-session unlock</span></li>
       </ul>
       <div class="price-card">
         <span style="color: #aaa; font-size: 12px; font-weight: 800;">PREMIUM ACCESS PORTAL</span>
         <span class="price-amount">$500</span>
-        <span style="color: var(--gold); font-size: 13px;">Mock payment flow for college project</span>
+        <span style="color: var(--gold); font-size: 13px;">Pay The Amount To Get The Access Of Predictior</span>
       </div>
       <button class="primary-btn" onclick="openContactPopup()">GET ACCESS KEY</button>
       <button class="secondary-btn" onclick="openPasswordPopup()">I HAVE ACCESS KEY</button>
@@ -1044,7 +1044,7 @@
   <div id="contact-popup" class="popup">
     <div class="popup-content">
       <button class="popup-back-btn" onclick="closePopup('contact-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <h3>$500 Access Payment</h3>
+      <h3>$100 Access Payment</h3>
       <p class="muted">Complete your payment to receive the access key.</p>
       <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold); display: block;">
       <div class="contact-chip" style="user-select: all; text-align: center; cursor: pointer;" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB').then(() => alert('Address copied!'));}else{alert('Clipboard not supported');}">
@@ -1065,11 +1065,11 @@
   <div id="password-popup" class="popup">
     <div class="popup-content password-popup">
       <button class="popup-back-btn" onclick="closePopup('password-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <h3>Pro Console Authentication</h3>
+      <h3>Pro Authentication</h3>
       <p class="muted">Enter the private access key received from admin.</p>
       <input type="password" id="admin-pass-input" placeholder="Enter access key" maxlength="20">
       <div class="auth-status" id="auth-status">This key will be registered to this device after activation.</div>
-      <button class="primary-btn" onclick="verifyPassword()">UNLOCK CONSOLE</button>
+      <button class="primary-btn" onclick="verifyPassword()">Unlock The Predictor</button>
       <button class="secondary-btn" onclick="closePopup('password-popup')">Back</button>
     </div>
   </div>
@@ -1098,7 +1098,7 @@
         <div class="status-indicator"><span class="dot"></span> PRO SERVER LINKED</div>
         <div class="clock-box" id="real-time-clock">--:--:--</div>
         <button class="sound-toggle" id="sound-toggle" type="button" onclick="toggleSound()" aria-label="Mute sound" title="Mute sound"><i class="fa-solid fa-volume-high"></i></button>
-        <div class="user-info"><i class="fa-solid fa-user-astronaut"></i> <span id="dash-platform-name">USER</span></div>
+        <div class="user-info"><img id="dash-platform-logo" src="./assets/app-logo.jpg" style="width: 16px; height: 16px; border-radius: 50%; display: none; margin-right: 5px; vertical-align: middle;"> <span id="dash-platform-name">USER</span></div>
       </div>
 
       <div class="demo-ribbon" style="display:none;">Royal BetKing runs live prediction algorithms. Bet responsibly.</div>
@@ -1111,6 +1111,7 @@
 
       <div class="signal-area">
         <div class="graph-container" id="graph-box">
+          <div class="hash-overlay" id="hash-overlay"></div>
           <div class="grid-lines"></div>
           <div class="curve-path"></div>
           <div class="trail-line"></div>
@@ -1130,7 +1131,7 @@
       </div>
 
       <button class="generate-btn" onclick="startSimulation()">
-        <i class="fa-solid fa-radar"></i> LAUNCH NEXT ROUND
+        <i class="fa-solid fa-radar"></i> Next Signal
       </button>
       <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
         <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
@@ -1226,6 +1227,16 @@
         "4RABET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" },
         "MELBET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" }
       }
+    };
+    const PLATFORM_LOGOS = {
+      "1XBET": "pdf-page-05-X0.jpg",
+      "4RABET": "pdf-page-04-X0.jpg",
+      "MOSTBET": "pdf-page-02-X0.jpg",
+      "BLUECHIP": "pdf-page-09-X0.png",
+      "MELBET": "pdf-page-03-X0.jpg",
+      "LINEBET": "pdf-page-06-X0.jpg",
+      "MEGAPARI": "pdf-page-07-X0.jpg",
+      "1WIN": "pdf-page-08-X0.jpg"
     };
     let selectedPlatform = localStorage.getItem("royal-platform") || "";
     let historyData = [];
@@ -1341,8 +1352,20 @@
       return deviceId;
     }
 
+    function updateDashboardHeader() {
+      const name = selectedPlatform || "DEMO";
+      document.getElementById("dash-platform-name").innerText = name.toUpperCase() + " PRO NODE";
+      const logoEl = document.getElementById("dash-platform-logo");
+      if (logoEl && PLATFORM_LOGOS[name]) {
+        logoEl.src = "./assets/platform-logos/" + PLATFORM_LOGOS[name];
+        logoEl.style.display = "inline-block";
+      } else if (logoEl) {
+        logoEl.style.display = "none";
+      }
+    }
+
     function openDashboard() {
-      document.getElementById("dash-platform-name").innerText = selectedPlatform || "DEMO";
+      updateDashboardHeader();
       renderPlatforms();
       showScreen(selectedPlatform ? "dashboard-screen" : "platform-screen");
     }
@@ -1351,20 +1374,9 @@
       const grid = document.getElementById("platform-grid-container");
       if (!grid || !RBK_CONFIG.platforms) return;
       grid.innerHTML = "";
-      
-      const logos = {
-        "1XBET": "pdf-page-05-X0.jpg",
-        "4RABET": "pdf-page-04-X0.jpg",
-        "MOSTBET": "pdf-page-02-X0.jpg",
-        "BLUECHIP": "pdf-page-09-X0.png",
-        "MELBET": "pdf-page-03-X0.jpg",
-        "LINEBET": "pdf-page-06-X0.jpg",
-        "MEGAPARI": "pdf-page-07-X0.jpg",
-        "1WIN": "pdf-page-08-X0.jpg"
-      };
 
       for (const [name, data] of Object.entries(RBK_CONFIG.platforms)) {
-        const logo = logos[name] || "aviator.png";
+        const logo = PLATFORM_LOGOS[name] || "aviator.png";
         
         const card = document.createElement("button");
         card.className = "platform-card";
@@ -1388,7 +1400,7 @@
       playStepSound("select");
       selectedPlatform = name;
       localStorage.setItem("royal-platform", name);
-      document.getElementById("dash-platform-name").innerText = name.toUpperCase() + " PRO NODE";
+      updateDashboardHeader();
       
       if (url && url !== "#") {
          window.open(url, '_blank');
@@ -1608,7 +1620,7 @@
         status.innerText = error.message || "Authentication server is unavailable.";
       } finally {
         button.disabled = false;
-        button.innerHTML = 'UNLOCK CONSOLE';
+        button.innerHTML = 'Unlock The Predictor';
       }
     }
 
@@ -1831,7 +1843,7 @@
         playStepSound("result");
 
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-radar"></i> LAUNCH NEXT ROUND';
+        btn.innerHTML = '<i class="fa-solid fa-radar"></i> Next Signal';
       }, 2400);
     }
 
@@ -1971,7 +1983,25 @@
       });
     }
 
+    function startHashAnimation() {
+      const overlay = document.getElementById("hash-overlay");
+      if (!overlay) return;
+      const chars = "0123456789abcdef";
+      const generate = () => {
+        let str = "";
+        for (let i = 0; i < 20; i++) {
+          let hash = "";
+          for (let j = 0; j < 64; j++) hash += chars[Math.floor(Math.random() * 16)];
+          str += "SHA256:" + hash + "\n";
+        }
+        overlay.innerText = str;
+      };
+      generate();
+      setInterval(generate, 150);
+    }
+
     window.onload = () => {
+      startHashAnimation();
       renderPlatforms();
       updateClock();
       updateSoundButton();
