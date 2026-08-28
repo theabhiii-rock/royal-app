@@ -47,7 +47,7 @@ class ScreenshotExtraction(BaseModel):
     )
     prediction_range: str = Field(
         default="",
-        description="A single suggested hypothetical prediction for the next round (e.g. 3.5X or 2.1X). Format as a single number followed by X. Do NOT output a range.",
+        description="A comma-separated list of exactly 30 suggested hypothetical predictions for the upcoming 30 rounds based on pattern analysis (e.g. 3.45x, 1.12x, 2.50x). Output EXACTLY 30 values separated by commas.",
     )
 
 
@@ -109,7 +109,7 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
         "Inspect this screenshot and extract only the visible historical multiplier values. "
         "Read values that clearly look like number followed by x, for example 1.24x or 8.50x. "
         "Keep their visual order from left-to-right and top-to-bottom. "
-        "Also, based on these patterns, generate a single highly accurate next round prediction (e.g. 3.45x) based on the server hash patterns. "
+        "Also, based on these patterns, generate exactly 30 highly accurate next round predictions (e.g. 3.45x, 1.12x, etc) separated by commas based on the server hash patterns. "
         "Return an empty list for multipliers when the image does not contain readable history values."
     )
 

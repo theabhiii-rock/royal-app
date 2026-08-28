@@ -1933,6 +1933,7 @@
       soundEnabled = !soundEnabled;
       localStorage.setItem("royal-sound-enabled", String(soundEnabled));
       updateSoundButton();
+      initMarquees();
       if (soundEnabled) playStepSound("select");
     }
 
@@ -2133,14 +2134,18 @@
       }
     }
 
-    let currentPredictionRange = null;
+    let upcomingPredictions = [];
 
     function seedAnalysisHistory(values, detectionConfidence, predictionRange) {
       historyData = [];
       highCount = 0;
       lowCount = 0;
       recentResults = [];
-      currentPredictionRange = predictionRange || null;
+      if (predictionRange) {
+         upcomingPredictions = predictionRange.split(',').map(s => s.trim().toLowerCase()).filter(s => s);
+      } else {
+         upcomingPredictions = [];
+      }
       document.getElementById("history-list").innerHTML = "";
 
       values.slice(-10).forEach((value) => addToHistory(Number(value), Number(detectionConfidence || 0), "observed"));
@@ -2159,7 +2164,7 @@
     }
 
     function startSimulation() {
-      if (historyData.length === 0) {
+      if (upcomingPredictions.length === 0) {
         alert("Please upload a history screenshot first to connect with the prediction server.");
         openHistoryUpload();
         return;
@@ -2193,26 +2198,16 @@
         graphBox.classList.remove("animating");
         
         let resultText = "";
-        if (currentPredictionRange) {
-          resultText = currentPredictionRange.toLowerCase();
+        if (upcomingPredictions.length > 0) {
+          resultText = upcomingPredictions.shift();
           if (!resultText.includes("x")) resultText += "x";
           signalText.style.fontSize = "52px";
           
           let parsedMult = parseFloat(resultText.replace("x", ""));
           if (!isNaN(parsedMult)) {
              addToHistory(parsedMult, 12);
-             addActivity("AI Server predicted next signal: " + resultText, "PREDICTION");
+             addActivity("AI predicted next signal: " + resultText, "PREDICTION");
           }
-          currentPredictionRange = null; // Clear so next click requires new upload if desired, or let them click again? 
-          // Wait, the user might just want to keep clicking. Let's not clear it, or maybe clear it? 
-          // If we don't clear it, it keeps predicting the SAME number. Let's not clear it, but the user should upload a new screenshot for a new prediction. 
-          // Actually, we'll clear it, so they are forced to upload a new one. 
-          currentPredictionRange = null;
-        } else {
-          const result = calculateNextRound();
-          resultText = `${result.multiplier.toFixed(2)}x`;
-          addToHistory(result.multiplier, result.variance);
-          addActivity("AI Server predicted next signal: " + resultText, "PREDICTION");
         }
 
         signalText.innerText = resultText;
@@ -2355,6 +2350,19 @@
     }
     window.addEventListener("resize", drawHistoryChart);
 
+        function initMarquees() {
+      const marquees = document.querySelectorAll(".dynamic-marquee");
+      const names = ["USER", "GUEST", "PLAYER", "VIP", "PRO"];
+      let content = "";
+      for(let i=0; i<60; i++) {
+         const name = names[Math.floor(Math.random()*names.length)] + Math.floor(Math.random()*9999);
+         const amt = (Math.random() * 900 + 10).toFixed(2);
+         const icon = ["💰", "💸", "🔥", "🚀"][Math.floor(Math.random()*4)];
+         content += `${icon} ${name} cashed out $${amt} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; `;
+      }
+      marquees.forEach(m => m.innerHTML = content);
+    }
+
     function updateClock() {
       const now = new Date();
       document.getElementById("real-time-clock").innerText = now.toLocaleTimeString([], {
@@ -2391,6 +2399,7 @@
       renderPlatforms();
       updateClock();
       updateSoundButton();
+      initMarquees();
       initializeDemoWidgets();
       drawHistoryChart();
       setInterval(updateClock, 1000);
