@@ -1556,6 +1556,37 @@
 
       try {
         audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+        
+        if (type === "flying") {
+           const osc = audioContext.createOscillator();
+           const gain = audioContext.createGain();
+           osc.type = "sawtooth";
+           osc.frequency.setValueAtTime(50, audioContext.currentTime);
+           osc.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 2.4);
+           
+           gain.gain.setValueAtTime(0.01, audioContext.currentTime);
+           gain.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 1.0);
+           gain.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 2.4);
+           
+           // Circulating effect (tremolo)
+           const tremolo = audioContext.createGain();
+           tremolo.gain.value = 0.5;
+           const tremOsc = audioContext.createOscillator();
+           tremOsc.type = "sine";
+           tremOsc.frequency.value = 14; // Fast circulation rate
+           tremOsc.connect(tremolo.gain);
+           tremOsc.start();
+           tremOsc.stop(audioContext.currentTime + 2.4);
+           
+           osc.connect(gain);
+           gain.connect(tremolo);
+           tremolo.connect(audioContext.destination);
+           
+           osc.start();
+           osc.stop(audioContext.currentTime + 2.4);
+           return;
+        }
+
         const oscillator = audioContext.createOscillator();
         const gain = audioContext.createGain();
         const tones = {
@@ -2128,6 +2159,11 @@
     }
 
     function startSimulation() {
+      if (!currentPredictionRange) {
+        alert("Please upload a history screenshot first to connect with the prediction server.");
+        openHistoryUpload();
+        return;
+      }
       const signalText = document.getElementById("signal-text");
       const graphBox = document.getElementById("graph-box");
       const btn = document.querySelector(".generate-btn");
@@ -2351,6 +2387,7 @@
   </script>
 </body>
 </html>
+
 
 
 
