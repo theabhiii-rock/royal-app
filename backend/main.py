@@ -1,5 +1,6 @@
 import os
 import hashlib
+import math
 import hmac
 import uuid
 from pathlib import Path
@@ -101,8 +102,9 @@ def generate_provably_fair_multipliers(count: int, server_seed: str, client_seed
         if h_int % 33 == 0:
             mult = 1.00
         else:
-            mult_raw = (100 * e - h_int) / (e - h_int)
-            mult = max(1.00, mult_raw / 100.0)
+            # Exact Spribe truncation logic (Math.floor instead of rounding)
+            mult = math.floor((100 * e - h_int) / (e - h_int)) / 100.0
+            mult = max(1.00, mult)
             
         multipliers.append(f"{mult:.2f}x")
         # Hash chain for the next round
