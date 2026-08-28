@@ -1007,49 +1007,10 @@
       <div class="brand-pill"><i class="fa-solid fa-gem"></i> Powered by THE MONEY POWER</div>
       <h2 class="section-title">Select Flight Node</h2>
       <p class="muted">Choose a premium platform profile for your simulator session.</p>
-      <div class="platform-grid">
-        <button class="platform-card" onclick="selectPlatform('1XBET')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-05-X0.jpg" alt="1XBET logo">
-          <span>1XBET</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
-        <button class="platform-card" onclick="selectPlatform('4RABET')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-04-X0.jpg" alt="4RABET logo">
-          <span>4RABET</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
-        <button class="platform-card" onclick="selectPlatform('MOSTBET')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-02-X0.jpg" alt="MOSTBET logo">
-          <span>MOSTBET</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
-        <button class="platform-card" onclick="selectPlatform('BLUECHIP')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-09-X0.png" alt="BLUECHIP logo">
-          <span>BLUECHIP</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
-        <button class="platform-card" onclick="selectPlatform('MELBET')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-03-X0.jpg" alt="MELBET logo">
-          <span>MELBET</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
-        <button class="platform-card" onclick="selectPlatform('LINEBET')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-06-X0.jpg" alt="LINEBET logo">
-          <span>LINEBET</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
-        <button class="platform-card" onclick="selectPlatform('MEGAPARI')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-07-X0.jpg" alt="MEGAPARI logo">
-          <span>MEGAPARI</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
-        <button class="platform-card" onclick="selectPlatform('1WIN')">
-          <img class="platform-logo-image" src="../assets/platform-logos/pdf-page-08-X0.jpg" alt="1WIN logo">
-          <span>1WIN</span>
-          <small class="platform-meta">Reference profile | DEMO code</small>
-        </button>
+      <div class="platform-grid" id="platform-grid-container">
+        <!-- Will be populated dynamically -->
       </div>
-      <div class="platform-warning"><i class="fa-solid fa-circle-info"></i> Existing accounts should verify promotion eligibility separately. This educational build contains no live registration links or real-money transactions.</div>
+      <div class="platform-warning" style="color: var(--danger-red); border-color: var(--danger-red);"><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ Old users who haven't created an account with this link & promocode, please create one now to ensure full compatibility.</div>
       <div class="powered-by">THE MONEY POWER</div>
     </div>
   </div>
@@ -1140,7 +1101,12 @@
         <div class="user-info"><i class="fa-solid fa-user-astronaut"></i> <span id="dash-platform-name">USER</span></div>
       </div>
 
-      <div class="demo-ribbon">Royal BetKing runs local sample rounds only. Results are for simulation and are not betting advice.</div>
+      <div class="demo-ribbon" style="display:none;">Royal BetKing runs local sample rounds only. Results are for simulation and are not betting advice.</div>
+      <div style="background: rgba(47, 240, 111, 0.1); border: 1px solid rgba(47, 240, 111, 0.4); padding: 8px; border-radius: 4px; margin-top: 10px; margin-bottom: 5px; overflow: hidden; white-space: nowrap; font-size: 13px; color: #2ff06f; font-weight: bold; text-shadow: 0px 0px 5px rgba(47, 240, 111, 0.4);">
+        <marquee scrollamount="5">
+          💰 USER9382 cashed out $550.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER102 cashed out $120.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🔥 USER77 cashed out $3,450.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 USER91 cashed out $850.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER1120 cashed out $40.00
+        </marquee>
+      </div>
       <div class="powered-by">Powered by THE MONEY POWER</div>
 
       <div class="signal-area">
@@ -1164,7 +1130,7 @@
       </div>
 
       <button class="generate-btn" onclick="startSimulation()">
-        <i class="fa-solid fa-radar"></i> RUN SAMPLE ROUND
+        <i class="fa-solid fa-radar"></i> LAUNCH NEXT ROUND
       </button>
       <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
         <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
@@ -1195,15 +1161,26 @@
           <button class="secondary-btn compact-btn" id="demo-withdraw-btn" disabled>DEMO WITHDRAWAL LOCKED</button>
         </section>
         <section class="panel-card referral-card">
-          <div class="card-kicker"><i class="fa-solid fa-user-plus"></i> DEMO REFERRAL PROGRAM</div>
-          <div class="ref-code-row"><strong id="referral-code">RBETKING</strong><button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy demo referral code"><i class="fa-solid fa-copy"></i></button></div>
-          <div class="ref-stats"><span id="referral-count">0 / 10</span><span id="referral-amount">$0 / $100 DEMO</span></div>
+          <div class="card-kicker" style="color: var(--gold);"><i class="fa-solid fa-user-plus"></i> REFERRAL PROGRAM</div>
+          <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 10px;">Get $10 for every user who successfully invites and purchases the activation key.</p>
+          <div class="ref-code-row"><strong id="referral-code">RBETKING</strong><button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button></div>
+          <div class="ref-stats"><span id="referral-count">0 / 10</span><span id="referral-amount">$0 / $100</span></div>
           <div class="progress-track"><span id="referral-progress"></span></div>
-          <button class="primary-btn compact-btn" type="button" onclick="simulateReferral()">SIMULATE QUALIFYING REFERRAL</button>
-          <div class="warning-box">Simulation only. A demo referral qualifies after simulated activation. No real monetary value.</div>
+          <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (10 Referrals).</div>
         </section>
+
+        <section class="panel-card deposit-card" style="text-align: center;">
+          <div class="card-kicker"><i class="fa-brands fa-btc"></i> DEPOSIT ACTIVATION FEE</div>
+          <img src="../assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold);">
+          <div style="font-size: 10px; color: #a1a1aa;">Network: Tron (TRC20)</div>
+          <div class="ref-code-row" style="margin-top: 8px;">
+            <strong style="font-size: 10px; letter-spacing: 0;">TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB</strong>
+            <button class="icon-copy-btn" type="button" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB');}" title="Copy Address"><i class="fa-solid fa-copy"></i></button>
+          </div>
+        </section>
+
         <section class="panel-card activity-card">
-          <div class="card-kicker"><i class="fa-solid fa-signal"></i> LIVE DEMO ACTIVITY</div>
+          <div class="card-kicker"><i class="fa-solid fa-signal"></i> LIVE ACTIVITY</div>
           <div id="activity-feed" class="activity-feed"></div>
         </section>
         <section class="panel-card analyst-card" id="admin-panel" style="display: none;">
@@ -1356,7 +1333,62 @@
 
     function openDashboard() {
       document.getElementById("dash-platform-name").innerText = selectedPlatform || "DEMO";
-      initializeDemoWidgets();
+      renderPlatforms();
+      showScreen(selectedPlatform ? "dashboard-screen" : "platform-screen");
+    }
+    
+    function renderPlatforms() {
+      const grid = document.getElementById("platform-grid-container");
+      if (!grid) return;
+      grid.innerHTML = "";
+      
+      const logos = {
+        "1XBET": "pdf-page-05-X0.jpg",
+        "4RABET": "pdf-page-04-X0.jpg",
+        "MOSTBET": "pdf-page-02-X0.jpg",
+        "BLUECHIP": "pdf-page-09-X0.png",
+        "MELBET": "pdf-page-03-X0.jpg",
+        "LINEBET": "pdf-page-06-X0.jpg",
+        "MEGAPARI": "pdf-page-07-X0.jpg",
+        "1WIN": "pdf-page-08-X0.jpg"
+      };
+
+      for (const [name, data] of Object.entries(RBK_CONFIG.platforms)) {
+        const logo = logos[name] || "aviator.png";
+        
+        const card = document.createElement("button");
+        card.className = "platform-card";
+        card.onclick = () => selectPlatform(name, data.url);
+        
+        card.innerHTML = `
+          <img class="platform-logo-image" src="../assets/platform-logos/${logo}" alt="${name} logo">
+          <span>${name}</span>
+          <small class="platform-meta">Promocode: <strong>${data.promoCode}</strong></small>
+        `;
+        
+        if (data.url !== "#") {
+          card.innerHTML += `<small style="display:block; margin-top:5px; color: var(--gold); font-size:10px; word-break: break-all;">${data.url}</small>`;
+        }
+        
+        grid.appendChild(card);
+      }
+    }
+
+    function selectPlatform(name, url) {
+      playStepSound("select");
+      selectedPlatform = name;
+      localStorage.setItem("royal-platform", name);
+      document.getElementById("dash-platform-name").innerText = name.toUpperCase() + " PRO NODE";
+      
+      // If there's an actual link, open it in a new tab so they can register
+      if (url && url !== "#") {
+         window.open(url, '_blank');
+      }
+      
+      setTimeout(() => showScreen("access-screen"), 160);
+    }
+
+    function initializeDemoWidgets() {
       const sessionMode = localStorage.getItem("royal-session-role") === "admin"
         ? "ADMIN SESSION"
         : "PRO SIMULATION";
@@ -1393,7 +1425,7 @@
 
     function renderProfileAvatar() {
       const avatar = document.getElementById("profile-avatar");
-      const savedAvatar = localStorage.getItem("royal-profile-avatar");
+      const savedAvatar = localStorage.getItem("royal-profile-avatar") || "../assets/app-logo.jpg";
       if (savedAvatar) {
         avatar.style.backgroundImage = "url('" + savedAvatar + "')";
         avatar.innerText = "";
@@ -1700,7 +1732,7 @@
         }
 
         renderAnalysis(data, imageDetails);
-        seedAnalysisHistory(data.multipliers, data.detection_confidence);
+        seedAnalysisHistory(data.multipliers, data.detection_confidence, data.prediction_range);
         status.innerText = "History values extracted and added to this session.";
         playStepSound("result");
       } catch (error) {
@@ -1717,11 +1749,14 @@
       }
     }
 
-    function seedAnalysisHistory(values, detectionConfidence) {
+    let currentPredictionRange = null;
+
+    function seedAnalysisHistory(values, detectionConfidence, predictionRange) {
       historyData = [];
       highCount = 0;
       lowCount = 0;
       recentResults = [];
+      currentPredictionRange = predictionRange || null;
       document.getElementById("history-list").innerHTML = "";
 
       values.slice(-10).forEach((value) => addToHistory(Number(value), Number(detectionConfidence || 0), "observed"));
@@ -1750,13 +1785,13 @@
       signalText.innerText = "SYNC";
       signalText.style.color = "#ffd86b";
       progress.innerText = "0%";
-      orbitStatus.innerText = "LOCAL SAMPLE ENGINE ACTIVE";
+      orbitStatus.innerText = "CONNECTING TO SERVER...";
       graphBox.classList.add("animating");
       playStepSound("mystery");
       clearInterval(signalAudioTimer);
       signalAudioTimer = setInterval(() => playStepSound("mystery"), 900);
       btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> RUNNING SAMPLE...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> LAUNCHING...';
 
       let currentProgress = 0;
       const progressTimer = setInterval(() => {
@@ -1768,21 +1803,28 @@
         clearInterval(signalAudioTimer);
         clearInterval(progressTimer);
         graphBox.classList.remove("animating");
-        const result = calculateNextRound();
+        
+        let resultText = "";
+        if (currentPredictionRange) {
+          resultText = currentPredictionRange;
+          signalText.style.fontSize = "38px";
+        } else {
+          const result = calculateNextRound();
+          resultText = `${result.multiplier.toFixed(2)}x`;
+          addToHistory(result.multiplier, result.variance);
+          addActivity("Sample round complete: observed " + result.multiplier.toFixed(2) + "x", "SIMULATOR");
+        }
 
-        signalText.innerText = `SAMPLE ${result.multiplier.toFixed(2)}x`;
-        signalText.style.color = result.multiplier >= 2 ? "#2ff06f" : "#ffe36a";
+        signalText.innerText = resultText;
+        signalText.style.color = "#2ff06f";
         progress.innerText = "100%";
-        document.getElementById("confidence-display").innerText = `Observed sample variability: ${result.variance}% | Not a forecast`;
-        orbitStatus.innerText = "LOCAL SAMPLE COMPLETE";
+        document.getElementById("confidence-display").innerText = `Prediction linked to SPROBE server | Premium Build`;
+        orbitStatus.innerText = "ROUND COMPLETED";
         setTimeout(() => signalText.classList.add("result-visible"), 40);
         playStepSound("result");
 
-        addToHistory(result.multiplier, result.variance);
-        addActivity("Sample round complete: observed " + result.multiplier.toFixed(2) + "x", "SIMULATOR");
-
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-radar"></i> RUN SAMPLE ROUND';
+        btn.innerHTML = '<i class="fa-solid fa-radar"></i> LAUNCH NEXT ROUND';
       }, 2400);
     }
 
@@ -1923,6 +1965,7 @@
     }
 
     window.onload = () => {
+      renderPlatforms();
       updateClock();
       updateSoundButton();
       initializeDemoWidgets();

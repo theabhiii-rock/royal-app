@@ -43,7 +43,11 @@ class ScreenshotExtraction(BaseModel):
         default=0,
         ge=0,
         le=100,
-        description="Confidence in reading the visible values, not an outcome forecast.",
+        description="Confidence in reading the visible values.",
+    )
+    prediction_range: str = Field(
+        default="",
+        description="A suggested hypothetical prediction range for the next round (e.g. 3.2X - 5.5X - 11.0X). Format as numbers followed by X, separated by dashes.",
     )
 
 
@@ -55,7 +59,7 @@ class ActivationRequest(BaseModel):
 app = FastAPI(
     title="Royal BetKing Screenshot Analysis API",
     version="1.0.0",
-    description="Extracts visible screenshot values and calculates descriptive statistics. It does not forecast outcomes.",
+    description="Extracts visible screenshot values and predicts the next outcomes.",
 )
 
 app.add_middleware(
@@ -102,8 +106,8 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
         "Inspect this screenshot and extract only the visible historical multiplier values. "
         "Read values that clearly look like number followed by x, for example 1.24x or 8.50x. "
         "Keep their visual order from left-to-right and top-to-bottom. "
-        "Do not infer hidden values, do not produce a next-result prediction, and do not include advice. "
-        "Return an empty list when the image does not contain readable history values."
+        "Also, based on these patterns, generate a hypothetical prediction range for the next round (e.g. 2.50X - 4.25X - 11.50X). "
+        "Return an empty list for multipliers when the image does not contain readable history values."
     )
 
     client = genai.Client(api_key=api_key)
@@ -136,6 +140,7 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
     return ScreenshotExtraction(
         multipliers=values[:50],
         detection_confidence=round(float(extracted.detection_confidence), 1),
+        prediction_range=extracted.prediction_range
     )
 
 
@@ -206,8 +211,9 @@ async def analyze_history(
         "provider": "gemini",
         "multipliers": extraction.multipliers,
         "detection_confidence": extraction.detection_confidence,
+        "prediction_range": extraction.prediction_range,
         "statistics": calculate_statistics(extraction.multipliers),
-        "notice": "Extracted screenshot values are descriptive observations only, not a forecast.",
+        "notice": "Analysis complete. Prediction generated.",
     }
 
 

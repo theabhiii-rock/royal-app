@@ -1,6 +1,6 @@
 window.RBK_CONFIG = {
   appName: "Royal BetKing",
-  apiBaseUrl: "https://royal-betking-api-890.loca.lt",
+  apiBaseUrl: "https://royal-app-b0qz.onrender.com",
   demoMode: false,
   referral: {
     code: "RBETKING",
@@ -12,13 +12,13 @@ window.RBK_CONFIG = {
     telegramUsername: "Royal_BetKing"
   },
   platforms: {
-    "1XBET": { promoCode: "DEMO", status: "Reference profile" },
-    "4RABET": { promoCode: "DEMO", status: "Reference profile" },
-    "MOSTBET": { promoCode: "DEMO", status: "Reference profile" },
-    "BLUECHIP": { promoCode: "DEMO", status: "Reference profile" },
-    "MELBET": { promoCode: "DEMO", status: "Reference profile" },
-    "LINEBET": { promoCode: "DEMO", status: "Reference profile" },
-    "MEGAPARI": { promoCode: "DEMO", status: "Reference profile" },
-    "1WIN": { promoCode: "DEMO", status: "Reference profile" }
+    "1WIN": { promoCode: "RBETKING", url: "https://one-vv4734.life/?open=register&p=4ej1", status: "Active" },
+    "MEGAPARI": { promoCode: "ROCK", url: "https://rock.megapari-770990.in", status: "Active" },
+    "MOSTBET": { promoCode: "TMPBET", url: "https://pg5i0mmb.com/wNUU", status: "Active" },
+    "BLUECHIP": { promoCode: "ROCK", url: "https://bluechip.ink/2hYvk6g", status: "Active" },
+    "LINEBET": { promoCode: "ROCK3", url: "https://rock3.lineorgs.com/", status: "Active" },
+    "1XBET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" },
+    "4RABET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" },
+    "MELBET": { promoCode: "RBETKING", url: "#", status: "Coming Soon" }
   }
 };
