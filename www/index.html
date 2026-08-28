@@ -1215,7 +1215,13 @@
         <section class="panel-card referral-card">
           <div class="card-kicker" style="color: var(--gold);"><i class="fa-solid fa-user-plus"></i> REFERRAL PROGRAM</div>
           <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 10px;">Get $20 for every user who successfully invites and purchases the activation key.</p>
-          <div class="ref-code-row"><strong id="referral-code">RBETKING</strong><button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button></div>
+          <div class="ref-code-row">
+            <strong id="referral-code">RBETKING</strong>
+            <div style="display: flex; gap: 5px;">
+              <button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button>
+              <button class="icon-copy-btn" type="button" onclick="copyReferralLink()" title="Copy referral link"><i class="fa-solid fa-link"></i></button>
+            </div>
+          </div>
           <div class="ref-stats"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
           <div class="progress-track"><span id="referral-progress"></span></div>
           <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (5 Referrals).</div>
@@ -1417,7 +1423,13 @@
         <section class="panel-card referral-card">
           <div class="card-kicker" style="color: var(--gold);"><i class="fa-solid fa-user-plus"></i> REFERRAL PROGRAM</div>
           <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 10px;">Get $20 for every user who successfully invites and purchases the activation key.</p>
-          <div class="ref-code-row"><strong id="referral-code">RBETKING</strong><button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button></div>
+          <div class="ref-code-row">
+            <strong id="referral-code">RBETKING</strong>
+            <div style="display: flex; gap: 5px;">
+              <button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button>
+              <button class="icon-copy-btn" type="button" onclick="copyReferralLink()" title="Copy referral link"><i class="fa-solid fa-link"></i></button>
+            </div>
+          </div>
           <div class="ref-stats"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
           <div class="progress-track"><span id="referral-progress"></span></div>
           <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (5 Referrals).</div>
@@ -1724,9 +1736,26 @@
       document.getElementById("referral-amount").innerText = "$" + amount + " / $" + referral.threshold;
       document.getElementById("demo-wallet-balance").innerText = "$" + amount.toFixed(2);
       document.getElementById("referral-progress").style.width = Math.min(100, (amount / referral.threshold) * 100) + "%";
-      document.getElementById("wallet-state").innerText = amount >= referral.threshold
-        ? "Threshold reached. Complete remaining steps to withdraw."
-        : "Real-time earnings synced with server.";
+      
+      const withdrawBtn = document.getElementById("demo-withdraw-btn");
+      if (amount >= referral.threshold) {
+        document.getElementById("wallet-state").innerText = "Threshold reached. Complete remaining steps to withdraw.";
+        withdrawBtn.disabled = false;
+        withdrawBtn.innerHTML = '<i class="fa-solid fa-gift"></i> YOUR SURPRISE WILL REVEAL SOON';
+        withdrawBtn.style.background = "linear-gradient(45deg, #ffd86b, #ff2c2c)";
+        withdrawBtn.style.color = "#000";
+        withdrawBtn.style.border = "none";
+        withdrawBtn.style.fontWeight = "bold";
+        withdrawBtn.onclick = () => alert("Surprise unlocking soon! Stay tuned.");
+      } else {
+        document.getElementById("wallet-state").innerText = "Real-time earnings synced with server.";
+        withdrawBtn.disabled = true;
+        withdrawBtn.innerHTML = 'WITHDRAWAL LOCKED';
+        withdrawBtn.style.background = "";
+        withdrawBtn.style.color = "";
+        withdrawBtn.style.border = "";
+        withdrawBtn.onclick = null;
+      }
     }
 
     function addActivity(message, tone = "LIVE DEMO") {
@@ -1773,17 +1802,30 @@
       addActivity("Referral code copied: " + code, "PROFILE");
     }
 
+    function copyReferralLink() {
+      const code = RBK_CONFIG.referral.code;
+      const link = "https://app.royalbetking.com/?ref=" + code;
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link).then(() => alert('Referral link copied: ' + link));
+      addActivity("Referral link copied", "PROFILE");
+    }
+
     function redeemReferralCode() {
       const input = document.getElementById("redeem-code-input");
-      if (!input.value.trim()) return alert("Please enter a referral code.");
+      const code = input.value.trim().toUpperCase();
+      if (!code) return alert("Please enter a referral code.");
+      
+      if (code !== "RBETKING") {
+        return alert("Invalid referral code. For demo simulation, please use RBETKING to verify the reward addition.");
+      }
+      
       if (demoReferralState.qualified >= RBK_CONFIG.referral.maxQualified) return alert("You have reached the maximum number of referrals.");
       
       demoReferralState.qualified += 1;
       demoReferralState.rewards = demoReferralState.qualified * RBK_CONFIG.referral.reward;
       localStorage.setItem("royal-demo-referral", JSON.stringify(demoReferralState));
       updateDemoWidgets();
-      addActivity("Code redeemed: +$" + RBK_CONFIG.referral.reward, "REFERRAL");
-      alert("Referral code successfully redeemed! Added $" + RBK_CONFIG.referral.reward + " to your wallet.");
+      addActivity("Referral success: User paid $20 activation. +$" + RBK_CONFIG.referral.reward, "REFERRAL");
+      alert("Referral success! The user registered and paid the $20 activation fee. Added $" + RBK_CONFIG.referral.reward + " to your wallet.");
       input.value = "";
     }
 
