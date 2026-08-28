@@ -1177,7 +1177,202 @@
         </section>
         <section class="panel-card wallet-card">
           <div class="card-kicker"><i class="fa-solid fa-wallet"></i> MAIN WALLET</div>
-          <strong id="demo-wallet-balance">$0.00 DEMO</strong>
+          <strong id="demo-wallet-balance">$0.00 DEMO.00.00</strong>
+          <div id="wallet-state">Real-time earnings synced with server.</div>
+          <button class="secondary-btn compact-btn" id="demo-withdraw-btn" disabled>WITHDRAWAL LOCKED</button>
+        </section>
+        <section class="panel-card referral-card">
+          <div class="card-kicker" style="color: var(--gold);"><i class="fa-solid fa-user-plus"></i> REFERRAL PROGRAM</div>
+          <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 10px;">Get $20 for every user who successfully invites and purchases the activation key.</p>
+          <div class="ref-code-row"><strong id="referral-code">RBETKING</strong><button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button></div>
+          <div class="ref-stats"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
+          <div class="progress-track"><span id="referral-progress"></span></div>
+          <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (5 Referrals).</div>
+          <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <div style="font-size: 11px; color: #a1a1aa; margin-bottom: 5px;">Enter Referral Code</div>
+            <div style="display: flex; gap: 5px;">
+              <input type="text" id="redeem-code-input" placeholder="Code" style="flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
+              <button class="primary-btn" type="button" onclick="redeemReferralCode()" style="padding: 5px 10px; font-size: 11px; width: auto; margin: 0;">REDEEM</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel-card deposit-card" style="text-align: center;">
+          <div class="card-kicker"><i class="fa-brands fa-btc"></i> DEPOSIT ACTIVATION FEE</div>
+          <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold);">
+</head>
+<body>
+  <div id="splash-screen" class="screen active">
+    <div class="splash-content">
+      <div class="aviator-mark">
+        <img class="aviator-logo-lg" src="./assets/platform-logos/aviator.png" alt="Aviator logo">
+      </div>
+      <h1 class="app-title">Royal BetKing</h1>
+      <h2 class="app-subtitle">Premium Simulator Console</h2>
+      <div class="loader"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <div id="platform-screen" class="screen">
+    <div class="container">
+      <div class="brand-pill"><i class="fa-solid fa-gem"></i> Powered by THE MONEY POWER</div>
+      <h2 class="section-title">Select Your Platform</h2>
+      <p class="muted">Choose a premium platform profile for your Prediction Session</p>
+      <div class="platform-grid" id="platform-grid-container">
+        <!-- Will be populated dynamically -->
+      </div>
+      <div class="platform-warning" style="color: var(--danger-red); border-color: var(--danger-red);"><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ Old users who haven't created an account with this link & promocode, please create one now to ensure full compatibility.</div>
+      <div class="powered-by">THE MONEY POWER</div>
+    </div>
+  </div>
+
+  <div id="access-screen" class="screen">
+    <div class="container">
+      <button class="back-btn" onclick="goBack('platform-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <div class="plan-header">
+        <i class="fa-solid fa-crown"></i>
+        <h2>Premium Access</h2>
+      </div>
+      <h3 id="selected-platform-name" style="color: var(--gold); margin: 10px 0;">LIFETIME</h3>
+      <div class="notice-box">
+        Royal BetKing is an Aviator Predictor. It generates Real Ai rounds only and it is used to help & predict casino or betting outcomes.
+      </div>
+      <ul class="features-list">
+        <li><i class="fa-solid fa-check-circle"></i><span>Premium Prediction Graph</span></li>
+        <li><i class="fa-solid fa-check-circle"></i><span>Screenshot history extraction and statistics</span></li>
+        <li><i class="fa-solid fa-check-circle"></i><span>Local project-session unlock</span></li>
+      </ul>
+      <div class="price-card">
+        <span style="color: #aaa; font-size: 12px; font-weight: 800;">PREMIUM ACCESS PORTAL</span>
+        <span class="price-amount">$500</span>
+        <span style="color: var(--gold); font-size: 13px;">Pay The Amount To Get The Access Of Predictior</span>
+      </div>
+      <button class="primary-btn" onclick="openContactPopup()">GET ACCESS KEY</button>
+      <button class="secondary-btn" onclick="openPasswordPopup()">I HAVE ACCESS KEY</button>
+    </div>
+  </div>
+
+  <div id="contact-popup" class="popup">
+    <div class="popup-content">
+      <button class="popup-back-btn" onclick="closePopup('contact-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <h3>$20 Access Payment</h3>
+      <p class="muted">Complete your payment to receive the access key.</p>
+      <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold); display: block;">
+      <div class="contact-chip" style="user-select: all; text-align: center; cursor: pointer;" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB').then(() => alert('Address copied!'));}else{alert('Clipboard not supported');}">
+        <span style="color: var(--gold); font-size: 10px;"><i class="fa-solid fa-copy"></i> TRC20 Address (Click to copy)</span><br>
+        <strong style="word-break: break-all; font-size: 14px;">TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB</strong>
+      </div>
+      <div class="hold-status">
+        Status: HOLD - Send payment screenshot to admin, admin verifies manually, then shares the access key.
+      </div>
+      <div class="mini-link" role="note" onclick="window.open('https://t.me/Royal_BetKing', '_blank')" style="cursor: pointer;">
+        <i class="fa-brands fa-telegram"></i> Message @Royal_BetKing to get Access Key
+      </div>
+      <button class="primary-btn" style="margin-top: 12px;" onclick="document.getElementById('contact-popup').classList.remove('active'); openPasswordPopup();">ENTER ACCESS KEY</button>
+      <button class="secondary-btn" onclick="closePopup('contact-popup')">Back</button>
+    </div>
+  </div>
+
+  <div id="password-popup" class="popup">
+    <div class="popup-content password-popup">
+      <button class="popup-back-btn" onclick="closePopup('password-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <h3>Pro Authentication</h3>
+      <p class="muted">Enter the private access key received from admin.</p>
+      <input type="password" id="admin-pass-input" placeholder="Enter access key" maxlength="20">
+      <div class="auth-status" id="auth-status">This key will be registered to this device after activation.</div>
+      <button class="primary-btn" onclick="verifyPassword()">Unlock The Predictor</button>
+      <button class="secondary-btn" onclick="closePopup('password-popup')">Back</button>
+    </div>
+  </div>
+
+  <div id="upload-popup" class="popup">
+    <div class="popup-content">
+      <button class="popup-back-btn" onclick="closePopup('upload-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <h3>Upload History Screenshot</h3>
+      <p class="muted">Upload a history screenshot to run local image analysis before launching rounds.</p>
+      <div class="upload-box">
+        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 38px; color: var(--gold);"></i>
+        <input type="file" id="history-upload" accept="image/*">
+        <img class="upload-preview" id="upload-preview" alt="Selected screenshot preview">
+        <div class="scan-status" id="scan-status">Waiting for screenshot...</div>
+        <div class="analysis-panel" id="analysis-panel"></div>
+      </div>
+      <button class="primary-btn" id="scan-button" style="margin-top: 14px;" onclick="completeScan()">ANALYZE SCREENSHOT</button>
+      <button class="secondary-btn" onclick="closePopup('upload-popup')">Back</button>
+    </div>
+  </div>
+
+  <div id="dashboard-screen" class="screen">
+    <div class="dashboard-container">
+      <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <div class="top-bar">
+        <button class="menu-toggle" onclick="openDrawer()" style="background:transparent;border:none;color:#fff;font-size:18px;margin-right:10px;cursor:pointer;"><i class="fa-solid fa-bars"></i></button>
+        <div class="status-indicator"><span class="dot"></span> PRO SERVER LINKED</div>
+        <div class="clock-box" id="real-time-clock">--:--:--</div>
+        <button class="sound-toggle" id="sound-toggle" type="button" onclick="toggleSound()" aria-label="Mute sound" title="Mute sound"><i class="fa-solid fa-volume-high"></i></button>
+        <div class="user-info"><img id="dash-platform-logo" src="./assets/app-logo.jpg" style="width: 16px; height: 16px; border-radius: 50%; display: none; margin-right: 5px; vertical-align: middle;"> <span id="dash-platform-name">USER</span></div>
+      </div>
+
+      <div class="demo-ribbon" style="display:none;">Royal BetKing runs live prediction algorithms. Bet responsibly.</div>
+      <div style="background: rgba(47, 240, 111, 0.1); border: 1px solid rgba(47, 240, 111, 0.4); padding: 8px; border-radius: 4px; margin-top: 10px; margin-bottom: 5px; overflow: hidden; white-space: nowrap; font-size: 13px; color: #2ff06f; font-weight: bold; text-shadow: 0px 0px 5px rgba(47, 240, 111, 0.4);">
+        <marquee scrollamount="5">
+          💰 USER9382 cashed out $550.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER102 cashed out $120.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🔥 USER77 cashed out $3,450.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 USER91 cashed out $850.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER1120 cashed out $40.00
+        </marquee>
+      </div>
+      <div class="powered-by">Powered by THE MONEY POWER</div>
+
+      <div class="signal-area">
+        <div class="graph-container" id="graph-box">
+          <div class="hash-overlay" id="hash-overlay"></div>
+          <div class="grid-lines"></div>
+          <div class="curve-path"></div>
+          <div class="trail-line"></div>
+          <div class="code-orbit" aria-hidden="true">
+            <span class="code-a">0110</span>
+            <span class="code-b">A7F2</span>
+            <span class="code-c">1001</span>
+            <span class="code-d">C19E</span>
+          </div>
+          <img class="fly-plane" src="./assets/platform-logos/aviator.png" alt="Aviator flight marker">
+          <div class="result-display" id="signal-text">READY</div>
+          <div class="orbit-progress" id="orbit-progress">0%</div>
+          <div class="orbit-status" id="orbit-status">SESSION READY</div>
+        </div>
+
+        <div class="confidence-meter" id="confidence-display" style="color: #b7b7b7; font-size: 14px; margin-top: 5px;">Session variability: --%</div>
+      </div>
+
+      <button class="generate-btn" onclick="startSimulation()">
+        <i class="fa-solid fa-radar"></i> Next Signal
+      </button>
+      <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
+        <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
+      </button>
+
+      <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+      <div class="side-drawer" id="side-drawer">
+        <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
+        <section class="panel-card profile-card">
+          <div class="profile-head">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="profile-avatar">RA</div>
+              <label class="avatar-upload" title="Change USER PROFILE logo">
+                <i class="fa-solid fa-camera"></i>
+                <input id="profile-logo-upload" type="file" accept="image/*">
+              </label>
+            </div>
+            <div>
+              <div class="eyebrow">USER PROFILE</div>
+              <h3 id="profile-name">Royal Analyst</h3>
+              <small id="profile-id">ID: RBK-LOCAL</small>
+            </div>
+          </div>
+          <div class="profile-meta"><span>Platform</span><strong id="profile-platform">--</strong><span>Created</span><strong id="profile-created">--</strong></div>
+        </section>
+        <section class="panel-card wallet-card">
+          <div class="card-kicker"><i class="fa-solid fa-wallet"></i> MAIN WALLET</div>
+          <strong id="demo-wallet-balance">$0.00 DEMO.00.00</strong>
           <div id="wallet-state">Real-time earnings synced with server.</div>
           <button class="secondary-btn compact-btn" id="demo-withdraw-btn" disabled>WITHDRAWAL LOCKED</button>
         </section>
@@ -1206,7 +1401,10 @@
             <button class="icon-copy-btn" type="button" onclick="if(navigator.clipboard){navigator.clipboard.writeText('TELAV2BcHaoLqCZT8txz5cMAh2KHkS1uRB').then(()=>alert('Address copied!'));}" title="Copy Address"><i class="fa-solid fa-copy"></i></button>
           </div>
         </section>
+      </div>
+      </div>
 
+      <div class="dashboard-grid" style="margin-top: 15px;">
         <section class="panel-card activity-card">
           <div class="card-kicker"><i class="fa-solid fa-signal"></i> LIVE ACTIVITY</div>
           <div id="activity-feed" class="activity-feed"></div>
@@ -2064,3 +2262,4 @@
   </script>
 </body>
 </html>
+
