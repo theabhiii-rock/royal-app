@@ -2159,7 +2159,7 @@
     }
 
     function startSimulation() {
-      if (!currentPredictionRange) {
+      if (historyData.length === 0) {
         alert("Please upload a history screenshot first to connect with the prediction server.");
         openHistoryUpload();
         return;
@@ -2212,7 +2212,7 @@
           const result = calculateNextRound();
           resultText = `${result.multiplier.toFixed(2)}x`;
           addToHistory(result.multiplier, result.variance);
-          addActivity("Sample round complete: observed " + resultText, "SIMULATOR");
+          addActivity("AI Server predicted next signal: " + resultText, "PREDICTION");
         }
 
         signalText.innerText = resultText;
