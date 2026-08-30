@@ -297,7 +297,7 @@ def frontend_alias() -> FileResponse:
 
 @app.get("/download", include_in_schema=False)
 def download_page() -> FileResponse:
-    return FileResponse(os.path.join(FRONTEND_DIR, "landing.html"))
+    return FileResponse(PROJECT_ROOT / "www" / "landing.html")
 
 
 app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
