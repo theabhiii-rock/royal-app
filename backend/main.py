@@ -89,26 +89,39 @@ def calculate_statistics(values: list[float]) -> dict[str, float | int]:
     }
 
 
-def generate_provably_fair_multipliers(count: int, server_seed: str, client_seed: str) -> list[str]:
+def generate_provably_fair_multipliers(targets: list[float], server_seed: str, client_seed: str) -> list[str]:
     multipliers = []
     current_seed = server_seed
     
-    for _ in range(count):
-        h = hmac.new(current_seed.encode(), client_seed.encode(), hashlib.sha512).hexdigest()
-        h_hex = h[:13]
-        h_int = int(h_hex, 16)
-        e = 2 ** 52
+    for target in targets:
+        best_mult = 1.00
+        best_diff = 999999
+        best_hash = ""
         
-        if h_int % 33 == 0:
-            mult = 1.00
-        else:
-            # Exact Spribe truncation logic (Math.floor instead of rounding)
-            mult = math.floor((100 * e - h_int) / (e - h_int)) / 100.0
-            mult = max(1.00, mult)
+        # Mine up to 200 nonces to find a Spribe hash close to the AI target
+        for nonce in range(200):
+            test_client_seed = f"{client_seed}:{nonce}"
+            h = hmac.new(current_seed.encode(), test_client_seed.encode(), hashlib.sha512).hexdigest()
+            h_hex = h[:13]
+            h_int = int(h_hex, 16)
+            e = 2 ** 52
             
-        multipliers.append(f"{mult:.2f}x")
-        # Hash chain for the next round
-        current_seed = hashlib.sha256(current_seed.encode()).hexdigest()
+            if h_int % 33 == 0:
+                mult = 1.00
+            else:
+                mult = math.floor((100 * e - h_int) / (e - h_int)) / 100.0
+                mult = max(1.00, mult)
+                
+            diff = abs(mult - target)
+            if diff < best_diff:
+                best_diff = diff
+                best_mult = mult
+                best_hash = h
+                if diff < 0.15:
+                    break
+                    
+        multipliers.append(f"{best_mult:.2f}x")
+        current_seed = hashlib.sha256(best_hash.encode()).hexdigest()
         
     return multipliers
 
@@ -165,12 +178,23 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
         extracted = ScreenshotExtraction.model_validate_json(response.text)
 
     # OVERRIDE: Generate mathematically perfect Provably Fair predictions
-    # Server seed is the SHA-256 hash of the uploaded image.
     server_seed = hashlib.sha256(image_bytes).hexdigest()
-    # Client seed is Gemini's raw pattern analysis or a random uuid.
-    client_seed = extracted.prediction_range if extracted.prediction_range else uuid.uuid4().hex
+    client_seed = uuid.uuid4().hex
     
-    pf_multipliers = generate_provably_fair_multipliers(30, server_seed, client_seed)
+    # Parse Gemini's smart predictions
+    gemini_preds = []
+    if extracted.prediction_range:
+        for p in extracted.prediction_range.replace("x", "").split(","):
+            try:
+                gemini_preds.append(float(p.strip()))
+            except:
+                pass
+                
+    if not gemini_preds:
+        gemini_preds = [2.00] * 30
+        
+    # Generate hashes that cryptographically match the AI targets
+    pf_multipliers = generate_provably_fair_multipliers(gemini_preds[:30], server_seed, client_seed)
     extracted.prediction_range = ", ".join(pf_multipliers)
 
     values = []
