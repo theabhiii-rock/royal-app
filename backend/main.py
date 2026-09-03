@@ -172,7 +172,7 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
     client = genai.Client(api_key=api_key)
     try:
         response = client.models.generate_content(
-            model=os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite"),
+            model=os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
             contents=[
                 types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
                 prompt,

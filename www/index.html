@@ -1289,8 +1289,9 @@
   gap: 4px;
 }
 .cyber-slit-bar {
-  height: 5px;
+  height: 6px;
   border-radius: 2px;
+  transform: skewX(-22deg);
 }
 .left-slits .s1 { width: 18px; background: rgba(0, 208, 255, 0.25); }
 .left-slits .s2 { width: 22px; background: rgba(0, 208, 255, 0.55); }
@@ -1733,7 +1734,20 @@
         </div>
       </div>
 
-<!-- Live Analytics Removed -->
+      <!-- 2. Cyber HUD Bar (Live Aviator Analytics) -->
+      <div class="cyber-hud-bar">
+        <div class="cyber-slits left-slits">
+          <span class="cyber-slit-bar s1"></span>
+          <span class="cyber-slit-bar s2"></span>
+          <span class="cyber-slit-bar s3"></span>
+        </div>
+        <div class="hud-analytics-pill">Live Aviator Analytics</div>
+        <div class="cyber-slits right-slits">
+          <span class="cyber-slit-bar s3"></span>
+          <span class="cyber-slit-bar s2"></span>
+          <span class="cyber-slit-bar s1"></span>
+        </div>
+      </div>
 
       <!-- 3. Speedometer Horseshoe Radar Box -->
       <div class="gauge-radar-box" id="graph-box">
