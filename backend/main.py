@@ -1,3 +1,5 @@
+import mimetypes
+mimetypes.add_type("application/vnd.android.package-archive", ".apk")
 import os
 import hashlib
 import math
@@ -271,7 +273,7 @@ def health_check() -> dict[str, str | bool | dict]:
         "app_version": {
             "latest": "2.1.0",
             "force_update": True,
-            "download_url": "https://royal-app-b0qz.onrender.com/download"
+            "download_url": "https://royal-app-b0qz.onrender.com/download-apk"
         }
     }
 
@@ -315,6 +317,30 @@ def frontend() -> FileResponse:
 @app.get("/aviator-signal-demo.html", include_in_schema=False)
 def frontend_alias() -> FileResponse:
     return FileResponse(FRONTEND_FILE)
+
+
+@app.get("/download-apk", include_in_schema=False)
+@app.get("/download/apk", include_in_schema=False)
+def direct_apk_download() -> FileResponse:
+    apk_path = ASSETS_DIR / "Aviator_Predictor_Hack.apk"
+    if not apk_path.exists():
+        apks = sorted(list(ASSETS_DIR.glob("*.apk")), reverse=True)
+        if apks:
+            apk_path = apks[0]
+        else:
+            raise HTTPException(status_code=404, detail="APK build file not found")
+            
+    return FileResponse(
+        path=apk_path,
+        filename="Aviator_Predictor_Hack.apk",
+        media_type="application/vnd.android.package-archive",
+        headers={
+            "Content-Disposition": 'attachment; filename="Aviator_Predictor_Hack.apk"',
+            "Content-Type": "application/vnd.android.package-archive",
+            "Accept-Ranges": "bytes",
+            "Cache-Control": "public, max-age=3600"
+        }
+    )
 
 @app.get("/download", include_in_schema=False)
 def download_page() -> FileResponse:
