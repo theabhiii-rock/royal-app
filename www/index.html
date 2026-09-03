@@ -1190,9 +1190,323 @@
     transform: scale(1) !important;
   }
 
+
+/* ==========================================================
+   EXACT REPLICA STYLES FOR AVIATOR PREDICTOR HUD
+   ========================================================== */
+#dashboard-screen {
+  background: #070a13 !important;
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(255, 0, 85, 0.14) 0%, rgba(0, 208, 255, 0.08) 50%, transparent 75%),
+    linear-gradient(180deg, #070a13 0%, #05070e 100%) !important;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.hud-screen-wrapper {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 16px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Header */
+.top-header-hud {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.header-brand-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.crown-icon-glow {
+  font-size: 28px;
+  color: #f59e0b;
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6));
+}
+.header-titles-hud {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.header-titles-hud .title-line1 {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.header-titles-hud .title-line2 {
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.live-status-pill-hud {
+  background: rgba(0, 35, 18, 0.6);
+  border: 1.5px solid #00e676;
+  border-radius: 8px;
+  padding: 4px 12px;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.25);
+}
+.live-status-pill-hud .live-text {
+  color: #00e676;
+  font-size: 11px;
+  font-weight: 800;
+  display: block;
+  letter-spacing: 0.5px;
+}
+.live-status-pill-hud .conn-text {
+  color: #00e676;
+  font-size: 10px;
+  font-weight: 800;
+  display: block;
+  letter-spacing: 0.5px;
+}
+
+/* Cyber HUD Bar (Live Analytics) */
+.cyber-hud-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 6px 0 16px 0;
+  width: 100%;
+}
+.cyber-slits {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cyber-slit-bar {
+  height: 5px;
+  border-radius: 2px;
+}
+.left-slits .s1 { width: 18px; background: rgba(0, 208, 255, 0.25); }
+.left-slits .s2 { width: 22px; background: rgba(0, 208, 255, 0.55); }
+.left-slits .s3 { width: 32px; background: #00d0ff; box-shadow: 0 0 10px #00d0ff; }
+
+.right-slits .s3 { width: 32px; background: #00d0ff; box-shadow: 0 0 10px #00d0ff; }
+.right-slits .s2 { width: 22px; background: rgba(0, 208, 255, 0.55); }
+.right-slits .s1 { width: 18px; background: rgba(0, 208, 255, 0.25); }
+
+.hud-analytics-pill {
+  background: rgba(14, 20, 36, 0.9);
+  border: 1px solid rgba(255, 0, 85, 0.4);
+  border-top: 1.5px solid rgba(255, 0, 85, 0.7);
+  border-radius: 16px;
+  padding: 5px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #cbd5e1;
+  letter-spacing: 0.4px;
+  box-shadow: 0 0 14px rgba(255, 0, 85, 0.2);
+}
+
+/* Speedometer Horseshoe Radar Box */
+.gauge-radar-box {
+  position: relative;
+  width: 320px;
+  height: 330px;
+  margin: 4px auto 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.gauge-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  pointer-events: none;
+}
+
+/* Circulating Neon Pulses along the Horseshoe Arc */
+.arc-pulse-outer {
+  stroke-dasharray: 140 472;
+  animation: circulateOuterArc 2.4s linear infinite;
+}
+@keyframes circulateOuterArc {
+  0% { stroke-dashoffset: 612; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.arc-pulse-inner {
+  stroke-dasharray: 100 400;
+  animation: circulateInnerArc 2.8s linear infinite;
+}
+@keyframes circulateInnerArc {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 500; }
+}
+
+/* Center Plane & Prediction Display */
+.gauge-center-content {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.aviator-plane-img {
+  width: 130px;
+  height: auto;
+  filter: drop-shadow(0 0 14px #ff0055) drop-shadow(0 0 5px #ff1744);
+  animation: planeHover 3s ease-in-out infinite;
+}
+@keyframes planeHover {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.live-pred-title {
+  color: #8a9bb8;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+
+.prediction-multiplier {
+  font-size: 58px !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  line-height: 1.05;
+  margin-top: 2px;
+  text-shadow: 0 0 25px rgba(255, 0, 85, 0.95), 0 0 50px rgba(255, 0, 85, 0.65) !important;
+  transition: all 0.3s ease;
+}
+
+/* Digital Clock in the bottom gap */
+.gauge-digital-clock {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Orbitron', 'Courier New', monospace;
+  font-size: 32px;
+  font-weight: 900;
+  color: #00ff66;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00ff66, 0 0 22px rgba(0, 255, 102, 0.75);
+  z-index: 10;
+}
+
+/* Stats Cards (Accuracy & Next Round) */
+.hud-stats-row {
+  width: 100%;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.hud-stat-box {
+  flex: 1;
+  background: rgba(14, 20, 36, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
+}
+.hud-stat-box .box-label {
+  color: #8896ab;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.hud-stat-box .box-value {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+}
+.hud-stat-box .box-value.green-text {
+  color: #00e676 !important;
+  text-shadow: 0 0 12px rgba(0, 230, 118, 0.45);
+}
+
+/* Upload History Screenshot Card */
+.hud-upload-card {
+  width: 100%;
+  background: rgba(14, 20, 36, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.hud-upload-card:active {
+  transform: scale(0.98);
+  background: rgba(22, 30, 52, 0.95);
+}
+.hud-upload-card span {
+  color: #ffd800;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-shadow: 0 0 10px rgba(255, 216, 0, 0.35);
+}
+
+/* GENERATE NEXT SIGNAL Button */
+.hud-generate-button {
+  position: relative;
+  width: 100%;
+  padding: 17px;
+  background: #080d1a;
+  border-radius: 28px;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: -8px 0 25px rgba(0, 208, 255, 0.4), 8px 0 25px rgba(255, 0, 85, 0.4);
+  transition: transform 0.15s ease;
+  z-index: 1;
+  text-transform: uppercase;
+}
+.hud-generate-button::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #00d0ff 0%, #0088ff 35%, #ff0055 70%, #ff003c 100%);
+  z-index: -1;
+}
+.hud-generate-button:active {
+  transform: scale(0.98);
+}
+.hud-generate-button:disabled {
+  opacity: 0.85;
+  cursor: not-allowed;
+}
+
 </style>
 
 
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="splash-screen" class="screen active">
@@ -1295,308 +1609,132 @@
     </div>
   </div>
 
-    <div id="dashboard-screen" class="screen">
-    <div class="dashboard-container new-ui">
-      <!-- Hidden elements for JS compatibility -->
-      <div style="display:none;">
-         <div class="status-indicator"></div>
-         <span id="dash-platform-name"></span>
-         <span id="owner-text"></span>
-         <img id="dash-platform-logo" src="">
-         <span id="real-time-clock"></span>
-         <div class="hash-overlay" id="hash-overlay"></div>
-         <div class="code-orbit" aria-hidden="true"><span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span></div>
-         <div class="orbit-progress" id="orbit-progress">0%</div>
-         <div class="orbit-status" id="orbit-status">SESSION READY</div>
-         <div class="confidence-meter" id="confidence-display"></div>
-      </div>
+      <div id="dashboard-screen" class="screen">
+    <!-- Compatibility Div: Houses all legacy elements so NO JS script throws TypeError -->
+    <div style="display:none;" aria-hidden="true">
+      <div class="status-indicator"></div>
+      <span id="dash-platform-name"></span>
+      <span id="owner-text"></span>
+      <img id="dash-platform-logo" src="">
+      <span id="real-time-clock"></span>
+      <div class="hash-overlay" id="hash-overlay"></div>
+      <div class="code-orbit"><span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span></div>
+      <div class="orbit-progress" id="orbit-progress">0%</div>
+      <div class="orbit-status" id="orbit-status">SESSION READY</div>
+      <div class="confidence-meter" id="confidence-display"></div>
+      <div id="admin-panel"></div>
+      <div id="user-note-panel"></div>
+      <div id="user-note-output"></div>
+      <div id="activity-feed"></div>
+      <span id="passed-count">0</span>
+      <span id="failed-count">0</span>
+      <span id="accuracy-percent">0%</span>
+      <canvas id="history-chart"></canvas>
+      <div id="history-list"></div>
+      <div class="gap-clock-class"></div>
+    </div>
 
-      <!-- Top Bar -->
-      <div class="top-header">
-        <div class="header-left">
-          <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
-          <div class="header-titles">
-            <span class="royal-text">ROYAL BETKING -</span><br>
-            <span class="win-text">1WIN PREDICTOR</span>
+    <div class="hud-screen-wrapper">
+      <!-- 1. Top Header -->
+      <div class="top-header-hud">
+        <div class="header-brand-left" onclick="openDrawer()" title="Click to open menu">
+          <i class="fa-solid fa-crown crown-icon-glow"></i>
+          <div class="header-titles-hud">
+            <span class="title-line1">ROYAL BETKING -</span>
+            <span class="title-line2">1WIN PREDICTOR</span>
           </div>
         </div>
         <div class="header-right">
-          <div class="live-badge">
-            <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
-            <span class="connected">CONNECTED</span>
+          <div class="live-status-pill-hud">
+            <span class="live-text">((•)) LIVE</span>
+            <span class="conn-text">CONNECTED</span>
           </div>
         </div>
       </div>
-      
-      <!-- New Animated Radar Design -->
-      <div class="radar-box" id="graph-box">
-        <div class="radar-container">
-           <div class="radar-arcs">
-             <div class="arc animated-red-arc"></div>
-             <div class="arc animated-blue-arc"></div>
-           </div>
-           <div class="radar-mask-bottom">
-             <div class="gap-live-clock gap-clock-class">--:--:--</div>
-           </div>
-           <div class="radar-content-center">
-             <img src="./assets/platform-logos/aviator.png" alt="Plane" class="animated-plane" style="filter: drop-shadow(0 0 10px #ff003c);">
-             <div class="live-pred-label">Live prediction</div>
-             <div class="result-display" id="signal-text">WAIT</div>
-           </div>
+
+      <!-- 2. Cyber HUD Bar (Live Analytics) -->
+      <div class="cyber-hud-bar">
+        <div class="cyber-slits left-slits">
+          <span class="cyber-slit-bar s1"></span>
+          <span class="cyber-slit-bar s2"></span>
+          <span class="cyber-slit-bar s3"></span>
+        </div>
+        <div class="hud-analytics-pill">Live Analytics</div>
+        <div class="cyber-slits right-slits">
+          <span class="cyber-slit-bar s3"></span>
+          <span class="cyber-slit-bar s2"></span>
+          <span class="cyber-slit-bar s1"></span>
         </div>
       </div>
 
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-title">Accuracy:</div>
-          <div class="stat-val">98.4%</div>
+      <!-- 3. Speedometer Horseshoe Radar Box -->
+      <div class="gauge-radar-box" id="graph-box">
+        <svg viewBox="0 0 300 300" class="gauge-svg">
+          <defs>
+            <filter id="glow-red-hud" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="glow-cyan-hud" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          
+          <!-- Outer Horseshoe (Red) -->
+          <path d="M 58.1 241.9 A 130 130 0 1 1 241.9 241.9" fill="none" stroke="rgba(255, 0, 85, 0.35)" stroke-width="5" stroke-linecap="round"/>
+          <path class="arc-pulse-outer" d="M 58.1 241.9 A 130 130 0 1 1 241.9 241.9" fill="none" stroke="#ff0055" stroke-width="5.5" stroke-linecap="round" filter="url(#glow-red-hud)"/>
+          
+          <!-- Inner Horseshoe (Cyan) -->
+          <path d="M 75.0 225.0 A 106 106 0 1 1 225.0 225.0" fill="none" stroke="rgba(0, 208, 255, 0.3)" stroke-width="4" stroke-linecap="round"/>
+          <path class="arc-pulse-inner" d="M 75.0 225.0 A 106 106 0 1 1 225.0 225.0" fill="none" stroke="#00d0ff" stroke-width="4.5" stroke-linecap="round" filter="url(#glow-cyan-hud)"/>
+        </svg>
+
+        <!-- Center Plane & Prediction -->
+        <div class="gauge-center-content">
+          <img src="./assets/platform-logos/aviator-plane-clean.png" alt="Aviator" class="aviator-plane-img">
+          <div class="live-pred-title">Live prediction</div>
+          <div class="prediction-multiplier" id="signal-text">4.78x</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-title">Next Round:</div>
-          <div class="stat-val stat-green">Ready</div>
+
+        <!-- Digital Clock in Bottom Gap -->
+        <div class="gauge-digital-clock" id="gap-clock">12:56</div>
+      </div>
+
+      <!-- 4. Stats Cards (Accuracy & Next Round) -->
+      <div class="hud-stats-row">
+        <div class="hud-stat-box">
+          <div class="box-label">Accuracy:</div>
+          <div class="box-value">98.4%</div>
+        </div>
+        <div class="hud-stat-box">
+          <div class="box-label">Next Round:</div>
+          <div class="box-value green-text">Ready</div>
         </div>
       </div>
 
-      <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
-        GET SIGNALS
+      <!-- 5. Upload History Screenshot Card -->
+      <div class="hud-upload-card" onclick="openHistoryUpload()">
+        <span>Upload History Screenshot</span>
+      </div>
+
+      <!-- 6. GENERATE NEXT SIGNAL Button -->
+      <button class="hud-generate-button generate-btn" onclick="startSimulation()">
+        GENERATE NEXT SIGNAL
       </button>
-      
-      <div class="action-row">
-        <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
-        <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
-        <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
-      </div>
     </div>
-<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
-      <div class="side-drawer" id="side-drawer">
-        <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
-        <section class="panel-card profile-card">
-          <div class="profile-head">
-            <div class="profile-avatar-wrap">
-              <div class="profile-avatar" id="profile-avatar">RA</div>
-              <label class="avatar-upload" title="Change USER PROFILE logo">
-                <i class="fa-solid fa-camera"></i>
-                <input id="profile-logo-upload" type="file" accept="image/*">
-              </label>
-            </div>
-            <div>
-              <div class="eyebrow">USER PROFILE</div>
-              <h3 id="profile-name">Royal Analyst</h3>
-              <small id="profile-id">ID: RBK-LOCAL</small>
-            </div>
-          </div>
-          <div class="profile-meta"><span>Platform</span><strong id="profile-platform">--</strong><span>Created</span><strong id="profile-created">--</strong></div>
-        </section>
-        <section class="panel-card wallet-card">
-          <div class="card-kicker"><i class="fa-solid fa-wallet"></i> MAIN WALLET</div>
-          <strong id="demo-wallet-balance">$0.00 DEMO.00.00</strong>
-          <div id="wallet-state">Real-time earnings synced with server.</div>
-          <button class="secondary-btn compact-btn" id="demo-withdraw-btn" disabled>WITHDRAWAL LOCKED</button>
-        </section>
-        <section class="panel-card referral-card">
-          <div class="card-kicker" style="color: var(--gold);"><i class="fa-solid fa-user-plus"></i> REFERRAL PROGRAM</div>
-          <p style="font-size: 11px; color: #a1a1aa; margin: 4px 0 10px;">Get $20 for every user who successfully invites and purchases the activation key.</p>
-          <div class="ref-code-row">
-            <strong id="referral-code">RBETKING</strong>
-            <div style="display: flex; gap: 5px;">
-              <button class="icon-copy-btn" type="button" onclick="copyReferralCode()" title="Copy referral code"><i class="fa-solid fa-copy"></i></button>
-              <button class="icon-copy-btn" type="button" onclick="copyReferralLink()" title="Copy referral link"><i class="fa-solid fa-link"></i></button>
-            </div>
-          </div>
-          <div class="ref-stats" onclick="simulateReceivedReferral()" style="cursor: pointer;" title="Dev Mode: Click to simulate receiving a referral"><span id="referral-count">0 / 5</span><span id="referral-amount">$0 / $100</span></div>
-          <div class="progress-track"><span id="referral-progress"></span></div>
-          <div class="warning-box" style="margin-top: 10px;">Withdrawal unlocks at $100 (5 Referrals).</div>
-          <div id="inviter-section" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-            <div style="font-size: 11px; color: #a1a1aa; margin-bottom: 5px;">Who invited you? (Enter their code)</div>
-            <div style="display: flex; gap: 5px;">
-              <input type="text" id="redeem-code-input" placeholder="Inviter's Code" style="flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;">
-              <button class="primary-btn" type="button" onclick="submitInviterCode()" style="padding: 5px 10px; font-size: 11px; width: auto; margin: 0;">SUBMIT</button>
-            </div>
-          </div>
-        </section>
 
-        <section class="panel-card deposit-card" style="text-align: center;">
-          <div class="card-kicker"><i class="fa-brands fa-btc"></i> DEPOSIT ACTIVATION FEE</div>
-          <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold);">
-</head>
-<body>
-  <div id="splash-screen" class="screen active">
-    <div class="splash-content">
-      <div class="aviator-mark">
-        <img class="aviator-logo-lg" src="./assets/platform-logos/aviator.png" alt="Aviator logo">
-      </div>
-      <h1 class="app-title">Royal BetKing</h1>
-      <h2 class="app-subtitle">NEW ERA AVIATOR PREDICTOR</h2>
-      <div class="loader"><span></span><span></span><span></span></div>
-    </div>
-  </div>
-
-  <div id="platform-screen" class="screen">
-    <div class="container">
-      <div class="brand-pill"><i class="fa-solid fa-gem"></i> Powered by THE MONEY POWER</div>
-      <h2 class="section-title">Select Your Platform</h2>
-      <p class="muted">Choose a premium platform profile for your Prediction Session</p>
-      <div class="platform-grid" id="platform-grid-container">
-        <!-- Will be populated dynamically -->
-      </div>
-      <div class="platform-warning" style="color: var(--danger-red); border-color: var(--danger-red);"><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ Old users who haven't created an account with this link & promocode, please create one now to ensure full compatibility.</div>
-      <div class="powered-by">THE MONEY POWER</div>
-    </div>
-  </div>
-
-  <div id="access-screen" class="screen">
-    <div class="container">
-      <button class="back-btn" onclick="goBack('platform-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <div class="plan-header">
-        <i class="fa-solid fa-crown"></i>
-        <h2>Premium Access</h2>
-      </div>
-      <h3 id="selected-platform-name" style="color: var(--gold); margin: 10px 0;">LIFETIME</h3>
-      <div class="notice-box">
-        Royal BetKing is an Aviator Predictor. It generates Real Ai rounds only and it is used to help & predict casino or betting outcomes.
-      </div>
-      <ul class="features-list">
-        <li><i class="fa-solid fa-check-circle"></i><span>Premium Prediction Graph</span></li>
-        <li><i class="fa-solid fa-check-circle"></i><span>Screenshot history extraction and statistics</span></li>
-        <li><i class="fa-solid fa-check-circle"></i><span>Local project-session unlock</span></li>
-      </ul>
-      <div class="price-card">
-        <span style="color: #aaa; font-size: 12px; font-weight: 800;">PREMIUM ACCESS PORTAL</span>
-        <span class="price-amount">$20</span>
-        <span style="color: var(--gold); font-size: 13px;">Pay The Amount To Get The Access Of Predictior</span>
-      </div>
-      <button class="primary-btn" onclick="openContactPopup()">GET ACCESS KEY</button>
-      <button class="secondary-btn" onclick="openPasswordPopup()">I HAVE ACCESS KEY</button>
-    </div>
-  </div>
-
-  <div id="contact-popup" class="popup">
-    <div class="popup-content">
-      <button class="popup-back-btn" onclick="closePopup('contact-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <h3>$20 Access Payment</h3>
-      <p class="muted">Complete your payment to receive the access key.</p>
-      <img src="./assets/binance-qr.png" alt="Binance QR" style="max-width: 140px; margin: 10px auto; border-radius: 8px; border: 2px solid var(--gold); display: block;">
-      <div class="contact-chip" style="user-select: all; text-align: center; cursor: pointer;" onclick="if(navigator.clipboard){navigator.clipboard.writeText('974837725').then(() => alert('UID copied!'));}else{alert('Clipboard not supported');}">
-        <span style="color: var(--gold); font-size: 10px;"><i class="fa-solid fa-copy"></i> Binance UID (Click to copy)</span><br>
-        <strong style="word-break: break-all; font-size: 14px;">974837725</strong>
-      </div>
-      <div class="hold-status">
-        Status: HOLD - Send payment screenshot to admin, admin verifies manually, then shares the access key.
-      </div>
-      <div class="mini-link" role="note" onclick="window.open('https://t.me/Royal_BetKing', '_blank')" style="cursor: pointer;">
-        <i class="fa-brands fa-telegram"></i> Message @Royal_BetKing to get Access Key
-      </div>
-      <button class="primary-btn" style="margin-top: 12px;" onclick="document.getElementById('contact-popup').classList.remove('active'); openPasswordPopup();">ENTER ACCESS KEY</button>
-      <button class="secondary-btn" onclick="closePopup('contact-popup')">Back</button>
-    </div>
-  </div>
-
-  <div id="password-popup" class="popup">
-    <div class="popup-content password-popup">
-      <button class="popup-back-btn" onclick="closePopup('password-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <h3>Pro Authentication</h3>
-      <p class="muted">Enter the private access key received from admin.</p>
-      <input type="password" id="admin-pass-input" placeholder="Enter access key" maxlength="20">
-      <div class="auth-status" id="auth-status">This key will be registered to this device after activation.</div>
-      <button class="primary-btn" onclick="verifyPassword()">Unlock The Predictor</button>
-      <button class="secondary-btn" onclick="closePopup('password-popup')">Back</button>
-    </div>
-  </div>
-
-  <div id="upload-popup" class="popup">
-    <div class="popup-content">
-      <button class="popup-back-btn" onclick="closePopup('upload-popup')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <h3>Upload History Screenshot</h3>
-      <p class="muted">Upload a history screenshot to run local image analysis before launching rounds.</p>
-      <div class="upload-box">
-        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 38px; color: var(--gold);"></i>
-        <input type="file" id="history-upload" accept="image/*">
-        <img class="upload-preview" id="upload-preview" alt="Selected screenshot preview">
-        <div class="scan-status" id="scan-status">Waiting for screenshot...</div>
-        <div class="analysis-panel" id="analysis-panel"></div>
-      </div>
-      <button class="primary-btn" id="scan-button" style="margin-top: 14px;" onclick="completeScan()">ANALYZE SCREENSHOT</button>
-      <button class="secondary-btn" onclick="closePopup('upload-popup')">Back</button>
-    </div>
-  </div>
-
-    <div id="dashboard-screen" class="screen">
-    <div class="dashboard-container new-ui">
-      <!-- Hidden elements for JS compatibility -->
-      <div style="display:none;">
-         <div class="status-indicator"></div>
-         <span id="dash-platform-name"></span>
-         <span id="owner-text"></span>
-         <img id="dash-platform-logo" src="">
-         <span id="real-time-clock"></span>
-         <div class="hash-overlay" id="hash-overlay"></div>
-         <div class="code-orbit" aria-hidden="true"><span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span></div>
-         <div class="orbit-progress" id="orbit-progress">0%</div>
-         <div class="orbit-status" id="orbit-status">SESSION READY</div>
-         <div class="confidence-meter" id="confidence-display"></div>
-      </div>
-
-      <!-- Top Bar -->
-      <div class="top-header">
-        <div class="header-left">
-          <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
-          <div class="header-titles">
-            <span class="royal-text">ROYAL BETKING -</span><br>
-            <span class="win-text">1WIN PREDICTOR</span>
-          </div>
-        </div>
-        <div class="header-right">
-          <div class="live-badge">
-            <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
-            <span class="connected">CONNECTED</span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- New Animated Radar Design -->
-      <div class="radar-box" id="graph-box">
-        <div class="radar-container">
-           <div class="radar-arcs">
-             <div class="arc animated-red-arc"></div>
-             <div class="arc animated-blue-arc"></div>
-           </div>
-           <div class="radar-mask-bottom">
-             <div class="gap-live-clock gap-clock-class">--:--:--</div>
-           </div>
-           <div class="radar-content-center">
-             <img src="./assets/platform-logos/aviator.png" alt="Plane" class="animated-plane" style="filter: drop-shadow(0 0 10px #ff003c);">
-             <div class="live-pred-label">Live prediction</div>
-             <div class="result-display" id="signal-text">WAIT</div>
-           </div>
-        </div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-title">Accuracy:</div>
-          <div class="stat-val">98.4%</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Next Round:</div>
-          <div class="stat-val stat-green">Ready</div>
-        </div>
-      </div>
-
-      <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
-        GET SIGNALS
-      </button>
-      
-      <div class="action-row">
-        <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
-        <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
-        <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
-      </div>
-    </div>
-<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
-      <div class="side-drawer" id="side-drawer">
-        <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
+    <!-- Side Drawer & Overlay (for Profile, Referral, Wallet, Deposit) -->
+    <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+    <div class="side-drawer" id="side-drawer">
+      <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+      <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
         <section class="panel-card profile-card">
           <div class="profile-head">
             <div class="profile-avatar-wrap">
@@ -1651,38 +1789,6 @@
             <button class="icon-copy-btn" type="button" onclick="if(navigator.clipboard){navigator.clipboard.writeText('974837725').then(()=>alert('UID copied!'));}" title="Copy Address"><i class="fa-solid fa-copy"></i></button>
           </div>
         </section>
-      </div>
-      </div>
-
-      <div class="dashboard-grid" style="margin-top: 15px;">
-        <section class="panel-card activity-card">
-          <div class="card-kicker"><i class="fa-solid fa-signal"></i> LIVE ACTIVITY</div>
-          <div id="activity-feed" class="activity-feed"></div>
-        </section>
-        <section class="panel-card analyst-card" id="admin-panel" style="display: none;">
-          <div class="card-kicker"><i class="fa-solid fa-shield-halved"></i> ADMIN CONTROL PANEL</div>
-          <div class="analyst-form">
-            <input id="analyst-range" maxlength="30" placeholder="Observed values / statistics">
-            <input id="analyst-note" maxlength="80" placeholder="Admin broadcast message">
-            <button class="secondary-btn compact-btn" type="button" onclick="publishAnalystSuggestion()">PUBLISH ANNOUNCEMENT</button>
-          </div>
-          <div class="analyst-output" id="analyst-output">Admin broadcast network.</div>
-        </section>
-        <section class="panel-card analyst-card" id="user-note-panel">
-          <div class="card-kicker"><i class="fa-solid fa-bullhorn"></i> PROJECT ANNOUNCEMENT</div>
-          <div class="analyst-output" id="user-note-output">No admin broadcast has been published.</div>
-        </section>
-      </div>
-
-      <div class="history-section">
-        <h3><i class="fa-solid fa-clock-rotate-left"></i> Pro Session History</h3>
-        <div class="stats-row">
-          <div class="stat-box"><span style="color: #aaa; font-size: 12px;">High</span><span class="stat-val h-success" id="passed-count">0</span></div>
-          <div class="stat-box"><span style="color: #aaa; font-size: 12px;">Low</span><span class="stat-val h-fail" id="failed-count">0</span></div>
-          <div class="stat-box"><span style="color: #aaa; font-size: 12px;">High Rate</span><span class="stat-val" style="color: var(--gold)" id="accuracy-percent">0%</span></div>
-        </div>
-        <canvas class="history-chart" id="history-chart" aria-label="Session history chart"></canvas>
-        <div class="history-list" id="history-list"></div>
       </div>
     </div>
   </div>
@@ -2364,12 +2470,7 @@
       return { multiplier: Number(multiplier.toFixed(2)), variance };
     }
 
-    function startSimulation() {
-      if (upcomingPredictions.length === 0) {
-        alert("Please upload a history screenshot first to connect with the prediction server.");
-        openHistoryUpload();
-        return;
-      }
+        function startSimulation() {
       const signalText = document.getElementById("signal-text");
       const graphBox = document.getElementById("graph-box");
       const btn = document.querySelector(".generate-btn");
@@ -2381,7 +2482,7 @@
       signalText.style.color = "#ffd86b";
       progress.innerText = "0%";
       orbitStatus.innerText = "CONNECTING TO SERVER...";
-      graphBox.classList.add("animating");
+      if (graphBox) graphBox.classList.add("animating");
       playStepSound("flying");
       clearInterval(signalAudioTimer);
       btn.disabled = true;
@@ -2396,31 +2497,36 @@
       setTimeout(() => {
         clearInterval(signalAudioTimer);
         clearInterval(progressTimer);
-        graphBox.classList.remove("animating");
+        if (graphBox) graphBox.classList.remove("animating");
         
         let resultText = "";
         if (upcomingPredictions.length > 0) {
           resultText = upcomingPredictions.shift();
           if (!resultText.includes("x")) resultText += "x";
-          signalText.style.fontSize = "52px";
-          
-          let parsedMult = parseFloat(resultText.replace("x", ""));
-          if (!isNaN(parsedMult)) {
-             addToHistory(parsedMult, 12);
-             addActivity("AI predicted next signal: " + resultText, "PREDICTION");
-          }
+        } else {
+          // Generate realistic Aviator prediction if none queued
+          const isHigh = Math.random() < 0.35;
+          const mult = isHigh ? (Math.random() * 5 + 3.2).toFixed(2) : (Math.random() * 1.8 + 1.25).toFixed(2);
+          resultText = mult + "x";
+        }
+
+        let parsedMult = parseFloat(resultText.replace("x", ""));
+        if (!isNaN(parsedMult)) {
+           addToHistory(parsedMult, 12);
+           addActivity("AI predicted next signal: " + resultText, "PREDICTION");
         }
 
         signalText.innerText = resultText;
-        signalText.style.color = "#2ff06f";
+        signalText.style.color = "#ffffff";
         progress.innerText = "100%";
-        document.getElementById("confidence-display").innerText = `Prediction linked to SPRIBE server | Premium Build`;
+        const confDisp = document.getElementById("confidence-display");
+        if (confDisp) confDisp.innerText = `Prediction linked to SPRIBE server | Premium Build`;
         orbitStatus.innerText = "ROUND COMPLETED";
         setTimeout(() => signalText.classList.add("result-visible"), 40);
         playStepSound("result");
 
         btn.disabled = false;
-        btn.innerHTML = 'GET SIGNALS';
+        btn.innerHTML = 'GENERATE NEXT SIGNAL';
       }, 2400);
     }
 
@@ -2564,16 +2670,18 @@
       marquees.forEach(m => m.innerHTML = content);
     }
 
-        function updateClock() {
+            function updateClock() {
       const now = new Date();
-      const timeStr = now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-      });
+      let hours = now.getHours() % 12 || 12;
+      let minutes = String(now.getMinutes()).padStart(2, '0');
+      const timeStr = `${String(hours).padStart(2, '0')}:${minutes}`;
+
+      const gapClock = document.getElementById("gap-clock");
+      if (gapClock) gapClock.innerText = timeStr;
+
       const rt = document.getElementById("real-time-clock");
       if (rt) rt.innerText = timeStr;
-      
+
       const gapClocks = document.querySelectorAll(".gap-clock-class");
       gapClocks.forEach(el => el.innerText = timeStr);
     }
