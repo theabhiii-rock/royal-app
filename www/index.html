@@ -2486,7 +2486,7 @@
 
       button.disabled = true;
       button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ANALYZING...';
-      status.innerText = "Reading screenshot with Gemini Vision...";
+      status.innerText = "Running Deep Historical Analysis & Gemini Vision...";
 
       try {
         const token = localStorage.getItem("royal-session-token");
@@ -2515,7 +2515,7 @@
 
         renderAnalysis(data, imageDetails);
         seedAnalysisHistory(data.multipliers, data.detection_confidence, data.prediction_range);
-        status.innerText = "History values extracted and added to this session.";
+        status.innerText = "Deep platform history analyzed. Values extracted securely.";
         playStepSound("result");
         setTimeout(() => closePopup("upload-popup"), 2000);
       } catch (error) {
