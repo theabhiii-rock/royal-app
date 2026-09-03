@@ -2528,7 +2528,31 @@
         const invSec = document.getElementById("inviter-section");
         if(invSec) invSec.innerHTML = "<div style='color: #2ff06f; font-size: 11px;'><i class='fa-solid fa-check'></i> Linked to Inviter: " + savedInviter + "</div>";
       }
-      startHashAnimation();
+      
+    // --- Version Check Logic ---
+    const CURRENT_VERSION = "2.0.0";
+    async function checkAppVersion() {
+      try {
+        const response = await fetchWithTimeout(API_BASE_URL + "/api/health", { method: "GET" }, 10000);
+        const data = await response.json();
+        if (data && data.app_version) {
+          if (data.app_version.latest !== CURRENT_VERSION && data.app_version.force_update) {
+            // Show update screen and hide all others
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('update-screen').style.display = 'block';
+            document.getElementById('update-screen').classList.add('active');
+            return true; // Update required
+          }
+        }
+      } catch (err) {
+        console.error("Version check failed", err);
+      }
+      return false; // No update required
+    }
+
+      checkAppVersion().then((requiresUpdate) => {
+        if(requiresUpdate) return;
+        startHashAnimation();
       renderPlatforms();
       updateClock();
       updateSoundButton();
@@ -2537,9 +2561,20 @@
       drawHistoryChart();
       setInterval(updateClock, 1000);
       playStepSound("startup"); setTimeout(() => showScreen("platform-screen"), 2500);
+      });
     };
   </script>
+
+  <div id="update-screen" class="screen" style="z-index: 10000; background: #0c101c; text-align: center; padding-top: 100px; display: none;">
+    <i class="fa-solid fa-cloud-arrow-down" style="font-size: 60px; color: #00d0ff; margin-bottom: 20px; text-shadow: 0 0 15px #00d0ff;"></i>
+    <h2 style="color: white; font-size: 24px; font-weight: bold; letter-spacing: 1px;">UPDATE REQUIRED</h2>
+    <p style="color: #8a9bb8; margin: 20px 30px; font-size: 14px; line-height: 1.5;">A new version of Royal BetKing is available with improved AI accuracy and faster servers. You must update to continue using the predictor.</p>
+    <button class="generate-btn btn-neon" onclick="window.location.href='https://royal-app-b0qz.onrender.com/download'" style="width: 80%; margin: 30px auto; display: block; background: linear-gradient(90deg, #00d0ff, #ff2a4b); padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; color: white; border: none; cursor: pointer; text-transform: uppercase;">
+      DOWNLOAD UPDATE
+    </button>
+  </div>
 </body>
+
 </html>
 
 

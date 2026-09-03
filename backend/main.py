@@ -248,10 +248,15 @@ def require_active_session(
 
 
 @app.get("/api/health")
-def health_check() -> dict[str, str | bool]:
+def health_check() -> dict[str, str | bool | dict]:
     return {
         "status": "ok",
         "gemini_configured": bool(os.getenv("GEMINI_API_KEY")),
+        "app_version": {
+            "latest": "2.0.0",
+            "force_update": True,
+            "download_url": "https://royal-app-b0qz.onrender.com/download"
+        }
     }
 
 
