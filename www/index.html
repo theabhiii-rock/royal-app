@@ -1718,7 +1718,7 @@
           <i class="fa-solid fa-crown crown-icon-glow"></i>
           <div class="header-titles-hud">
             <span class="title-line1">ROYAL BETKING -</span>
-            <span class="title-line2">1WIN PREDICTOR</span>
+            <span class="title-line2" id="visible-platform-title">1WIN PREDICTOR</span>
           </div>
         </div>
         <div class="header-right" style="display: flex; align-items: center; gap: 8px;">
@@ -1813,6 +1813,9 @@
     <div class="side-drawer" id="side-drawer">
       <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
       <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
+        <button class="primary-btn" onclick="closeDrawer(); showScreen('platform-screen');" style="margin-bottom: 12px; width: 100%; background: linear-gradient(90deg, #00d0ff, #00ff88); color: #000; font-weight: 800; font-size: 13px; border: none; border-radius: 8px; padding: 12px; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 10px rgba(0, 208, 255, 0.4);">
+          <i class="fa-solid fa-gamepad"></i> SWITCH PLATFORM
+        </button>
         <section class="panel-card profile-card">
           <div class="profile-head">
             <div class="profile-avatar-wrap">
@@ -2011,13 +2014,7 @@
       }
     }
 
-    function selectPlatform(name) {
-      playStepSound("select");
-      selectedPlatform = name;
-      localStorage.setItem("royal-platform", name);
-      document.getElementById("selected-platform-name").innerText = name.toUpperCase() + "";
-      setTimeout(() => showScreen("access-screen"), 160);
-    }
+
 
     function goBack(target) {
       document.querySelectorAll(".popup").forEach((popup) => popup.classList.remove("active"));
@@ -2052,17 +2049,19 @@
     }
 
     function updateDashboardHeader() {
-      const name = selectedPlatform || "DEMO";
-      document.getElementById("dash-platform-name").innerText = name.toUpperCase() + "";
-      const ownerText = document.getElementById("owner-text");
-      if(ownerText) ownerText.innerText = name.toUpperCase();
-      const logoEl = document.getElementById("dash-platform-logo");
-      if (logoEl && PLATFORM_LOGOS[name]) {
-        logoEl.src = "./assets/platform-logos/" + PLATFORM_LOGOS[name];
-        logoEl.style.display = "inline-block";
-      } else if (logoEl) {
-        logoEl.style.display = "none";
+      const name = (selectedPlatform || localStorage.getItem("royal-platform") || "1WIN").toUpperCase();
+      const visibleTitle = document.getElementById("visible-platform-title");
+      if (visibleTitle) {
+        visibleTitle.innerText = name + " PREDICTOR";
       }
+      const dashName = document.getElementById("dash-platform-name");
+      if (dashName) dashName.innerText = name;
+      const profilePlatform = document.getElementById("profile-platform");
+      if (profilePlatform) profilePlatform.innerText = name;
+      const ownerText = document.getElementById("owner-text");
+      if (ownerText) ownerText.innerText = name;
+      const selectedName = document.getElementById("selected-platform-name");
+      if (selectedName) selectedName.innerText = name;
     }
 
     function openDashboard() {
@@ -2102,6 +2101,13 @@
       selectedPlatform = name;
       localStorage.setItem("royal-platform", name);
       updateDashboardHeader();
+      
+      // If user already entered valid access key, go directly to this platform's dashboard!
+      const token = localStorage.getItem("royal-session-token");
+      if (token) {
+        openDashboard();
+        return;
+      }
       
       if (url && url !== "#") {
          window.open(url, '_blank');
