@@ -1605,7 +1605,7 @@
       <div class="platform-grid" id="platform-grid-container">
         <!-- Will be populated dynamically -->
       </div>
-      <div class="platform-warning" style="color: var(--danger-red); border-color: var(--danger-red);"><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ Old users who haven't created an account with this link & promocode, please create one now to ensure full compatibility.</div>
+      
       <div class="powered-by">THE MONEY POWER</div>
     </div>
   </div>
@@ -1946,6 +1946,15 @@
     function showScreen(id) {
       document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
       document.getElementById(id).classList.add("active");
+      
+      if (id === "platform-screen") {
+        if (!sessionStorage.getItem("platformWarningShown")) {
+          setTimeout(() => {
+            document.getElementById("warning-popup").style.display = "flex";
+            sessionStorage.setItem("platformWarningShown", "true");
+          }, 400);
+        }
+      }
     }
 
     function playStepSound(type) {
@@ -2840,7 +2849,7 @@
       }
       
     // --- Version Check Logic ---
-    const CURRENT_VERSION = "2.0.0";
+    const CURRENT_VERSION = "2.1.0";
     async function checkAppVersion() {
       try {
         const response = await fetchWithTimeout(API_BASE_URL + "/api/health", { method: "GET" }, 10000);
@@ -2878,11 +2887,27 @@
   <div id="update-screen" class="screen" style="z-index: 10000; background: #0c101c; text-align: center; padding-top: 100px; display: none;">
     <i class="fa-solid fa-cloud-arrow-down" style="font-size: 60px; color: #00d0ff; margin-bottom: 20px; text-shadow: 0 0 15px #00d0ff;"></i>
     <h2 style="color: white; font-size: 24px; font-weight: bold; letter-spacing: 1px;">UPDATE REQUIRED</h2>
-    <p style="color: #8a9bb8; margin: 20px 30px; font-size: 14px; line-height: 1.5;">A new version of Royal BetKing is available with improved AI accuracy and faster servers. You must update to continue using the predictor.</p>
+    <p style="color: #8a9bb8; margin: 20px 30px; font-size: 14px; line-height: 1.5;">A new version of Aviator Predictor Hack is available with updated Spribe Server Calculation and improved accuracy. You must update to continue using the predictor.</p>
     <button class="generate-btn btn-neon" onclick="window.location.href='https://royal-app-b0qz.onrender.com/download'" style="width: 80%; margin: 30px auto; display: block; background: linear-gradient(90deg, #00d0ff, #ff2a4b); padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; color: white; border: none; cursor: pointer; text-transform: uppercase;">
       DOWNLOAD UPDATE
     </button>
   </div>
+
+  <div id="warning-popup" class="popup-overlay" style="display: none; align-items: center; justify-content: center; z-index: 9999;">
+    <div class="popup-content" style="max-width: 340px; border: 1px solid rgba(255, 216, 107, 0.3); background: rgba(15, 15, 18, 0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);">
+      <div style="width: 64px; height: 64px; background: rgba(255, 69, 58, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #ff453a; font-size: 28px; border: 1px solid rgba(255, 69, 58, 0.2);">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 style="color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.5px;">Important Notice</h3>
+      <p style="color: #a0a0a5; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+        Old users who haven't created an account with this link & promocode, please create one now to ensure full compatibility.
+      </p>
+      <button onclick="document.getElementById('warning-popup').style.display='none'" style="width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, var(--gold) 0%, #ffdf00 100%); color: #000; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 216, 107, 0.3); text-transform: uppercase;">
+        OK, I Understand
+      </button>
+    </div>
+  </div>
+
 </body>
 
 </html>
