@@ -1036,7 +1036,67 @@
       display: block;
     }
 
-  </style>
+  
+/* New Royal UI Styling */
+#dashboard-screen { background: #0c101c; }
+.new-ui { padding: 20px 15px; }
+.top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-titles { line-height: 1.1; text-align: left; }
+.royal-text { color: #d4af37; font-weight: bold; font-size: 14px; letter-spacing: 1px; }
+.win-text { color: #00d0ff; font-weight: bold; font-size: 16px; letter-spacing: 1px; }
+.header-right { text-align: right; border: 1px solid rgba(0,255,0,0.3); padding: 4px 10px; border-radius: 8px; background: rgba(0,255,0,0.05); }
+.connected { color: #00ff00; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+
+.live-analytics-banner { display: flex; align-items: center; justify-content: center; margin: 15px 0 25px; gap: 10px; }
+.banner-line { height: 3px; width: 40px; background: #00d0ff; border-radius: 2px; box-shadow: 0 0 8px #00d0ff; }
+.banner-line:first-child { background: #ff2a4b; box-shadow: 0 0 8px #ff2a4b; }
+.banner-text { color: #8a9bb8; font-size: 12px; font-weight: 500; border: 1px solid rgba(138, 155, 184, 0.3); padding: 4px 15px; border-radius: 12px; }
+
+.radar-box { position: relative; width: 280px; height: 280px; margin: 0 auto 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.radar-arcs { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.arc { position: absolute; border-radius: 50%; box-sizing: border-box; }
+.red-arc-outer { 
+  top: 0; left: 0; width: 100%; height: 100%; 
+  border: 5px solid transparent; 
+  border-top-color: #ff2a4b; border-left-color: #ff2a4b; border-right-color: #ff2a4b;
+  transform: rotate(45deg); 
+  box-shadow: inset 0 10px 20px rgba(255,42,75,0.2), 0 10px 20px rgba(255,42,75,0.2);
+  filter: drop-shadow(0 0 8px #ff2a4b);
+}
+.blue-arc-inner {
+  top: 15px; left: 15px; width: calc(100% - 30px); height: calc(100% - 30px);
+  border: 4px solid transparent;
+  border-bottom-color: #00d0ff; border-left-color: #00d0ff; border-right-color: #00d0ff;
+  transform: rotate(45deg);
+  box-shadow: inset 0 -10px 20px rgba(0,208,255,0.2), 0 -10px 20px rgba(0,208,255,0.2);
+  filter: drop-shadow(0 0 8px #00d0ff);
+}
+
+.plane-center { position: absolute; top: 25%; transform: translateY(-50%); }
+.plane-center img { width: 120px; filter: drop-shadow(0 0 10px #ff2a4b); transform: rotate(-15deg); }
+
+.live-pred-label { position: relative; z-index: 10; color: #8a9bb8; font-size: 14px; margin-top: 50px; }
+.result-display { position: relative; z-index: 10; color: #ffffff !important; font-size: 64px !important; font-weight: 900 !important; text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #ff2a4b !important; line-height: 1; margin-top: 5px; }
+
+.stats-row { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 20px; }
+.stat-card { background: #141b2d; flex: 1; padding: 15px; border-radius: 12px; border: 1px solid rgba(0,208,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+.stat-title { color: #8a9bb8; font-size: 13px; margin-bottom: 8px; }
+.stat-val { color: #ffffff; font-size: 22px; font-weight: bold; }
+.stat-green { color: #00ff00; }
+
+.recent-analytics-section { background: #141b2d; border-radius: 12px; padding: 15px; border: 1px solid rgba(0,208,255,0.1); margin-bottom: 25px; }
+.analytics-title { color: #8a9bb8; font-size: 13px; margin-bottom: 12px; text-align: left; }
+.analytics-pills { display: flex; gap: 10px; justify-content: flex-start; }
+.pill { padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 13px; color: #fff; border: 1px solid; }
+.pill-red { background: rgba(255,42,75,0.2); border-color: #ff2a4b; box-shadow: 0 0 8px rgba(255,42,75,0.4); }
+.pill-blue { background: rgba(0,208,255,0.2); border-color: #00d0ff; box-shadow: 0 0 8px rgba(0,208,255,0.4); }
+
+.btn-neon { background: linear-gradient(90deg, #00d0ff, #ff2a4b); color: #fff; font-size: 16px; padding: 16px; border: none; border-radius: 12px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(255,42,75,0.3); width: 100%; cursor: pointer; text-transform: uppercase; }
+.action-row { display: flex; justify-content: space-between; margin-top: 15px; }
+.action-row button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #8a9bb8; padding: 10px 20px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; }
+</style>
+
 </head>
 <body>
   <div id="splash-screen" class="screen active">
@@ -1140,60 +1200,92 @@
   </div>
 
   <div id="dashboard-screen" class="screen">
-    <div class="dashboard-container">
-      <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <div class="top-bar">
-        <button class="menu-toggle" onclick="openDrawer()" style="background:transparent;border:none;color:#fff;font-size:18px;margin-right:10px;cursor:pointer;"><i class="fa-solid fa-bars"></i></button>
-        <div class="status-indicator"><span class="dot"></span> PRO SERVER LINKED</div>
-        <div class="clock-box" id="real-time-clock">--:--:--</div>
-        <button class="sound-toggle" id="sound-toggle" type="button" onclick="toggleSound()" aria-label="Mute sound" title="Mute sound"><i class="fa-solid fa-volume-high"></i></button>
-        <div class="user-info"><img id="dash-platform-logo" src="./assets/app-logo.jpg" style="width: 16px; height: 16px; border-radius: 50%; display: none; margin-right: 5px; vertical-align: middle;"> <span id="dash-platform-name">USER</span></div>
+    <div class="dashboard-container new-ui">
+  <!-- Hidden elements for JS compatibility -->
+  <div style="display:none;">
+     <span id="dash-platform-name"></span>
+     <span id="owner-text"></span>
+     <img id="dash-platform-logo" src="">
+     <span id="real-time-clock"></span>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-header">
+    <div class="header-left">
+      <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
+      <div class="header-titles">
+        <span class="royal-text">ROYAL BETKING -</span><br>
+        <span class="win-text">1WIN PREDICTOR</span>
       </div>
-
-      <div class="demo-ribbon" style="display:none;">Royal BetKing runs live prediction algorithms. Bet responsibly.</div>
-      <div style="background: rgba(47, 240, 111, 0.1); border: 1px solid rgba(47, 240, 111, 0.4); padding: 8px; border-radius: 4px; margin-top: 10px; margin-bottom: 5px; overflow: hidden; white-space: nowrap; font-size: 13px; color: #2ff06f; font-weight: bold; text-shadow: 0px 0px 5px rgba(47, 240, 111, 0.4);">
-        <marquee scrollamount="5">
-          💰 USER9382 cashed out $550.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER102 cashed out $120.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🔥 USER77 cashed out $3,450.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 USER91 cashed out $850.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER1120 cashed out $40.00
-        </marquee>
+    </div>
+    <div class="header-right">
+      <div class="live-badge">
+        <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
+        <span class="connected">CONNECTED</span>
       </div>
-      <div class="powered-by">Powered by THE MONEY POWER</div>
+    </div>
+  </div>
+  
+  <div class="live-analytics-banner">
+    <div class="banner-line"></div>
+    <div class="banner-text">Live Analytics</div>
+    <div class="banner-line"></div>
+  </div>
 
-      <div class="signal-area">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <img src="./assets/platform-logos/aviator.png" style="width: 80px; filter: drop-shadow(0 0 5px red); margin-bottom: 10px;">
-          <div style="color: #fff; font-size: 24px; font-weight: bold; letter-spacing: 2px;">FLEW AWAY</div>
-          <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.2); width: 80%; margin: 15px auto;">
-          <div style="color: #fff; font-size: 14px; font-weight: bold; letter-spacing: 1px;">OWNER</div>
-          <div style="color: #e5053a; font-weight: 900; font-size: 32px; letter-spacing: 2px; text-transform: uppercase;" id="owner-text">AVIATRIX</div>
-          <div style="color: #00ff00; font-weight: bold; font-size: 15px; margin-top: 5px;">Server Connected</div>
-        </div>
+  <div class="radar-box" id="graph-box">
+    <!-- Hidden old elements to prevent JS errors -->
+    <div class="hash-overlay" id="hash-overlay" style="display:none"></div>
+    <div class="code-orbit" aria-hidden="true" style="display:none">
+      <span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span>
+    </div>
+    <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
+    <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
+    <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
 
-        <div class="graph-container" id="graph-box">
-          <!-- Hidden old elements to prevent JS errors -->
-          <div class="hash-overlay" id="hash-overlay"></div>
-          <div class="code-orbit" aria-hidden="true">
-            <span class="code-a">0110</span>
-            <span class="code-b">A7F2</span>
-            <span class="code-c">1001</span>
-            <span class="code-d">C19E</span>
-          </div>
-          <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
-          <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
-          <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
-          
-          <div class="result-display" id="signal-text" style="color: #00ff00; font-size: 52px; font-weight: bold; text-shadow: 0 0 15px rgba(0,255,0,0.8); z-index: 5; ">WAIT</div>
-        </div>
-      </div>
+    <!-- New Radar Design -->
+    <div class="radar-arcs">
+      <div class="arc red-arc-outer"></div>
+      <div class="arc blue-arc-inner"></div>
+    </div>
+    <div class="plane-center">
+      <img src="./assets/platform-logos/aviator.png" alt="Plane">
+    </div>
+    
+    <div class="live-pred-label">Live prediction</div>
+    <div class="result-display" id="signal-text">WAIT</div>
+  </div>
 
-      <button class="generate-btn get-signals-btn" onclick="startSimulation()">
-        GET SIGNALS
-      </button>
-      
-      <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
-        <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
-      </button>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-title">Accuracy:</div>
+      <div class="stat-val">98.4%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-title">Next Round:</div>
+      <div class="stat-val stat-green">Ready</div>
+    </div>
+  </div>
 
-      <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+  <div class="recent-analytics-section">
+    <div class="analytics-title">Live analytics</div>
+    <div class="analytics-pills">
+      <span class="pill pill-red">2.15x</span>
+      <span class="pill pill-red">5.40x</span>
+      <span class="pill pill-blue">1.88x</span>
+      <span class="pill pill-blue">12.30x</span>
+    </div>
+  </div>
+
+  <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
+    GENERATE NEXT SIGNAL
+  </button>
+  
+  <div class="action-row">
+    <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
+    <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+    <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
+  </div>
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
       <div class="side-drawer" id="side-drawer">
         <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
         <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
@@ -1348,60 +1440,92 @@
   </div>
 
   <div id="dashboard-screen" class="screen">
-    <div class="dashboard-container">
-      <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i> Back</button>
-      <div class="top-bar">
-        <button class="menu-toggle" onclick="openDrawer()" style="background:transparent;border:none;color:#fff;font-size:18px;margin-right:10px;cursor:pointer;"><i class="fa-solid fa-bars"></i></button>
-        <div class="status-indicator"><span class="dot"></span> PRO SERVER LINKED</div>
-        <div class="clock-box" id="real-time-clock">--:--:--</div>
-        <button class="sound-toggle" id="sound-toggle" type="button" onclick="toggleSound()" aria-label="Mute sound" title="Mute sound"><i class="fa-solid fa-volume-high"></i></button>
-        <div class="user-info"><img id="dash-platform-logo" src="./assets/app-logo.jpg" style="width: 16px; height: 16px; border-radius: 50%; display: none; margin-right: 5px; vertical-align: middle;"> <span id="dash-platform-name">USER</span></div>
+    <div class="dashboard-container new-ui">
+  <!-- Hidden elements for JS compatibility -->
+  <div style="display:none;">
+     <span id="dash-platform-name"></span>
+     <span id="owner-text"></span>
+     <img id="dash-platform-logo" src="">
+     <span id="real-time-clock"></span>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-header">
+    <div class="header-left">
+      <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
+      <div class="header-titles">
+        <span class="royal-text">ROYAL BETKING -</span><br>
+        <span class="win-text">1WIN PREDICTOR</span>
       </div>
-
-      <div class="demo-ribbon" style="display:none;">Royal BetKing runs live prediction algorithms. Bet responsibly.</div>
-      <div style="background: rgba(47, 240, 111, 0.1); border: 1px solid rgba(47, 240, 111, 0.4); padding: 8px; border-radius: 4px; margin-top: 10px; margin-bottom: 5px; overflow: hidden; white-space: nowrap; font-size: 13px; color: #2ff06f; font-weight: bold; text-shadow: 0px 0px 5px rgba(47, 240, 111, 0.4);">
-        <marquee scrollamount="5">
-          💰 USER9382 cashed out $550.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER102 cashed out $120.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🔥 USER77 cashed out $3,450.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 USER91 cashed out $850.00 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💸 USER1120 cashed out $40.00
-        </marquee>
+    </div>
+    <div class="header-right">
+      <div class="live-badge">
+        <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
+        <span class="connected">CONNECTED</span>
       </div>
-      <div class="powered-by">Powered by THE MONEY POWER</div>
+    </div>
+  </div>
+  
+  <div class="live-analytics-banner">
+    <div class="banner-line"></div>
+    <div class="banner-text">Live Analytics</div>
+    <div class="banner-line"></div>
+  </div>
 
-      <div class="signal-area">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <img src="./assets/platform-logos/aviator.png" style="width: 80px; filter: drop-shadow(0 0 5px red); margin-bottom: 10px;">
-          <div style="color: #fff; font-size: 24px; font-weight: bold; letter-spacing: 2px;">FLEW AWAY</div>
-          <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.2); width: 80%; margin: 15px auto;">
-          <div style="color: #fff; font-size: 14px; font-weight: bold; letter-spacing: 1px;">OWNER</div>
-          <div style="color: #e5053a; font-weight: 900; font-size: 32px; letter-spacing: 2px; text-transform: uppercase;" id="owner-text">AVIATRIX</div>
-          <div style="color: #00ff00; font-weight: bold; font-size: 15px; margin-top: 5px;">Server Connected</div>
-        </div>
+  <div class="radar-box" id="graph-box">
+    <!-- Hidden old elements to prevent JS errors -->
+    <div class="hash-overlay" id="hash-overlay" style="display:none"></div>
+    <div class="code-orbit" aria-hidden="true" style="display:none">
+      <span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span>
+    </div>
+    <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
+    <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
+    <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
 
-        <div class="graph-container" id="graph-box">
-          <!-- Hidden old elements to prevent JS errors -->
-          <div class="hash-overlay" id="hash-overlay"></div>
-          <div class="code-orbit" aria-hidden="true">
-            <span class="code-a">0110</span>
-            <span class="code-b">A7F2</span>
-            <span class="code-c">1001</span>
-            <span class="code-d">C19E</span>
-          </div>
-          <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
-          <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
-          <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
-          
-          <div class="result-display" id="signal-text" style="color: #00ff00; font-size: 52px; font-weight: bold; text-shadow: 0 0 15px rgba(0,255,0,0.8); z-index: 5; ">WAIT</div>
-        </div>
-      </div>
+    <!-- New Radar Design -->
+    <div class="radar-arcs">
+      <div class="arc red-arc-outer"></div>
+      <div class="arc blue-arc-inner"></div>
+    </div>
+    <div class="plane-center">
+      <img src="./assets/platform-logos/aviator.png" alt="Plane">
+    </div>
+    
+    <div class="live-pred-label">Live prediction</div>
+    <div class="result-display" id="signal-text">WAIT</div>
+  </div>
 
-      <button class="generate-btn get-signals-btn" onclick="startSimulation()">
-        GET SIGNALS
-      </button>
-      
-      <button class="secondary-btn" type="button" onclick="openHistoryUpload()">
-        <i class="fa-solid fa-cloud-arrow-up"></i> UPLOAD HISTORY SCREENSHOT
-      </button>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-title">Accuracy:</div>
+      <div class="stat-val">98.4%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-title">Next Round:</div>
+      <div class="stat-val stat-green">Ready</div>
+    </div>
+  </div>
 
-      <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+  <div class="recent-analytics-section">
+    <div class="analytics-title">Live analytics</div>
+    <div class="analytics-pills">
+      <span class="pill pill-red">2.15x</span>
+      <span class="pill pill-red">5.40x</span>
+      <span class="pill pill-blue">1.88x</span>
+      <span class="pill pill-blue">12.30x</span>
+    </div>
+  </div>
+
+  <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
+    GENERATE NEXT SIGNAL
+  </button>
+  
+  <div class="action-row">
+    <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
+    <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+    <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
+  </div>
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
       <div class="side-drawer" id="side-drawer">
         <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
         <div class="dashboard-grid" style="display:flex; flex-direction:column; margin-top:20px;">
