@@ -782,27 +782,9 @@
       to { transform: rotate(360deg); }
     }
 
-    .result-display {
-      position: absolute;
-      z-index: 4;
-      top: 50%;
-      left: 50%;
-      width: 70%;
-      min-height: 0;
-      margin: 0;
-      transform: translate(-50%, -50%) scale(0.8);
-      text-align: center;
-      font-size: clamp(30px, 9vw, 42px);
-      font-weight: 900;
-      text-shadow: 0 0 15px rgba(47, 240, 111, 0.42);
-      opacity: 0;
-      transition: all 0.45s;
-    }
+    
 
-    .result-visible {
-      opacity: 1 !important;
-      transform: translate(-50%, -50%) scale(1) !important;
-    }
+    
 
     .orbit-status {
       position: absolute;
@@ -1077,7 +1059,7 @@
 .plane-center img { width: 120px; filter: drop-shadow(0 0 10px #ff2a4b); transform: rotate(-15deg); }
 
 .live-pred-label { position: relative; z-index: 10; color: #8a9bb8; font-size: 14px; margin-top: 50px; }
-.result-display { position: relative; z-index: 10; color: #ffffff !important; font-size: 64px !important; font-weight: 900 !important; text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px #ff2a4b !important; line-height: 1; margin-top: 5px; }
+
 
 .stats-row { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 20px; }
 .stat-card { background: #141b2d; flex: 1; padding: 15px; border-radius: 12px; border: 1px solid rgba(0,208,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
@@ -1132,12 +1114,7 @@
   @keyframes spin-forward { 100% { transform: rotate(360deg); } }
   @keyframes spin-backward { 100% { transform: rotate(-360deg); } }
 
-  .radar-mask-bottom {
-    position: absolute; bottom: -5px; left: 15%; width: 70%; height: 60px;
-    background: #0c101c;
-    z-index: 5;
-    display: flex; justify-content: center; align-items: flex-end;
-  }
+  
   .gap-live-clock {
     color: #fff; font-size: 15px; font-weight: bold; letter-spacing: 2px;
     text-shadow: 0 0 10px rgba(255,255,255,0.6);
@@ -1158,10 +1135,7 @@
     50% { transform: translateY(-8px) rotate(-2deg); }
   }
   .radar-content-center .live-pred-label { color: #fff; font-size: 14px; margin-bottom: -5px; z-index: 15; }
-  .radar-content-center .result-display {
-    font-size: 60px !important; font-weight: 900; color: #fff;
-    z-index: 15; line-height: 1.1;
-  }
+  .radar-content-center 
 
   .generate-btn {
     background: #111524 !important;
@@ -1188,6 +1162,34 @@
     opacity: 0.8;
   }
   .generate-btn:active::before { filter: blur(2px); opacity: 1; }
+
+  
+  
+
+
+  .radar-mask-bottom {
+    position: absolute; bottom: -5px; left: 15%; width: 70%; height: 60px;
+    background: transparent;
+    z-index: 5;
+    display: flex; justify-content: center; align-items: flex-end;
+  }
+  .result-display {
+    color: #fff;
+    font-size: 60px !important;
+    font-weight: 900;
+    text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+    z-index: 15;
+    line-height: 1.1;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+  }
+  .result-visible {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+
 </style>
 
 
@@ -1293,97 +1295,78 @@
     </div>
   </div>
 
-  <div id="dashboard-screen" class="screen">
+    <div id="dashboard-screen" class="screen">
     <div class="dashboard-container new-ui">
-  <!-- Hidden elements for JS compatibility -->
-  <div style="display:none;">
-     <div class="status-indicator"></div>
-     <span id="dash-platform-name"></span>
-     <span id="owner-text"></span>
-     <img id="dash-platform-logo" src="">
-     <span id="real-time-clock"></span>
-  </div>
-
-  <!-- Top Bar -->
-  <div class="top-header">
-    <div class="header-left">
-      <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
-      <div class="header-titles">
-        <span class="royal-text">ROYAL BETKING -</span><br>
-        <span class="win-text">1WIN PREDICTOR</span>
+      <!-- Hidden elements for JS compatibility -->
+      <div style="display:none;">
+         <div class="status-indicator"></div>
+         <span id="dash-platform-name"></span>
+         <span id="owner-text"></span>
+         <img id="dash-platform-logo" src="">
+         <span id="real-time-clock"></span>
+         <div class="hash-overlay" id="hash-overlay"></div>
+         <div class="code-orbit" aria-hidden="true"><span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span></div>
+         <div class="orbit-progress" id="orbit-progress">0%</div>
+         <div class="orbit-status" id="orbit-status">SESSION READY</div>
+         <div class="confidence-meter" id="confidence-display"></div>
       </div>
-    </div>
-    <div class="header-right">
-      <div class="live-badge">
-        <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
-        <span class="connected">CONNECTED</span>
-      </div>
-    </div>
-  </div>
-  
-      <div class="upload-screenshot-banner" onclick="openHistoryUpload()">
-      <div class="upload-accent left-accent"></div>
-      <div class="upload-text"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Screenshot</div>
-      <div class="upload-accent right-accent"></div>
-    </div>
 
-      <div class="radar-box" id="graph-box">
-      <!-- Hidden old elements to prevent JS errors -->
-      <div class="hash-overlay" id="hash-overlay" style="display:none"></div>
-      <div class="code-orbit" aria-hidden="true" style="display:none">
-        <span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span>
+      <!-- Top Bar -->
+      <div class="top-header">
+        <div class="header-left">
+          <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
+          <div class="header-titles">
+            <span class="royal-text">ROYAL BETKING -</span><br>
+            <span class="win-text">1WIN PREDICTOR</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="live-badge">
+            <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
+            <span class="connected">CONNECTED</span>
+          </div>
+        </div>
       </div>
-      <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
-      <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
-      <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
-
+      
       <!-- New Animated Radar Design -->
-      <div class="radar-container">
-         <div class="radar-arcs">
-           <div class="arc animated-red-arc"></div>
-           <div class="arc animated-blue-arc"></div>
-         </div>
-         <div class="radar-mask-bottom">
-           <div class="gap-live-clock gap-clock-class">--:--:--</div>
-         </div>
-         <div class="radar-content-center">
-           <img src="./assets/platform-logos/aviator.png" alt="Plane" class="animated-plane" style="filter: drop-shadow(0 0 10px #ff003c);">
-           <div class="live-pred-label">Live prediction</div>
-           <div class="result-display" id="signal-text" style="text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;">WAIT</div>
-         </div>
+      <div class="radar-box" id="graph-box">
+        <div class="radar-container">
+           <div class="radar-arcs">
+             <div class="arc animated-red-arc"></div>
+             <div class="arc animated-blue-arc"></div>
+           </div>
+           <div class="radar-mask-bottom">
+             <div class="gap-live-clock gap-clock-class">--:--:--</div>
+           </div>
+           <div class="radar-content-center">
+             <img src="./assets/platform-logos/aviator.png" alt="Plane" class="animated-plane" style="filter: drop-shadow(0 0 10px #ff003c);">
+             <div class="live-pred-label">Live prediction</div>
+             <div class="result-display" id="signal-text">WAIT</div>
+           </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-title">Accuracy:</div>
+          <div class="stat-val">98.4%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Next Round:</div>
+          <div class="stat-val stat-green">Ready</div>
+        </div>
+      </div>
+
+      <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
+        GET SIGNALS
+      </button>
+      
+      <div class="action-row">
+        <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
+        <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+        <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
       </div>
     </div>
-
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-title">Accuracy:</div>
-      <div class="stat-val">98.4%</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-title">Next Round:</div>
-      <div class="stat-val stat-green">Ready</div>
-    </div>
-  </div>
-
-  <div class="recent-analytics-section">
-    <div class="analytics-title">Live analytics</div>
-    <div class="analytics-pills">
-      <span class="pill pill-red">2.15x</span>
-      <span class="pill pill-red">5.40x</span>
-      <span class="pill pill-blue">1.88x</span>
-      <span class="pill pill-blue">12.30x</span>
-    </div>
-  </div>
-
-  <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
-    GENERATE NEXT SIGNAL
-  </button>
-  
-  <div class="action-row">
-    <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
-    <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
-    <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
-  </div>
 <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
       <div class="side-drawer" id="side-drawer">
         <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
@@ -1538,97 +1521,78 @@
     </div>
   </div>
 
-  <div id="dashboard-screen" class="screen">
+    <div id="dashboard-screen" class="screen">
     <div class="dashboard-container new-ui">
-  <!-- Hidden elements for JS compatibility -->
-  <div style="display:none;">
-     <div class="status-indicator"></div>
-     <span id="dash-platform-name"></span>
-     <span id="owner-text"></span>
-     <img id="dash-platform-logo" src="">
-     <span id="real-time-clock"></span>
-  </div>
-
-  <!-- Top Bar -->
-  <div class="top-header">
-    <div class="header-left">
-      <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
-      <div class="header-titles">
-        <span class="royal-text">ROYAL BETKING -</span><br>
-        <span class="win-text">1WIN PREDICTOR</span>
+      <!-- Hidden elements for JS compatibility -->
+      <div style="display:none;">
+         <div class="status-indicator"></div>
+         <span id="dash-platform-name"></span>
+         <span id="owner-text"></span>
+         <img id="dash-platform-logo" src="">
+         <span id="real-time-clock"></span>
+         <div class="hash-overlay" id="hash-overlay"></div>
+         <div class="code-orbit" aria-hidden="true"><span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span></div>
+         <div class="orbit-progress" id="orbit-progress">0%</div>
+         <div class="orbit-status" id="orbit-status">SESSION READY</div>
+         <div class="confidence-meter" id="confidence-display"></div>
       </div>
-    </div>
-    <div class="header-right">
-      <div class="live-badge">
-        <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
-        <span class="connected">CONNECTED</span>
-      </div>
-    </div>
-  </div>
-  
-      <div class="upload-screenshot-banner" onclick="openHistoryUpload()">
-      <div class="upload-accent left-accent"></div>
-      <div class="upload-text"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Screenshot</div>
-      <div class="upload-accent right-accent"></div>
-    </div>
 
-      <div class="radar-box" id="graph-box">
-      <!-- Hidden old elements to prevent JS errors -->
-      <div class="hash-overlay" id="hash-overlay" style="display:none"></div>
-      <div class="code-orbit" aria-hidden="true" style="display:none">
-        <span class="code-a">0110</span><span class="code-b">A7F2</span><span class="code-c">1001</span><span class="code-d">C19E</span>
+      <!-- Top Bar -->
+      <div class="top-header">
+        <div class="header-left">
+          <i class="fa-solid fa-crown" style="color: #d4af37; font-size: 26px;"></i>
+          <div class="header-titles">
+            <span class="royal-text">ROYAL BETKING -</span><br>
+            <span class="win-text">1WIN PREDICTOR</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="live-badge">
+            <span style="color: #00ff00; font-size: 10px;"><i class="fa-solid fa-satellite-dish"></i> LIVE</span><br>
+            <span class="connected">CONNECTED</span>
+          </div>
+        </div>
       </div>
-      <div class="orbit-progress" id="orbit-progress" style="display:none;">0%</div>
-      <div class="orbit-status" id="orbit-status" style="display:none;">SESSION READY</div>
-      <div class="confidence-meter" id="confidence-display" style="display:none;"></div>
-
+      
       <!-- New Animated Radar Design -->
-      <div class="radar-container">
-         <div class="radar-arcs">
-           <div class="arc animated-red-arc"></div>
-           <div class="arc animated-blue-arc"></div>
-         </div>
-         <div class="radar-mask-bottom">
-           <div class="gap-live-clock gap-clock-class">--:--:--</div>
-         </div>
-         <div class="radar-content-center">
-           <img src="./assets/platform-logos/aviator.png" alt="Plane" class="animated-plane" style="filter: drop-shadow(0 0 10px #ff003c);">
-           <div class="live-pred-label">Live prediction</div>
-           <div class="result-display" id="signal-text" style="text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;">WAIT</div>
-         </div>
+      <div class="radar-box" id="graph-box">
+        <div class="radar-container">
+           <div class="radar-arcs">
+             <div class="arc animated-red-arc"></div>
+             <div class="arc animated-blue-arc"></div>
+           </div>
+           <div class="radar-mask-bottom">
+             <div class="gap-live-clock gap-clock-class">--:--:--</div>
+           </div>
+           <div class="radar-content-center">
+             <img src="./assets/platform-logos/aviator.png" alt="Plane" class="animated-plane" style="filter: drop-shadow(0 0 10px #ff003c);">
+             <div class="live-pred-label">Live prediction</div>
+             <div class="result-display" id="signal-text">WAIT</div>
+           </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-title">Accuracy:</div>
+          <div class="stat-val">98.4%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Next Round:</div>
+          <div class="stat-val stat-green">Ready</div>
+        </div>
+      </div>
+
+      <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
+        GET SIGNALS
+      </button>
+      
+      <div class="action-row">
+        <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
+        <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+        <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
       </div>
     </div>
-
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-title">Accuracy:</div>
-      <div class="stat-val">98.4%</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-title">Next Round:</div>
-      <div class="stat-val stat-green">Ready</div>
-    </div>
-  </div>
-
-  <div class="recent-analytics-section">
-    <div class="analytics-title">Live analytics</div>
-    <div class="analytics-pills">
-      <span class="pill pill-red">2.15x</span>
-      <span class="pill pill-red">5.40x</span>
-      <span class="pill pill-blue">1.88x</span>
-      <span class="pill pill-blue">12.30x</span>
-    </div>
-  </div>
-
-  <button class="generate-btn get-signals-btn btn-neon" onclick="startSimulation()">
-    GENERATE NEXT SIGNAL
-  </button>
-  
-  <div class="action-row">
-    <button class="back-btn" onclick="goBack('access-screen')"><i class="fa-solid fa-arrow-left"></i></button>
-    <button class="menu-toggle" onclick="openHistoryUpload()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
-    <button class="menu-toggle" onclick="openDrawer()"><i class="fa-solid fa-bars"></i> Menu</button>
-  </div>
 <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
       <div class="side-drawer" id="side-drawer">
         <button class="drawer-close" onclick="closeDrawer()" style="position:absolute;top:15px;right:15px;background:transparent;border:none;color:#fff;font-size:20px;z-index:10;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
