@@ -89,40 +89,56 @@ def calculate_statistics(values: list[float]) -> dict[str, float | int]:
     }
 
 
+def calculate_aviator_multiplier(server_seed: str, client_seeds: list) -> float:
+    """Official Spribe Aviator Provably Fair Calculation Formula"""
+    combined_string = server_seed + "".join(client_seeds)
+    sha512_hash = hashlib.sha512(combined_string.encode('utf-8')).hexdigest()
+
+    first_13_chars = sha512_hash[:13]
+    decimal_value = int(first_13_chars, 16)
+
+    if decimal_value % 33 == 0:
+        return 1.00
+
+    max_52_bit_val = 2**52
+    try:
+        raw_multiplier = (max_52_bit_val * 0.97) / (max_52_bit_val - decimal_value)
+        final_multiplier = math.floor(raw_multiplier * 100) / 100
+        return max(1.00, final_multiplier)
+    except ZeroDivisionError:
+        return 1.00
+
+
 def generate_provably_fair_multipliers(targets: list[float], server_seed: str, client_seed: str) -> list[str]:
+    """
+    AI Intelligence + Spribe Provably Fair Engine.
+    Aligns cryptographic SHA-512 Spribe seeds with Gemini AI pattern targets.
+    """
     multipliers = []
     current_seed = server_seed
-    
+
     for target in targets:
         best_mult = 1.00
         best_diff = 999999
-        best_hash = ""
-        
-        # Mine up to 200 nonces to find a Spribe hash close to the AI target
-        for nonce in range(200):
-            test_client_seed = f"{client_seed}:{nonce}"
-            h = hmac.new(current_seed.encode(), test_client_seed.encode(), hashlib.sha512).hexdigest()
-            h_hex = h[:13]
-            h_int = int(h_hex, 16)
-            e = 2 ** 52
-            
-            if h_int % 33 == 0:
-                mult = 1.00
-            else:
-                mult = math.floor((100 * e - h_int) / (e - h_int)) / 100.0
-                mult = max(1.00, mult)
-                
+        best_client_seeds = []
+
+        # Mine nonces to find seed combination that aligns with AI intelligence target
+        for nonce in range(250):
+            c_seeds = [f"{client_seed}_p1_{nonce}", f"{client_seed}_p2_{nonce}", f"{client_seed}_p3_{nonce}"]
+            mult = calculate_aviator_multiplier(current_seed, c_seeds)
+
             diff = abs(mult - target)
             if diff < best_diff:
                 best_diff = diff
                 best_mult = mult
-                best_hash = h
-                if diff < 0.15:
+                best_client_seeds = c_seeds
+                if diff < 0.12:
                     break
-                    
+
         multipliers.append(f"{best_mult:.2f}x")
-        current_seed = hashlib.sha256(best_hash.encode()).hexdigest()
-        
+        # Advance seed chain
+        current_seed = hashlib.sha256((current_seed + "".join(best_client_seeds)).encode()).hexdigest()
+
     return multipliers
 
 def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> ScreenshotExtraction:
@@ -146,11 +162,11 @@ def extract_values_with_gemini(image_bytes: bytes, mime_type: str) -> Screenshot
         ) from error
 
     prompt = (
-        "Inspect this screenshot and extract only the visible historical multiplier values. "
-        "Read values that clearly look like number followed by x, for example 1.24x or 8.50x. "
-        "Keep their visual order from left-to-right and top-to-bottom. "
-        "Also, based on these patterns, generate exactly 30 highly accurate next round predictions (e.g. 3.45x, 1.12x, etc) separated by commas based on the server hash patterns. "
-        "Return an empty list for multipliers when the image does not contain readable history values."
+        "You are an advanced Aviator AI prediction neural engine. "
+        "1. Inspect this Aviator gameplay screenshot and extract all visible historical multiplier values in visual order (e.g. 1.24x, 8.50x, 2.10x). "
+        "2. Analyze the volatility trend, crash streak intervals, and recovery cycles from the observed multiplier history. "
+        "3. Based on this AI pattern intelligence, project exactly 30 highly accurate upcoming target multiplier predictions (e.g. 2.45x, 1.80x, 4.20x, 1.15x) separated by commas. "
+        "Return an empty list for multipliers only when the image does not contain readable history values."
     )
 
     client = genai.Client(api_key=api_key)
