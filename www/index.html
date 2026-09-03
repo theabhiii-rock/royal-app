@@ -1632,6 +1632,9 @@
         <span class="price-amount">$20</span>
         <span style="color: var(--gold); font-size: 13px;">Pay The Amount To Get The Access Of Predictior</span>
       </div>
+      <button class="primary-btn" id="active-session-btn" onclick="openDashboard()" style="margin-bottom: 12px; background: linear-gradient(90deg, #00d0ff, #00ff88); color: #000; font-weight: 800; display: none;">
+        <i class="fa-solid fa-circle-check"></i> UNLOCKED - ENTER PREDICTOR
+      </button>
       <button class="primary-btn" onclick="openContactPopup()">GET ACCESS KEY</button>
       <button class="secondary-btn" onclick="openPasswordPopup()">I HAVE ACCESS KEY</button>
     </div>
@@ -1834,6 +1837,9 @@
         <button class="primary-btn" onclick="closeDrawer(); showScreen('platform-screen');" style="margin-bottom: 12px; width: 100%; background: linear-gradient(90deg, #00d0ff, #00ff88); color: #000; font-weight: 800; font-size: 13px; border: none; border-radius: 8px; padding: 12px; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 10px rgba(0, 208, 255, 0.4);">
           <i class="fa-solid fa-gamepad"></i> SWITCH PLATFORM
         </button>
+        <button class="secondary-btn" onclick="closeDrawer(); showScreen('access-screen');" style="margin-bottom: 12px; width: 100%; border: 1px solid var(--gold); color: var(--gold); font-size: 12px; font-weight: bold; padding: 10px; border-radius: 8px; text-transform: uppercase;">
+          <i class="fa-solid fa-crown"></i> PREMIUM ACCESS & ACCESS KEYS
+        </button>
         <section class="panel-card profile-card">
           <div class="profile-head">
             <div class="profile-avatar-wrap">
@@ -1954,6 +1960,14 @@
     function showScreen(id) {
       document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
       document.getElementById(id).classList.add("active");
+      
+      if (id === "access-screen") {
+        const token = localStorage.getItem("royal-session-token");
+        const activeBtn = document.getElementById("active-session-btn");
+        if (activeBtn) {
+          activeBtn.style.display = token ? "block" : "none";
+        }
+      }
       
       if (id === "platform-screen") {
         if (!sessionStorage.getItem("platformWarningShown")) {
@@ -2120,17 +2134,14 @@
       localStorage.setItem("royal-platform", name);
       updateDashboardHeader();
       
-      // If user already entered valid access key, go directly to this platform's dashboard!
-      const token = localStorage.getItem("royal-session-token");
-      if (token) {
-        openDashboard();
-        return;
-      }
+      const selName = document.getElementById("selected-platform-name");
+      if (selName) selName.innerText = name.toUpperCase() + " (LIFETIME ACCESS)";
       
       if (url && url !== "#") {
          window.open(url, '_blank');
       }
       
+      // ALWAYS show the Premium Access screen ($20 Plan, Binance QR, Access Key)!
       setTimeout(() => showScreen("access-screen"), 160);
     }
 
