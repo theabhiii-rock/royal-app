@@ -2612,15 +2612,6 @@
       
       const gapClocks = document.querySelectorAll(".gap-clock-class");
       gapClocks.forEach(el => el.innerText = timeStr);
-    });
-      const rt = document.getElementById("real-time-clock");
-      if (rt) rt.innerText = timeStr;
-      
-      const gapClock = document.getElementById("gap-clock");
-      if (gapClock) gapClock.innerText = timeStr;
-      
-      const otherGapClock = document.querySelectorAll('.gap-live-clock');
-      otherGapClock.forEach(el => el.innerText = timeStr);
     }
 
     function startHashAnimation() {
