@@ -1690,6 +1690,10 @@
       <div id="dashboard-screen" class="screen">
     <!-- Compatibility Div: Houses all legacy elements so NO JS script throws TypeError -->
     <div style="display:none;" aria-hidden="true">
+      <div id="analyst-output"></div>
+      <input id="analyst-range">
+      <input id="analyst-note">
+      <button id="sound-toggle"></button>
       <div class="status-indicator"></div>
       <span id="dash-platform-name"></span>
       <span id="owner-text"></span>
@@ -2150,8 +2154,8 @@
       renderActivity();
       const savedNote = localStorage.getItem("royal-demo-analyst-note");
       if (savedNote) {
-        document.getElementById("analyst-output").innerText = savedNote;
-        document.getElementById("user-note-output").innerText = savedNote;
+        const aOut = document.getElementById("analyst-output"); if(aOut) aOut.innerText = savedNote;
+        const uOut = document.getElementById("user-note-output"); if(uOut) uOut.innerText = savedNote;
       }
       
       connectDemoSocket();
