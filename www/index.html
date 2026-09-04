@@ -1581,6 +1581,46 @@
   opacity: 0.8;
 }
 
+
+    /* 100% Fixed & Centered Modal Warning Popup */
+    #warning-popup {
+      display: none;
+      position: fixed !important;
+      inset: 0 !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(4, 7, 15, 0.88) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      z-index: 999999 !important;
+      justify-content: center !important;
+      align-items: center !important;
+      padding: 20px !important;
+      box-sizing: border-box !important;
+    }
+
+    .warning-popup-card {
+      width: 100%;
+      max-width: 340px;
+      background: #0d121f !important;
+      border: 1.5px solid rgba(255, 216, 107, 0.45);
+      border-radius: 20px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 0, 85, 0.2);
+      position: relative;
+      z-index: 1000000 !important;
+      margin: auto;
+      animation: popInModal 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popInModal {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
 </style>
 
 
@@ -1972,10 +2012,16 @@
       if (id === "platform-screen") {
         if (!sessionStorage.getItem("platformWarningShown")) {
           setTimeout(() => {
-            document.getElementById("warning-popup").style.display = "flex";
-            sessionStorage.setItem("platformWarningShown", "true");
-          }, 400);
+            const plat = document.getElementById("platform-screen");
+            if (plat && plat.classList.contains("active")) {
+              document.getElementById("warning-popup").style.display = "flex";
+              sessionStorage.setItem("platformWarningShown", "true");
+            }
+          }, 350);
         }
+      } else {
+        const wPop = document.getElementById("warning-popup");
+        if (wPop) wPop.style.display = "none";
       }
     }
 
@@ -2915,17 +2961,18 @@
     </button>
   </div>
 
-  <div id="warning-popup" class="popup-overlay" style="display: none; align-items: center; justify-content: center; z-index: 9999;">
-    <div class="popup-content" style="max-width: 340px; border: 1px solid rgba(255, 216, 107, 0.3); background: rgba(15, 15, 18, 0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 30px 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);">
-      <div style="width: 64px; height: 64px; background: rgba(255, 69, 58, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #ff453a; font-size: 28px; border: 1px solid rgba(255, 69, 58, 0.2);">
+    <!-- 100% Fixed & Centered Modal Warning Popup -->
+  <div id="warning-popup">
+    <div class="warning-popup-card">
+      <div style="width: 64px; height: 64px; background: rgba(255, 69, 58, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; color: #ff453a; font-size: 28px; border: 1px solid rgba(255, 69, 58, 0.3); box-shadow: 0 0 15px rgba(255, 69, 58, 0.25);">
         <i class="fa-solid fa-triangle-exclamation"></i>
       </div>
-      <h3 style="color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.5px;">Important Notice</h3>
-      <p style="color: #a0a0a5; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+      <h3 style="color: #ffffff; font-size: 20px; font-weight: 800; margin-bottom: 12px; letter-spacing: 0.5px;">Important Notice</h3>
+      <p style="color: #cbd5e1; font-size: 13.5px; line-height: 1.55; margin-bottom: 24px; font-weight: 500;">
         Old users who haven't created an account with this link & promocode, please create one now to ensure full compatibility.
       </p>
-      <button onclick="document.getElementById('warning-popup').style.display='none'" style="width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, var(--gold) 0%, #ffdf00 100%); color: #000; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 216, 107, 0.3); text-transform: uppercase;">
-        OK, I Understand
+      <button onclick="document.getElementById('warning-popup').style.display='none'" style="width: 100%; padding: 14px; font-size: 15px; font-weight: 800; background: linear-gradient(135deg, #ffd800 0%, #ffaa00 100%); color: #000000; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 20px rgba(255, 216, 0, 0.4); text-transform: uppercase; letter-spacing: 0.5px;">
+        OK, I UNDERSTAND
       </button>
     </div>
   </div>
