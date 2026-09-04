@@ -273,7 +273,7 @@ def health_check() -> dict[str, str | bool | dict]:
         "gemini_configured": bool(os.getenv("GEMINI_API_KEY")),
         "app_version": {
             "latest": "2.2.0",
-            "force_update": False,
+            "force_update": True,
             "download_url": "https://royal-app-b0qz.onrender.com/download-apk"
         }
     }
