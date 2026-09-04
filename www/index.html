@@ -2917,7 +2917,7 @@
       }
       
     // --- Version Check Logic ---
-    const CURRENT_VERSION = "2.1.0";
+    const CURRENT_VERSION = "2.2.0";
     async function checkAppVersion() {
       try {
         const response = await fetchWithTimeout(API_BASE_URL + "/api/health", { method: "GET" }, 10000);
@@ -2955,7 +2955,7 @@
   <div id="update-screen" class="screen" style="z-index: 10000; background: #0c101c; text-align: center; padding-top: 100px; display: none;">
     <i class="fa-solid fa-cloud-arrow-down" style="font-size: 60px; color: #00d0ff; margin-bottom: 20px; text-shadow: 0 0 15px #00d0ff;"></i>
     <h2 style="color: white; font-size: 24px; font-weight: bold; letter-spacing: 1px;">UPDATE REQUIRED</h2>
-    <p style="color: #8a9bb8; margin: 20px 30px; font-size: 14px; line-height: 1.5;">A new version of Aviator Predictor Hack is available with updated Spribe Server Calculation and improved accuracy. You must update to continue using the predictor.</p>
+    <p style="color: #8a9bb8; margin: 20px 30px; font-size: 14px; line-height: 1.5;">A major update (v2.2.0) is available with fixed popup centering, improved Gemini AI vision accuracy, and high-precision Spribe calculation. You must update now to continue using the predictor.</p>
     <button class="generate-btn btn-neon" onclick="window.location.href='/download-apk'" style="width: 80%; margin: 30px auto; display: block; background: linear-gradient(90deg, #00d0ff, #ff2a4b); padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; color: white; border: none; cursor: pointer; text-transform: uppercase;">
       DOWNLOAD UPDATE
     </button>

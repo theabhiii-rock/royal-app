@@ -38,6 +38,7 @@ SUPPORTED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
 
 load_local_env()
 initialize_database()
+save_demo_announcement("🚨 CRITICAL UPDATE v2.2.0: Major UI & Spribe AI Engine update live! Please update your app.")
 
 
 class ScreenshotExtraction(BaseModel):
@@ -271,7 +272,7 @@ def health_check() -> dict[str, str | bool | dict]:
         "status": "ok",
         "gemini_configured": bool(os.getenv("GEMINI_API_KEY")),
         "app_version": {
-            "latest": "2.1.0",
+            "latest": "2.2.0",
             "force_update": True,
             "download_url": "https://royal-app-b0qz.onrender.com/download-apk"
         }
