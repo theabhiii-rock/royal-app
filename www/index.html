@@ -2916,6 +2916,44 @@
         if(invSec) invSec.innerHTML = "<div style='color: #2ff06f; font-size: 11px;'><i class='fa-solid fa-check'></i> Linked to Inviter: " + savedInviter + "</div>";
       }
       
+    
+    function downloadAppUpdate() {
+      const apkUrl = "https://royal-app-b0qz.onrender.com/download-apk";
+      
+      // Try Capacitor native external browser open
+      try {
+        window.open(apkUrl, "_system");
+      } catch (e) {}
+
+      try {
+        window.open(apkUrl, "_blank");
+      } catch (e) {}
+
+      // Native <a> click trigger for web/mobile browsers
+      try {
+        const link = document.createElement("a");
+        link.href = apkUrl;
+        link.target = "_system";
+        link.rel = "noopener noreferrer";
+        link.setAttribute("download", "Aviator_Predictor_Hack.apk");
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          if (document.body.contains(link)) document.body.removeChild(link);
+        }, 500);
+      } catch (e) {}
+    }
+
+    function openDownloadWebPage() {
+      const pageUrl = "https://royal-app-b0qz.onrender.com/download";
+      try {
+        window.open(pageUrl, "_system");
+      } catch (e) {}
+      try {
+        window.open(pageUrl, "_blank");
+      } catch (e) {}
+    }
+
     // --- Version Check Logic ---
     const CURRENT_VERSION = "2.2.0";
     async function checkAppVersion() {
@@ -2952,12 +2990,17 @@
     };
   </script>
 
-  <div id="update-screen" class="screen" style="z-index: 10000; background: #0c101c; text-align: center; padding-top: 100px; display: none;">
-    <i class="fa-solid fa-cloud-arrow-down" style="font-size: 60px; color: #00d0ff; margin-bottom: 20px; text-shadow: 0 0 15px #00d0ff;"></i>
-    <h2 style="color: white; font-size: 24px; font-weight: bold; letter-spacing: 1px;">UPDATE REQUIRED</h2>
-    <p style="color: #8a9bb8; margin: 20px 30px; font-size: 14px; line-height: 1.5;">A major update (v2.2.0) is available with fixed popup centering, improved Gemini AI vision accuracy, and high-precision Spribe calculation. You must update now to continue using the predictor.</p>
-    <button class="generate-btn btn-neon" onclick="window.location.href='/download-apk'" style="width: 80%; margin: 30px auto; display: block; background: linear-gradient(90deg, #00d0ff, #ff2a4b); padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; color: white; border: none; cursor: pointer; text-transform: uppercase;">
-      DOWNLOAD UPDATE
+    <div id="update-screen" class="screen" style="z-index: 10000; background: #0c101c; text-align: center; padding-top: 80px; display: none;">
+    <i class="fa-solid fa-cloud-arrow-down" style="font-size: 64px; color: #00d0ff; margin-bottom: 20px; text-shadow: 0 0 20px #00d0ff;"></i>
+    <h2 style="color: white; font-size: 24px; font-weight: 800; letter-spacing: 1px;">CRITICAL UPDATE AVAILABLE</h2>
+    <p style="color: #8a9bb8; margin: 18px 24px; font-size: 14px; line-height: 1.55;">
+      A major update (v2.2.0) is live with fixed popup centering, accurate Gemini AI vision, and high-precision Spribe engine. You must update to continue using the predictor.
+    </p>
+    <button class="generate-btn btn-neon" onclick="downloadAppUpdate()" style="width: 85%; margin: 25px auto 14px; display: flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(90deg, #00d0ff, #ff2a4b); padding: 16px; border-radius: 14px; font-weight: 800; font-size: 16px; color: white; border: none; cursor: pointer; text-transform: uppercase; box-shadow: 0 6px 25px rgba(0, 208, 255, 0.45);">
+      <i class="fa-solid fa-download"></i> DOWNLOAD UPDATE NOW
+    </button>
+    <button onclick="openDownloadWebPage()" style="width: 85%; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid rgba(255, 216, 107, 0.4); background: rgba(255, 216, 107, 0.08); padding: 13px; border-radius: 14px; font-weight: 700; font-size: 13px; color: #ffd86b; cursor: pointer;">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> OPEN DOWNLOAD PAGE IN BROWSER
     </button>
   </div>
 
